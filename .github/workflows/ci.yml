@@ -23,3 +23,14 @@ jobs:
         env:
           GODOT: ${{ runner.temp }}/godot/Godot_v4.7.2-stable_linux.x86_64
         run: ./tests/run.sh
+      - name: Compatibility renderer smoke test (Mesa software OpenGL)
+        shell: bash
+        env:
+          GODOT: ${{ runner.temp }}/godot/Godot_v4.7.2-stable_linux.x86_64
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb libgl1-mesa-dri
+          export XDG_DATA_HOME="$(mktemp -d)"
+          xvfb-run -a "$GODOT" --path . --resolution 1280x720 --rendering-method gl_compatibility --script res://tests/render_smoke.gd 2>&1 | tee "$RUNNER_TEMP/render.log"
+          if grep -E '(SCRIPT ERROR|ERROR:|SHADER ERROR|FAIL:)' "$RUNNER_TEMP/render.log"; then exit 1; fi

@@ -13,7 +13,9 @@ levels, quality and mode transitions, ghost visibility, mesh availability, and
 interior wrapping, and synthetic ray-picking cases. It exits nonzero on a failed check and uses a temporary XDG
 data directory so it does not modify your saved settings. GitHub Actions runs
 the same suite with the official 4.7.2 Linux binary and verifies its SHA-256.
-Headless tests do not validate rendered images or GPU performance.
+CI also runs `render_smoke.gd` under Xvfb with Mesa software OpenGL to exercise
+the Compatibility renderer and capture frames in each mode. This smoke test
+does not establish visual correctness or measure physical-GPU performance.
 
 `tour_test.gd` is an older manual, print-only smoke helper. `capture.gd` is a
 manual screenshot helper. Both can be run as autoloads; see their comments.
