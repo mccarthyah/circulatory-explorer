@@ -15,7 +15,7 @@ check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH`) so it
 does not modify your saved settings. GitHub Actions runs the same suite with
 the official 4.7.2 Linux binary and verifies its SHA-256.
 CI also runs `render_smoke.gd` under Xvfb with Mesa software OpenGL to exercise
-the Compatibility renderer and capture frames in each mode. This smoke test
+the default Compatibility renderer and capture frames in each mode. This smoke test
 does not establish visual correctness or measure physical-GPU performance.
 
 `tour_test.gd` is an older manual, print-only smoke helper. `capture.gd` is a
@@ -30,7 +30,7 @@ real graphical display, run:
 ```sh
 GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720
 GODOT=/path/to/godot BENCH_SCALE=0.5 ./tests/benchmark.sh performance --resolution 1280x720
-GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720 --rendering-method gl_compatibility
+GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720 --rendering-method forward_plus
 ```
 
 On Windows, use PowerShell from the project directory instead of the shell
@@ -47,7 +47,7 @@ try {
 }
 ```
 
-To compare Compatibility on Windows, add `--rendering-method gl_compatibility`
+To compare Forward Plus on Windows, add `--rendering-method forward_plus`
 before `--script`. The same isolated settings file mechanism is used on both
 platforms.
 

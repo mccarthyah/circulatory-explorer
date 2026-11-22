@@ -71,15 +71,16 @@ to preserve the lumen. For a VM, enable its 3D acceleration and install the
 guest graphics drivers; some VM configurations provide only software rendering
 or do not support the required graphics API.
 
-If Forward Plus fails or is slow, try the Compatibility (OpenGL) renderer:
+The app defaults to the Compatibility (OpenGL) renderer. To compare it with
+Forward Plus on hardware that supports Vulkan, launch:
 
 ```bash
-godot --path . --rendering-method gl_compatibility
+godot --path . --rendering-method forward_plus
 ```
 
-This is an alternative to test on your hardware, not a guaranteed speedup or
-fallback for unsupported virtual GPUs. Appearance and supported effects may
-differ. See `tests/README.md` for repeatable benchmarks and headless tests.
+Forward Plus is an alternative to test on your hardware, not a guaranteed
+speedup or fallback for unsupported virtual GPUs. Appearance and supported
+effects may differ. See `tests/README.md` for repeatable benchmarks and headless tests.
 
 ## Controls
 

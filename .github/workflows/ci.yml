@@ -32,7 +32,7 @@ jobs:
             while IFS= read -r line; do echo "::error::$line"; done < <(tail -n 30 "$RUNNER_TEMP/headless.log")
             exit 1
           fi
-      - name: Compatibility renderer smoke test (Mesa software OpenGL)
+      - name: Default Compatibility renderer smoke test (Mesa software OpenGL)
         shell: bash
         env:
           GODOT: ${{ runner.temp }}/godot/Godot_v4.7.2-stable_linux.x86_64
@@ -43,7 +43,7 @@ jobs:
           export XDG_DATA_HOME="$(mktemp -d)" LIBGL_ALWAYS_SOFTWARE=1
           export EXPLORER_SETTINGS_PATH="$XDG_DATA_HOME/settings.cfg"
           set +e
-          xvfb-run -a "$GODOT" --verbose --audio-driver Dummy --disable-vsync --path . --resolution 1280x720 --rendering-method gl_compatibility --script res://tests/render_smoke.gd 2>&1 | tee "$RUNNER_TEMP/render.log"
+          xvfb-run -a "$GODOT" --verbose --audio-driver Dummy --disable-vsync --path . --resolution 1280x720 --script res://tests/render_smoke.gd 2>&1 | tee "$RUNNER_TEMP/render.log"
           result=${PIPESTATUS[0]}
           set -e
           if [ "$result" -ne 0 ] || grep -qE '(SCRIPT ERROR|ERROR:|SHADER ERROR|FAIL:)' "$RUNNER_TEMP/render.log"; then
@@ -60,7 +60,7 @@ jobs:
           LIBGL_ALWAYS_SOFTWARE: '1'
         run: |
           set -o pipefail
-          xvfb-run -a ./tests/benchmark.sh performance --audio-driver Dummy --disable-vsync --resolution 800x600 --rendering-method gl_compatibility 2>&1 | tee "$RUNNER_TEMP/bench.log"
+          xvfb-run -a ./tests/benchmark.sh performance --audio-driver Dummy --disable-vsync --resolution 800x600 2>&1 | tee "$RUNNER_TEMP/bench.log"
           result=${PIPESTATUS[0]}
           if [ "$result" -ne 0 ] || grep -qE '(SCRIPT ERROR|ERROR:|SHADER ERROR)' "$RUNNER_TEMP/bench.log" || [ "$(grep -c 'BENCHMARK view=' "$RUNNER_TEMP/bench.log")" -ne 4 ]; then
             echo "::error::Benchmark smoke exited with code $result"
