@@ -96,6 +96,7 @@ var _controller_active := false
 
 
 func _ready() -> void:
+	_configure_controller_ui()
 	hud = HUD_SCRIPT.new()
 	add_child(hud)
 	hud.set_loading("Loading anatomy…")
@@ -764,6 +765,17 @@ func _update_status() -> void:
 
 
 # ----------------------------------------------------------------- controller
+func _configure_controller_ui() -> void:
+	# Godot's default ui_accept/ui_cancel bindings do not include A/B. Extend
+	# them instead of replacing the built-in keyboard bindings.
+	for mapping in [["ui_accept", JOY_BUTTON_A], ["ui_cancel", JOY_BUTTON_B]]:
+		var event := InputEventJoypadButton.new()
+		event.device = -1
+		event.button_index = mapping[1]
+		if not InputMap.action_has_event(mapping[0], event):
+			InputMap.action_add_event(mapping[0], event)
+
+
 func _set_controller_menu(on: bool) -> void:
 	_controller_menu = on
 	cam.set_gamepad_enabled(not on)
