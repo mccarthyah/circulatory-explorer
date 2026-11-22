@@ -26,3 +26,31 @@ every part so the app can show the cost of the level you are on.
 (`classify()`), the ghost-organ selection (`CONTEXT_PATTERNS`), the tour
 stations and their captions (`TOUR`), and the medial-line extraction that turns
 vessel meshes into the fly-through spline (`build_tour()`).
+
+## Supplemental IS-A anatomy
+
+After rebuilding the PART-OF base, build the 408 supplemental heart and vascular
+structures from the separately sourced **BodyParts3D 4.0 IS-A** 99%-reduced
+OBJ files. The exact mirror commit and SHA-256 of each OBJ are pinned in
+`additional_parts.json`; a mismatch or missing file stops the build. For example:
+
+```bash
+curl -fL https://codeload.github.com/jixiangying/anatomy/tar.gz/be67a977abe25a36f59793fda86a506618fd4d27 -o anatomy.tar.gz
+tar xzf anatomy.tar.gz
+python3 pipeline/build_additional.py anatomy-be67a977abe25a36f59793fda86a506618fd4d27/isa_BP3D_4.0_obj_99
+python3 tests/validate_assets.py
+```
+
+Run those commands from the project root, after `build.py`. The base build
+excludes supplemental IDs, so rebuilding doesn't duplicate them. The second
+step updates `parts.json` and writes `additional_circulatory[_lod1,_lod2].glb`
+(the three default-visible structures) and `extended_circulatory[_lod1,_lod2].glb`
+(the 405 optional vessels), without changing the base, context or tour assets.
+The supplemental build uses the base catalogue's rounded centre; this can
+introduce sub-millimetre alignment differences from the original frame.
+
+IS-A and PART-OF are different source hierarchies; no PART-OF lineage is claimed
+for supplemental parts, and surfaces may overlap or duplicate larger composite
+structures. Classification is name-based, not an exhaustive clinical ontology.
+The original source meshes and derived assets are under CC BY-SA 2.1 Japan; see
+`ATTRIBUTION.txt`.

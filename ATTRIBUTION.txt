@@ -8,6 +8,9 @@ The 3D anatomy in this project is derived from BodyParts3D:
   https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
 
 Source files: partof_BP3D_4.0_obj_99.zip (PART-OF tree, 99 % polygon reduction)
+and isa_BP3D_4.0_obj_99 (IS-A tree, 99 % polygon reduction). The additional
+IS-A meshes were obtained from the pinned GitHub mirror recorded in
+pipeline/additional_parts.json; source-file checksums are recorded there.
 Database DOI: 10.18908/lsdba.nbdc00837-000
 
 Reference: Mitsuhashi N, Fujieda K, Tamura T, Kawamoto S, Takagi T, Okubo K.

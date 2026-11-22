@@ -108,6 +108,7 @@ func _ready() -> void:
 	hud.mode_requested.connect(_on_mode_requested)
 	hud.opacity_changed.connect(_on_opacity)
 	hud.context_toggled.connect(_on_context_toggled)
+	hud.extended_toggled.connect(_on_extended_toggled)
 	hud.labels_toggled.connect(_on_labels_toggled)
 	hud.search_changed.connect(_on_search)
 	hud.part_picked.connect(_on_part_picked)
@@ -544,6 +545,29 @@ func _on_context_toggled(on: bool) -> void:
 		_apply_context_opacity()
 
 
+func _on_extended_toggled(on: bool) -> void:
+	var success: bool = model.set_extended_visible(on)
+	hud.extended_check.set_pressed_no_signal(success and on)
+	_has_pick_ray = false
+	if not model.is_extended_visible():
+		if bool(hover.get("extended", false)):
+			hover = {}
+		if bool(selected_part.get("extended", false)):
+			selected_part = {}
+			if not _fly.is_empty():
+				_fly = {}
+				cam.enabled = true
+				cam.sync_angles()
+		model.highlight(hover if not hover.is_empty() else selected_part)
+		if hover.is_empty() and selected_part.is_empty():
+			hud.clear_part()
+		elif not hover.is_empty():
+			hud.show_part(_card(hover))
+		else:
+			hud.show_part(_card(selected_part))
+	_update_subtitle()
+
+
 func _apply_context_opacity() -> void:
 	var v := maxf(0.05, float(hud.sliders["context"].value))
 	model.set_bucket_opacity("context", v * _context_scale)
@@ -563,6 +587,10 @@ func _on_part_picked(id: String) -> void:
 	var part: Dictionary = model.by_id.get(id, {})
 	if part.is_empty():
 		return
+	if bool(part.get("extended", false)) and not model.is_extended_visible():
+		_on_extended_toggled(true)
+		if not model.is_extended_visible():
+			return
 	selected_part = part
 	hud.show_part(_card(part))
 	model.highlight(part)

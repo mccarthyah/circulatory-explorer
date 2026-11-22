@@ -7,6 +7,7 @@ signal mode_requested(mode: String)
 signal opacity_changed(bucket: String, value: float)
 signal context_toggled(on: bool)
 signal labels_toggled(on: bool)
+signal extended_toggled(on: bool)
 signal search_changed(text: String)
 signal part_picked(id: String)
 signal pause_toggled()
@@ -47,6 +48,7 @@ var progress_bar: ProgressBar
 var mode_buttons: Dictionary = {}
 var sliders: Dictionary = {}
 var context_check: CheckBox
+var extended_check: CheckBox
 var labels_check: CheckBox
 var quality_option: OptionButton
 var scale_option: OptionButton
@@ -263,6 +265,14 @@ func _build_left_panel() -> void:
 	context_check.add_theme_color_override("font_color", TEXT)
 	context_check.toggled.connect(func(on: bool) -> void: context_toggled.emit(on))
 	col.add_child(context_check)
+
+	extended_check = CheckBox.new()
+	extended_check.text = "Show extra vessels (slower)"
+	extended_check.button_pressed = false
+	extended_check.add_theme_font_size_override("font_size", 12)
+	extended_check.add_theme_color_override("font_color", TEXT)
+	extended_check.toggled.connect(func(on: bool) -> void: extended_toggled.emit(on))
+	col.add_child(extended_check)
 
 	labels_check = CheckBox.new()
 	labels_check.text = "Show labels   L"
@@ -504,7 +514,10 @@ func populate(matches: Array) -> void:
 	list.clear()
 	_list_ids.clear()
 	for p in matches:
-		var idx := list.add_item(String(p["name"]))
+		var name := String(p["name"])
+		if bool(p.get("extended", false)):
+			name += "  ·  extra"
+		var idx := list.add_item(name)
 		list.set_item_tooltip(idx, "%s  ·  %s" % [String(p["fma"]), String(p["group"])])
 		var colour := ACCENT_A
 		match String(p["group"]):

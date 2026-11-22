@@ -51,13 +51,13 @@ SKIP = re.compile(
 
 HEART = re.compile(
     r"(heart|myocard|endocard|pericard|papillary muscle|leaflet of|cusp of (aortic|pulmonary) valve|"
-    r"fibrous skeleton|cavity of (left|right) (atrium|ventricle)|wall of (left|right) atrium)", re.I)
+    r"fibrous skeleton|cavity of (left|right) (atrium|ventricle)|wall of (left|right) atrium|^wall of ventricle$)", re.I)
 CAVITY = re.compile(r"^cavity of (left|right) (atrium|ventricle)$", re.I)
 VALVE = re.compile(r"(leaflet of|cusp of)", re.I)
 CORONARY = re.compile(
     r"(coronary|interventricular branch|conus artery|diagonal branch|"
     r"anterior ventricular branch|posterior ventricular branch|"
-    r"cardiac vein|posterior vein of left ventricle|marginal vein of)", re.I)
+    r"cardiac vein|interventricular vein|posterior vein of left ventricle|marginal vein of)", re.I)
 ARTERY = re.compile(r"(arter|aorta)", re.I)
 VEIN = re.compile(r"(vein|venous|vena cava)", re.I)
 PULMONARY = re.compile(r"pulmonary", re.I)
@@ -81,6 +81,10 @@ def classify(name: str):
             mat = "heart_muscle"
         return ("heart", mat, "pulmonary" if "pulmonary" in n.lower() else "systemic",
                 bool(CORONARY.search(n)))
+    if n.lower() == "coronary sinus":
+        return ("vein", "vein", "systemic", True)
+    if n.lower() == "pulmonary trunk":
+        return ("artery", "artery", "pulmonary", False)
     circuit = "systemic"
     if PULMONARY.search(n) or (PULMONARY_BRANCH.search(n) and not SYSTEMIC_ORGAN.search(n)):
         circuit = "pulmonary"
@@ -168,6 +172,11 @@ def simplify(pos, faces, ratio: float, min_tris: int = 12):
 def main():
     os.makedirs(DATA, exist_ok=True)
     index = json.load(open(os.path.join(HERE, "index.json")))
+    # Supplemental meshes are built separately from the pinned IS-A source.
+    # Exclude their IDs here even if the PART-OF index contains them, avoiding
+    # duplicate geometry and keeping the existing tour/base export stable.
+    supplemental = json.load(open(os.path.join(HERE, "additional_parts.json")))
+    supplemental_ids = {r["id"] for r in supplemental["parts"]}
     parent, name_of = hierarchy()
 
     # body centre = centre of the whole-body bounding box of every part
@@ -209,7 +218,7 @@ def main():
             continue
         group, mat, circuit, coronary = cls
         fid = rec["fid"]
-        if fid in seen_files:
+        if fid in seen_files or fid in supplemental_ids:
             continue
         path = os.path.join(OBJ_DIR, fid + ".obj")
         if not os.path.exists(path):
@@ -375,8 +384,8 @@ TOUR = [
      "Roughly 5 litres a minute leave the heart; every one of them eventually squeezes through "
      "capillaries narrower than a red blood cell is wide (about 7 um)."),
     ("FJ3568", "Right external iliac vein",
-     "Now the return trip. The venous tree of the limb is not segmented in BodyParts3D, so we "
-     "rejoin it at the external iliac vein, where blood climbs back towards the heart."),
+     "Lower-limb veins are available in the optional extra-vessels layer. The tour rejoins "
+     "the venous tree at the external iliac vein, where blood climbs back towards the heart."),
     ("FJ3566", "Right common iliac vein",
      "Venous blood flows upward against gravity, helped by valves and by the calf muscle pump."),
     ("FJ3659", "Inferior vena cava",
@@ -440,6 +449,9 @@ The 3D anatomy in this project is derived from BodyParts3D:
   https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
 
 Source files: partof_BP3D_4.0_obj_99.zip (PART-OF tree, 99 % polygon reduction)
+and isa_BP3D_4.0_obj_99 (IS-A tree, 99 % polygon reduction). The additional
+IS-A meshes were obtained from the pinned GitHub mirror recorded in
+pipeline/additional_parts.json; source-file checksums are recorded there.
 Database DOI: 10.18908/lsdba.nbdc00837-000
 
 Reference: Mitsuhashi N, Fujieda K, Tamura T, Kawamoto S, Takagi T, Okubo K.

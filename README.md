@@ -15,7 +15,7 @@ sculpted stand-ins, no downloaded game assets. There are three ways to move:
 ## Graphics: temporarily locked to the lowest settings
 
 For low-end and virtual GPUs, the app always uses the **Performance** mesh set
-(145,588 vessel triangles), Compatibility rendering by default, 50% 3D resolution, opaque
+(152,672 circulatory triangles with extra vessels hidden), Compatibility rendering by default, 50% 3D resolution, opaque
 guided-tour vessels, and no glow, fog, anti-aliasing or tissue mottling. Labels
 and the translucent body outline start off; they can still be turned on for
 navigation. The Graphics selectors and F9 quality shortcut are disabled for
@@ -37,9 +37,9 @@ in `scripts/main.gd` is enabled.
    the glTF files are parsed at runtime in that case).
 3. Press **F5**.
 
-The first launch loads the mesh set for the current detail level (3.4 MB of
-glTF on the default Performance preset) and builds 687 meshes; you will see
-"Loading anatomy…" for a moment.
+The first launch loads 690 base and core meshes at Performance detail; you will
+see "Loading anatomy…" for a moment. The optional extra-vessel meshes are not
+loaded until requested.
 
 ## Low-end GPUs and virtual machines
 
@@ -105,17 +105,19 @@ the menu is active. Pressing A during the guided-tour fly-in skips it and pauses
 at the start. Keyboard and mouse remain available; switching to the controller
 releases the captured mouse.
 
-Left panel: search all 636 circulatory parts by name or FMA id, set the opacity
-of arteries, veins, the heart and the body context independently, and pick the
-detail level.
-Clicking a search result flies the camera to that structure.
+Left panel: search all 1,044 circulatory parts by name or FMA id and set the
+opacity of arteries, veins, the heart and body context independently. Clicking
+a search result flies the camera to it. Results marked “extra” automatically
+load and show the optional extra-vessels layer when selected; the visibility
+checkbox also lets you show or hide it. Loading it can take time and use more
+memory and GPU resources. Graphics remain locked to the lowest settings.
 
 ## What is in the scene
 
-- **636 circulatory parts**: 417 arteries, 197 veins and 22 heart parts
-  (atrial walls, valve leaflets and cusps, papillary muscles, chamber casts,
-  coronary vessels) — 812,802 triangles at High, 365,040 at Balanced,
-  145,588 at Performance.
+- **1,044 circulatory parts**: 626 arteries, 395 veins and 23 heart parts.
+  This includes the coronary sinus, pulmonary trunk and ventricular wall.
+  The default visible 639 circulatory parts use 152,672 triangles at
+  Performance; the 405-part optional layer adds 209,035 more at Performance.
 - **51 ghost context meshes** (skin, gut, kidneys, trachea, brainstem, bones…)
   — 159,510 / 82,872 / 31,866 triangles for the same three levels, drawn at
   5–35 % opacity so you can tell where you are. Toggle with `B`.
@@ -125,7 +127,7 @@ Clicking a search result flies the camera to that structure.
 
 ## How the model was made
 
-`pipeline/` contains the whole data path, reproducible in about 10 seconds:
+`pipeline/` contains the data path. Base assets come from the PART-OF source:
 
 ```
 BodyParts3D partof_BP3D_4.0_obj_99.zip   (1258 OBJ meshes, FMA part-of tree)
@@ -142,6 +144,14 @@ BodyParts3D partof_BP3D_4.0_obj_99.zip   (1258 OBJ meshes, FMA part-of tree)
         ├─ join FMA ids + part-of lineage       → data/parts.json
         └─ trace medial lines of 22 key vessels → data/tour.json
 ```
+
+A supplemental build adds 408 structures from the BodyParts3D 4.0 **IS-A**
+99%-reduced OBJ source, pinned by mirror commit and per-file hashes in
+`pipeline/additional_parts.json`. The sources share a coordinate frame but not
+a hierarchy: added parts have no invented PART-OF lineage. Their relationships
+and surfaces can overlap the base or one another, including composite meshes;
+they are not a uniquely segmented or medically complete circulation. See
+`pipeline/README.md` for rebuilding both sources and the extra layer.
 
 The tour spline deserves a note: it is not hand-drawn. For each of the 22
 stations the pipeline slices the vessel mesh along its principal axis and takes
@@ -192,13 +202,11 @@ python3 build.py              # writes ../data/*
 
 ## Known limits of the source data (not bugs)
 
-- The BodyParts3D part-of tree has **no ventricular myocardium** and no lung,
-  liver or spleen meshes; the heart is made of atrial walls, valve leaflets,
-  chamber casts and coronary vessels. The chamber casts are why the ventricles
-  still read as solid shapes.
-- Limb **veins** are not segmented (the femoral/popliteal/saphenous veins are
-  absent), so the tour rejoins the venous tree at the external iliac vein. The
-  caption at that station says so.
+- The PART-OF source lacks ventricular myocardium and many limb veins; the
+  supplemental IS-A source adds a ventricular wall and many veins, but its
+  coverage is still incomplete. Existing chamber casts can obscure the wall.
+- The tour follows the original route, rejoining the return at the external
+  iliac vein; the added meshes do not change the route or establish connections.
 - The meshes are the *99 % polygon-reduced* release; up close, walls are
   visibly faceted.
 - Some structures exist twice (a mirrored `…M` file for the left side). Both are

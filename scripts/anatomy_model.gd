@@ -42,6 +42,9 @@ var meta: Dictionary = {}
 var detail := 2
 var context_root: Node3D
 var circulatory_root: Node3D
+var supplemental_root: Node3D
+var extended_root: Node3D
+var _extended_on := false
 var highlighted: Node3D = null
 var bounds := AABB()
 
@@ -88,6 +91,14 @@ func _teardown() -> void:
 		context_root.visible = false
 		context_root.queue_free()
 		context_root = null
+	if supplemental_root != null:
+		supplemental_root.visible = false
+		supplemental_root.queue_free()
+		supplemental_root = null
+	if extended_root != null:
+		extended_root.visible = false
+		extended_root.queue_free()
+		extended_root = null
 
 
 func _build(detail_level: int) -> bool:
@@ -95,11 +106,21 @@ func _build(detail_level: int) -> bool:
 	var suffix: String = DETAIL_SUFFIX.get(detail_level, "")
 	context_root = _instance_gltf(DATA_DIR + "context%s.glb" % suffix)
 	circulatory_root = _instance_gltf(DATA_DIR + "circulatory%s.glb" % suffix)
-	if circulatory_root == null:
+	supplemental_root = _instance_gltf(DATA_DIR + "additional_circulatory%s.glb" % suffix)
+	if circulatory_root == null or supplemental_root == null:
+		# These nodes have not yet been attached to the tree.
+		for n in [context_root, circulatory_root, supplemental_root]:
+			if n != null:
+				n.free()
+		context_root = null
+		circulatory_root = null
+		supplemental_root = null
 		return false
 
 	# join the catalogue with the instantiated meshes
 	var meshes := _collect_meshes(circulatory_root)
+	meshes.merge(_collect_meshes(supplemental_root))
+	add_child(supplemental_root)
 	if context_root != null:
 		add_child(context_root)
 		meshes.merge(_collect_meshes(context_root))
@@ -115,9 +136,7 @@ func _build(detail_level: int) -> bool:
 		var hi := Vector3(entry["max"][0], entry["max"][1], entry["max"][2])
 		entry["aabb"] = AABB(lo, hi - lo)
 		if node != null:
-			node.set_surface_override_material(0, _material_for(key, _opacity.get(key, 1.0)))
-			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-			node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+			_prepare_part_node(entry, node)
 		if not _by_material.has(key):
 			_by_material[key] = []
 		_by_material[key].append(entry)
@@ -126,7 +145,52 @@ func _build(detail_level: int) -> bool:
 		parts.append(entry)
 		by_id[id] = entry
 	set_context_visible(_context_on)
+	if _extended_on and not set_extended_visible(true):
+		return false
 	return true
+
+
+func _prepare_part_node(entry: Dictionary, node: MeshInstance3D) -> void:
+	var key: String = entry["material"]
+	node.set_surface_override_material(0, _material_for(key, _opacity.get(key, 1.0)))
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
+
+
+## Load the optional 405-part is_a layer only when requested.
+func set_extended_visible(on: bool) -> bool:
+	if on and extended_root == null:
+		var suffix: String = DETAIL_SUFFIX.get(detail, "")
+		var loaded := _instance_gltf(DATA_DIR + "extended_circulatory%s.glb" % suffix)
+		if loaded == null:
+			_extended_on = false
+			return false
+		var meshes := _collect_meshes(loaded)
+		for entry in parts:
+			if not bool(entry.get("extended", false)):
+				continue
+			var node: MeshInstance3D = meshes.get(String(entry["id"]))
+			if node == null:
+				push_error("missing extended mesh %s" % entry["id"])
+				loaded.free()
+				_extended_on = false
+				return false
+		# Only publish references after every mesh has been validated.
+		extended_root = loaded
+		add_child(extended_root)
+		for entry in parts:
+			if bool(entry.get("extended", false)):
+				var node: MeshInstance3D = meshes[String(entry["id"])]
+				entry["node"] = node
+				_prepare_part_node(entry, node)
+	_extended_on = on
+	if extended_root != null:
+		extended_root.visible = on
+	return true
+
+
+func is_extended_visible() -> bool:
+	return _extended_on and extended_root != null and extended_root.visible
 
 
 func _read_json(path: String) -> Dictionary:
@@ -303,6 +367,8 @@ func total_tris(include_context := true) -> int:
 	var total := 0
 	for p in parts:
 		if not include_context and p["group"] == "context":
+			continue
+		if bool(p.get("extended", false)) and not _extended_on:
 			continue
 		total += tris_of(p)
 	return total
