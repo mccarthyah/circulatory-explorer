@@ -130,6 +130,7 @@ func _pad_button(main, index: JoyButton) -> void:
 
 func _test_controller(main) -> void:
 	var axis := InputEventJoypadMotion.new()
+	axis.device = 2
 	axis.axis = JOY_AXIS_LEFT_Y
 	axis.axis_value = -1.0
 	check(axis.is_action_pressed("pad_move_forward"), "left stick forward mapping")
@@ -137,6 +138,7 @@ func _test_controller(main) -> void:
 	axis.axis_value = 1.0
 	check(axis.is_action_pressed("pad_look_right"), "right stick look mapping")
 	var button := InputEventJoypadButton.new()
+	button.device = 2
 	button.button_index = JOY_BUTTON_START
 	button.pressed = true
 	check(button.is_action_pressed("pad_menu"), "controller menu mapping")
