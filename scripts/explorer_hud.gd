@@ -4,6 +4,7 @@ extends CanvasLayer
 ## "inspecting" card, tour captions and the loading/fade overlays.
 
 signal mode_requested(mode: String)
+signal menu_requested()
 signal opacity_changed(bucket: String, value: float)
 signal context_toggled(on: bool)
 signal labels_toggled(on: bool)
@@ -206,6 +207,11 @@ func _build_top_bar() -> void:
 	subtitle_label = _label("BodyParts3D", 11, DIM)
 	titles.add_child(subtitle_label)
 	row.add_child(titles)
+	var menu_button := Button.new()
+	menu_button.text = "Main menu"
+	menu_button.tooltip_text = "Unload this view and choose another region"
+	menu_button.pressed.connect(func() -> void: menu_requested.emit())
+	row.add_child(menu_button)
 	row.add_child(_spacer())
 
 	var modes := HBoxContainer.new()
@@ -486,6 +492,16 @@ func set_quality(quality: String) -> void:
 		if String(quality_option.get_item_metadata(i)) == quality:
 			quality_option.select(i)
 			return
+
+
+func set_regional_view(regional: bool) -> void:
+	mode_buttons["tour"].disabled = regional
+	mode_buttons["interior"].disabled = regional
+	mode_buttons["tour"].tooltip_text = "Available in All anatomy" if regional else ""
+	mode_buttons["interior"].tooltip_text = "Available in All anatomy" if regional else ""
+	context_check.disabled = regional
+	context_check.tooltip_text = "Body context is available in All anatomy" if regional else ""
+	sliders["context"].editable = not regional
 
 
 func set_graphics_locked(locked: bool) -> void:

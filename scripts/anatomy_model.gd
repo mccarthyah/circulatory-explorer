@@ -40,6 +40,8 @@ var parts: Array = []                          # catalogue entries with .node fi
 var by_id: Dictionary = {}
 var meta: Dictionary = {}
 var detail := 2
+var region := "all"
+var region_entries: Dictionary = {}
 var context_root: Node3D
 var circulatory_root: Node3D
 var supplemental_root: Node3D
@@ -58,7 +60,17 @@ var _hole_center := Vector3.ZERO
 var _hole_radius := 0.0
 
 
-func load_anatomy(detail_level: int = 2) -> bool:
+func load_anatomy(detail_level: int = 2, selected_region: String = "all") -> bool:
+	if selected_region not in ["all", "torso", "lower", "head", "heart"]:
+		push_error("Unknown anatomy region: " + selected_region)
+		return false
+	region = selected_region
+	if region != "all":
+		var regions := _read_json(DATA_DIR + "regions.json")
+		region_entries = regions.get(region, {})
+		if region_entries.is_empty():
+			push_error("Missing regional catalogue: " + region)
+			return false
 	meta = _read_json(DATA_DIR + "parts.json")
 	if meta.is_empty():
 		push_error("parts.json missing")
@@ -70,6 +82,8 @@ func load_anatomy(detail_level: int = 2) -> bool:
 ## Swap the level of detail without rebuilding anything else. Returns true when
 ## the meshes were replaced.
 func reload(detail_level: int) -> bool:
+	if region != "all":
+		detail_level = 0
 	if detail_level == detail and circulatory_root != null:
 		return true
 	_teardown()
@@ -102,12 +116,15 @@ func _teardown() -> void:
 
 
 func _build(detail_level: int) -> bool:
-	detail = detail_level
-	var suffix: String = DETAIL_SUFFIX.get(detail_level, "")
-	context_root = _instance_gltf(DATA_DIR + "context%s.glb" % suffix)
-	circulatory_root = _instance_gltf(DATA_DIR + "circulatory%s.glb" % suffix)
-	supplemental_root = _instance_gltf(DATA_DIR + "additional_circulatory%s.glb" % suffix)
-	if circulatory_root == null or supplemental_root == null:
+	detail = 0 if region != "all" else detail_level
+	var suffix: String = DETAIL_SUFFIX.get(detail, "")
+	if region == "all":
+		context_root = _instance_gltf(DATA_DIR + "context%s.glb" % suffix)
+		circulatory_root = _instance_gltf(DATA_DIR + "circulatory%s.glb" % suffix)
+		supplemental_root = _instance_gltf(DATA_DIR + "additional_circulatory%s.glb" % suffix)
+	else:
+		circulatory_root = _instance_gltf(DATA_DIR + "region_%s%s.glb" % [region, suffix])
+	if circulatory_root == null or (region == "all" and supplemental_root == null):
 		# These nodes have not yet been attached to the tree.
 		for n in [context_root, circulatory_root, supplemental_root]:
 			if n != null:
@@ -119,16 +136,22 @@ func _build(detail_level: int) -> bool:
 
 	# join the catalogue with the instantiated meshes
 	var meshes := _collect_meshes(circulatory_root)
-	meshes.merge(_collect_meshes(supplemental_root))
-	add_child(supplemental_root)
+	if supplemental_root != null:
+		meshes.merge(_collect_meshes(supplemental_root))
+		add_child(supplemental_root)
 	if context_root != null:
 		add_child(context_root)
 		meshes.merge(_collect_meshes(context_root))
 	add_child(circulatory_root)
 
 	var first := true
-	for entry in meta.get("parts", []):
-		var id: String = entry["id"]
+	for source_entry in meta.get("parts", []):
+		var id: String = source_entry["id"]
+		if region != "all" and not region_entries.has(id):
+			continue
+		var entry: Dictionary = source_entry.duplicate(true)
+		if region != "all":
+			entry.merge(region_entries[id], true)
 		var key: String = entry["material"]
 		var node: MeshInstance3D = meshes.get(id)
 		entry["node"] = node
@@ -161,7 +184,8 @@ func _prepare_part_node(entry: Dictionary, node: MeshInstance3D) -> void:
 func set_extended_visible(on: bool) -> bool:
 	if on and extended_root == null:
 		var suffix: String = DETAIL_SUFFIX.get(detail, "")
-		var loaded := _instance_gltf(DATA_DIR + "extended_circulatory%s.glb" % suffix)
+		var filename := "extended_circulatory%s.glb" % suffix if region == "all" else "region_%s_extended%s.glb" % [region, suffix]
+		var loaded := _instance_gltf(DATA_DIR + filename)
 		if loaded == null:
 			_extended_on = false
 			return false

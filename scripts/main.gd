@@ -71,6 +71,7 @@ var labels_root: Node3D
 var headlight: SpotLight3D
 var env: Environment
 
+var region := "all"
 var mode := "free"
 var hover: Dictionary = {}
 var selected_part: Dictionary = {}
@@ -106,6 +107,7 @@ func _ready() -> void:
 	hud.set_mode("free")
 
 	hud.mode_requested.connect(_on_mode_requested)
+	hud.menu_requested.connect(_return_to_menu)
 	hud.opacity_changed.connect(_on_opacity)
 	hud.context_toggled.connect(_on_context_toggled)
 	hud.extended_toggled.connect(_on_extended_toggled)
@@ -126,7 +128,7 @@ func _ready() -> void:
 	add_child(model)
 	var startup_quality := _load_quality()
 	render_scale = _load_render_scale()
-	if not model.load_anatomy(int(QUALITY[startup_quality]["detail"])):
+	if not model.load_anatomy(int(QUALITY[startup_quality]["detail"]), region):
 		hud.set_loading("Could not load the anatomy data.\nCheck data/circulatory.glb")
 		return
 
@@ -147,6 +149,7 @@ func _ready() -> void:
 	_build_headlight()
 
 	_build_labels()
+	hud.set_regional_view(region != "all")
 	hud.populate(model.parts_matching(""))
 	hud.set_loading("")
 	apply_quality(startup_quality, false)
@@ -246,7 +249,15 @@ func _build_labels() -> void:
 
 
 # ---------------------------------------------------------------------- modes
+func _return_to_menu() -> void:
+	if cam != null and cam.captured:
+		cam.capture_mouse(false)
+	get_tree().change_scene_to_file("res://scenes/start.tscn")
+
+
 func _on_mode_requested(m: String) -> void:
+	if region != "all" and m != "free":
+		return
 	match m:
 		"free":
 			_go_free(false)
@@ -281,9 +292,14 @@ func _go_free(first := false) -> void:
 		hud.show_info(false)
 
 	if first:
-		var heart: Vector3 = model.group_centre("heart")
-		cam.aim_from(heart + Vector3(27.0, 11.0, -39.0), heart)
-		_look_point = heart
+		var target: Vector3 = model.group_centre("heart")
+		var offset := Vector3(27.0, 11.0, -39.0)
+		if region != "all":
+			target = model.bounds.get_center()
+			var distance: float = clampf(model.bounds.size.length() * 0.9, 18.0, 180.0)
+			offset = Vector3(distance * 0.35, distance * 0.12, -distance)
+		cam.aim_from(target + offset, target)
+		_look_point = target
 		_cam_up = Vector3.UP
 	else:
 		cam.sync_angles()
@@ -483,8 +499,8 @@ func _update_subtitle() -> void:
 	var label := String(QUALITY_NAMES[model.detail])
 	if model.detail != _quality_detail():
 		label += " (interior)"
-	hud.set_subtitle("BodyParts3D  ·  %d parts  ·  %s triangles  ·  %s detail"
-			% [model.parts.size(), _thousands(model.total_tris(ghost)), label])
+	hud.set_subtitle("%s  ·  %d parts  ·  %s triangles  ·  %s"
+			% [region.capitalize(), model.parts.size(), _thousands(model.total_tris(ghost)), label])
 
 
 func _thousands(n: int) -> String:
@@ -538,6 +554,9 @@ func _on_opacity(bucket: String, value: float) -> void:
 
 
 func _on_context_toggled(on: bool) -> void:
+	if region != "all":
+		hud.context_check.set_pressed_no_signal(false)
+		return
 	model.set_context_visible(on)
 	_context_was_on = on
 	_update_subtitle()
@@ -901,6 +920,8 @@ func _handle_controller_button(event: InputEvent) -> void:
 
 # -------------------------------------------------------------------- keyboard
 func _unhandled_input(event: InputEvent) -> void:
+	if not _intro_done:
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		match (event as InputEventKey).keycode:
 			KEY_1:

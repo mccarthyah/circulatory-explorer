@@ -11,6 +11,7 @@ mkdir -p "$XDG_DATA_HOME" "$XDG_CONFIG_HOME" "$XDG_CACHE_HOME"
 "$GODOT" --headless --path . --editor --import
 "$GODOT" --headless --path . --check-only --script res://tests/benchmark.gd
 "$GODOT" --headless --path . --check-only --script res://tests/render_smoke.gd
+"$GODOT" --headless --path . --script res://tests/regions.gd
 for quality in performance balanced high; do
     "$GODOT" --headless --path . --script res://tests/run.gd -- "$quality"
 done
