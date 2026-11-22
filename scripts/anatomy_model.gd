@@ -241,7 +241,8 @@ func set_bucket_opacity(bucket: String, opacity: float) -> void:
 			if node != null:
 				node.set_surface_override_material(0, mat)
 	if bucket == "context":
-		_context_material.albedo_color.a = clampf(opacity, 0.0, 1.0) * 0.30
+		_opacity["context"] = clampf(opacity, 0.0, 1.0)
+		_context_material.albedo_color.a = _opacity["context"] * 0.30
 
 
 ## The cutaway sphere: geometry closer to the camera than `radius` is discarded,

@@ -111,7 +111,8 @@ func _ready() -> void:
 	model = MODEL_SCRIPT.new()
 	model.name = "Anatomy"
 	add_child(model)
-	if not model.load_anatomy():
+	var startup_quality := _load_quality()
+	if not model.load_anatomy(int(QUALITY[startup_quality]["detail"])):
 		hud.set_loading("Could not load the anatomy data.\nCheck data/circulatory.glb")
 		return
 
@@ -134,14 +135,10 @@ func _ready() -> void:
 	_build_labels()
 	hud.populate(model.parts_matching(""))
 	hud.set_loading("")
-	apply_quality(_load_quality(), false)
+	apply_quality(startup_quality, false)
 	print("[explorer] anatomy parts: %d   path length: %.1f cm   stations: %d"
 			% [model.parts.size(), path.length, path.stations.size()])
 	_go_free(true)
-	# the ghost silhouette is on by default — it makes the space readable
-	model.set_bucket_opacity("context", 0.35 * 0.30)
-	_context_was_on = true
-	model.set_context_visible(true)
 	_update_status()
 
 
@@ -317,13 +314,14 @@ func _go_path(interior: bool) -> void:
 
 
 func _set_opacity_preset(xray: bool) -> void:
-	var a := 0.85 if xray else 1.0
+	var translucent := xray and quality != "performance"
+	var a := 0.85 if translucent else 1.0
 	model.set_bucket_opacity("arteries", a)
 	model.set_bucket_opacity("veins", a)
-	model.set_bucket_opacity("heart", 0.92 if xray else 1.0)
+	model.set_bucket_opacity("heart", 0.92 if translucent else 1.0)
 	hud.set_slider("arteries", a)
 	hud.set_slider("veins", a)
-	hud.set_slider("heart", 0.92 if xray else 1.0)
+	hud.set_slider("heart", 0.92 if translucent else 1.0)
 
 
 func _set_atmosphere(interior: bool) -> void:
@@ -372,6 +370,8 @@ func apply_quality(q: String, reload_meshes := true) -> void:
 	if not QUALITY.has(q):
 		q = "performance"
 	quality = q
+	if model != null and mode == "tour":
+		_set_opacity_preset(true)
 	var preset: Dictionary = QUALITY[q]
 
 	var vp := get_viewport()
@@ -407,7 +407,8 @@ func apply_quality(q: String, reload_meshes := true) -> void:
 			_apply_context_opacity()
 		_update_subtitle()
 	hud.set_quality(q)
-	_save_quality(q)
+	if reload_meshes:
+		_save_quality(q)
 
 
 func _update_subtitle() -> void:
