@@ -36,6 +36,11 @@ func _run() -> void:
 		sample_seconds = sample_text.to_float()
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps = 0
+	var settings_path := OS.get_environment("EXPLORER_SETTINGS_PATH")
+	if settings_path.is_empty():
+		printerr("EXPLORER_SETTINGS_PATH must point to an isolated settings file")
+		quit(1)
+		return
 	var settings := ConfigFile.new()
 	settings.set_value("graphics", "quality", quality)
 	var scale_text := OS.get_environment("BENCH_SCALE")
@@ -46,7 +51,7 @@ func _run() -> void:
 			quit(1)
 			return
 		settings.set_value("graphics", "render_scale", scale)
-	if settings.save("user://settings.cfg") != OK:
+	if settings.save(settings_path) != OK:
 		printerr("Could not write isolated benchmark settings")
 		quit(1)
 		return

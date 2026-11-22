@@ -14,9 +14,14 @@ func check(condition: bool, message: String) -> void:
 func _run() -> void:
 	var args := OS.get_cmdline_user_args()
 	var startup := args[0] if not args.is_empty() else "performance"
+	var settings_path := OS.get_environment("EXPLORER_SETTINGS_PATH")
+	if settings_path.is_empty():
+		printerr("EXPLORER_SETTINGS_PATH must point to an isolated settings file")
+		quit(1)
+		return
 	var settings := ConfigFile.new()
 	settings.set_value("graphics", "quality", startup)
-	check(settings.save("user://settings.cfg") == OK, "save isolated startup settings")
+	check(settings.save(settings_path) == OK, "save isolated startup settings")
 	var scene := load("res://scenes/main.tscn") as PackedScene
 	check(scene != null, "load main scene")
 	if scene == null:

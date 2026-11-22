@@ -9,9 +9,14 @@ func _run() -> void:
 		printerr("FAIL: expected a graphical Compatibility renderer")
 		quit(1)
 		return
+	var settings_path := OS.get_environment("EXPLORER_SETTINGS_PATH")
+	if settings_path.is_empty():
+		printerr("EXPLORER_SETTINGS_PATH must point to an isolated settings file")
+		quit(1)
+		return
 	var cf := ConfigFile.new()
 	cf.set_value("graphics", "quality", "performance")
-	if cf.save("user://settings.cfg") != OK:
+	if cf.save(settings_path) != OK:
 		quit(1)
 		return
 	var main = load("res://scenes/main.tscn").instantiate()

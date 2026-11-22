@@ -354,9 +354,15 @@ func _set_atmosphere(interior: bool) -> void:
 
 
 # --------------------------------------------------------------------- quality
+# An explicit file override keeps test and benchmark runs away from real settings.
+func _settings_path() -> String:
+	var override := OS.get_environment("EXPLORER_SETTINGS_PATH")
+	return override if not override.is_empty() else SETTINGS
+
+
 func _load_quality() -> String:
 	var cf := ConfigFile.new()
-	if cf.load(SETTINGS) == OK:
+	if cf.load(_settings_path()) == OK:
 		var q := String(cf.get_value("graphics", "quality", "performance"))
 		if QUALITY.has(q):
 			return q
@@ -365,7 +371,7 @@ func _load_quality() -> String:
 
 func _load_render_scale() -> float:
 	var cf := ConfigFile.new()
-	if cf.load(SETTINGS) == OK:
+	if cf.load(_settings_path()) == OK:
 		var saved := float(cf.get_value("graphics", "render_scale", 0.0))
 		for scale in RENDER_SCALES:
 			if is_equal_approx(saved, float(scale)):
@@ -380,9 +386,9 @@ func _on_render_scale_changed(scale: float) -> void:
 	_apply_render_scale()
 	hud.set_render_scale(scale)
 	var cf := ConfigFile.new()
-	cf.load(SETTINGS)
+	cf.load(_settings_path())
 	cf.set_value("graphics", "render_scale", scale)
-	cf.save(SETTINGS)
+	cf.save(_settings_path())
 
 
 func _apply_render_scale() -> void:
@@ -392,9 +398,9 @@ func _apply_render_scale() -> void:
 
 func _save_quality(q: String) -> void:
 	var cf := ConfigFile.new()
-	cf.load(SETTINGS)
+	cf.load(_settings_path())
 	cf.set_value("graphics", "quality", q)
-	cf.save(SETTINGS)
+	cf.save(_settings_path())
 
 
 func _on_quality_changed(q: String) -> void:
