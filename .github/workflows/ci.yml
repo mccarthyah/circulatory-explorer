@@ -48,7 +48,7 @@ jobs:
           set -e
           if [ "$result" -ne 0 ] || grep -qE '(SCRIPT ERROR|ERROR:|SHADER ERROR|FAIL:)' "$RUNNER_TEMP/render.log"; then
             echo "::error::Renderer smoke exited with code $result"
-            while IFS= read -r line; do echo "::error::$line"; done < <(tail -n 30 "$RUNNER_TEMP/render.log")
+            while IFS= read -r line; do echo "::error::$line"; done < <(grep -E "(SCRIPT ERROR|ERROR:|SHADER ERROR|FAIL:| at: )" "$RUNNER_TEMP/render.log" | tail -n 8)
             exit 1
           fi
       - name: Exercise benchmark on software OpenGL
