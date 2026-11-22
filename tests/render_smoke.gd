@@ -57,6 +57,7 @@ func _run() -> void:
 	motion.axis = JOY_AXIS_LEFT_Y
 	motion.axis_value = -1.0
 	Input.parse_input_event(motion)
+	Input.flush_buffered_events()
 	main.cam._process(0.2)
 	if main.cam.position.distance_to(before) < 0.1:
 		printerr("FAIL: dispatched controller stick did not move camera")
@@ -67,6 +68,7 @@ func _run() -> void:
 	motion.axis = JOY_AXIS_LEFT_Y
 	motion.axis_value = 0.0
 	Input.parse_input_event(motion)
+	Input.flush_buffered_events()
 	for q in ["performance", "balanced"]:
 		main.apply_quality(q, true)
 		for mode in ["free", "tour", "interior"]:
