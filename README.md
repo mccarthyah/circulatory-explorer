@@ -110,7 +110,9 @@ opacity of arteries, veins, the heart and body context independently. Clicking
 a search result flies the camera to it. Results marked “extra” automatically
 load and show the optional extra-vessels layer when selected; the visibility
 checkbox also lets you show or hide it. Loading it can take time and use more
-memory and GPU resources. Graphics remain locked to the lowest settings.
+memory and GPU resources. Hiding it removes it from view and picking, but keeps
+the loaded meshes in memory until the model is reloaded. Graphics remain locked
+to the lowest settings.
 
 ## What is in the scene
 

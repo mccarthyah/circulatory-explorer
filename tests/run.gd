@@ -89,6 +89,8 @@ func _run() -> void:
 	main._on_part_picked("FJ2725")
 	check(main.model.is_extended_visible() and main.hud.extended_check.button_pressed, "search selection enables extras")
 	check(main.model.by_id["FJ2725"]["node"] != null, "extra cardiac vein loaded")
+	check(main.model.parts_matching("anterior cardiac vein").size() >= 1, "search finds extra cardiac vein")
+	_test_real_extra_pick(main.model)
 	check(main.model.total_tris(false) > baseline, "visible triangle count includes extras")
 	check(main.model.detail == 0 and is_equal_approx(root.scaling_3d_scale, 0.5), "extras preserve lowest graphics")
 	main._on_extended_toggled(false)
@@ -114,6 +116,28 @@ func _run() -> void:
 	else:
 		printerr("FAILED: ", failures.size(), " checks")
 		quit(1)
+
+
+func _test_real_extra_pick(model) -> void:
+	var part: Dictionary = model.by_id["FJ2725"]
+	var node: MeshInstance3D = part["node"]
+	var faces: PackedVector3Array = node.mesh.get_faces()
+	check(faces.size() >= 3, "extra vein has triangle geometry")
+	if faces.size() < 3:
+		return
+	var a: Vector3 = node.to_global(faces[0])
+	var b: Vector3 = node.to_global(faces[1])
+	var c: Vector3 = node.to_global(faces[2])
+	var normal := (b - a).cross(c - a).normalized()
+	var centre := (a + b + c) / 3.0
+	var original: Array = model.parts
+	model.parts = [part] # Isolate this vessel from overlapping anatomical surfaces.
+	var hit: Dictionary = model.pick(centre + normal * 0.1, -normal)
+	check(hit.get("id", "") == "FJ2725", "extra vein is pickable by its triangles")
+	model.set_extended_visible(false)
+	check(model.pick(centre + normal * 0.1, -normal).is_empty(), "hidden extra vein is not pickable")
+	model.set_extended_visible(true)
+	model.parts = original
 
 
 func _test_picking() -> void:
