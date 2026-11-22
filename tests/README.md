@@ -10,9 +10,10 @@ GODOT=/path/to/godot ./tests/run.sh
 
 The runner imports the assets and checks startup at all three saved quality
 levels, quality and mode transitions, ghost visibility, mesh availability, and
-interior wrapping, and synthetic ray-picking cases. It exits nonzero on a failed check and uses an isolated settings file
-(via `EXPLORER_SETTINGS_PATH`) so it does not modify your saved settings. GitHub Actions runs
-the same suite with the official 4.7.2 Linux binary and verifies its SHA-256.
+interior wrapping and synthetic ray-picking cases. It exits nonzero on a failed
+check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH`) so it
+does not modify your saved settings. GitHub Actions runs the same suite with
+the official 4.7.2 Linux binary and verifies its SHA-256.
 CI also runs `render_smoke.gd` under Xvfb with Mesa software OpenGL to exercise
 the Compatibility renderer and capture frames in each mode. This smoke test
 does not establish visual correctness or measure physical-GPU performance.
@@ -22,8 +23,9 @@ manual screenshot helper. Both can be run as autoloads; see their comments.
 
 ## Graphics benchmark
 
-First import the project in the editor (or run `godot --headless --editor --path
-. --import`). On the target machine with a real graphical display, run:
+First import the project in the editor (or run
+`godot --headless --editor --path . --import`). On a Linux target machine with a
+real graphical display, run:
 
 ```sh
 GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720
@@ -31,12 +33,30 @@ GODOT=/path/to/godot BENCH_SCALE=0.5 ./tests/benchmark.sh performance --resoluti
 GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720 --rendering-method gl_compatibility
 ```
 
+On Windows, use PowerShell from the project directory instead of the shell
+wrapper (replace the executable path with your Godot binary):
+
+```powershell
+$old = $env:EXPLORER_SETTINGS_PATH
+$env:EXPLORER_SETTINGS_PATH = Join-Path $env:TEMP ("explorer-bench-" + [guid]::NewGuid() + ".cfg")
+try {
+    & "C:\path\to\Godot_v4.7.2-stable_win64.exe" --path . --resolution 1280x720 --script res://tests/benchmark.gd -- performance
+} finally {
+    Remove-Item -ErrorAction SilentlyContinue $env:EXPLORER_SETTINGS_PATH
+    $env:EXPLORER_SETTINGS_PATH = $old
+}
+```
+
+To compare Compatibility on Windows, add `--rendering-method gl_compatibility`
+before `--script`. The same isolated settings file mechanism is used on both
+platforms.
+
 Use `balanced` or `high` in place of `performance` to compare presets.
 `BENCH_SCALE` accepts 0 (preset), 0.5, 0.65, 0.75, 0.9 or 1.0.
 `BENCH_WARMUP` and `BENCH_DURATION` override the sample durations in seconds
-(the defaults are recommended for comparisons). The
-benchmark uses isolated settings, disables VSync, warms each fixed viewpoint
-for 5 seconds, and samples for 10 seconds. It reports the renderer and adapter,
+(the defaults are recommended for comparisons). The benchmark uses isolated
+settings, disables VSync, warms each fixed viewpoint for 5 seconds, and samples
+for 10 seconds by default. It reports the renderer and adapter,
 average FPS, frame-time percentiles, draw calls and primitives at the end of
 each sample. Hover picking and interior particles remain active. Fixed views
 make comparisons repeatable, but do not represent all movement or shader
