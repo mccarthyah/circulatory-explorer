@@ -1,0 +1,904 @@
+{
+ "points": [
+  [
+   1.44,
+   52.7,
+   -1.63
+  ],
+  [
+   1.53,
+   52.03,
+   -1.33
+  ],
+  [
+   1.53,
+   51.37,
+   -1.19
+  ],
+  [
+   1.55,
+   50.72,
+   -1.26
+  ],
+  [
+   1.66,
+   50.06,
+   -1.5
+  ],
+  [
+   1.5,
+   49.37,
+   -1.76
+  ],
+  [
+   1.23,
+   48.46,
+   -2.18
+  ],
+  [
+   1.19,
+   47.17,
+   -2.49
+  ],
+  [
+   1.44,
+   45.69,
+   -2.33
+  ],
+  [
+   1.58,
+   44.15,
+   -1.91
+  ],
+  [
+   1.2,
+   42.64,
+   -1.72
+  ],
+  [
+   0.07,
+   41.46,
+   -2.43
+  ],
+  [
+   -1.29,
+   41.19,
+   -3.7
+  ],
+  [
+   -1.44,
+   41.93,
+   -4.36
+  ],
+  [
+   -1.14,
+   43.15,
+   -4.42
+  ],
+  [
+   -1.33,
+   44.48,
+   -4.44
+  ],
+  [
+   -1.9,
+   45.78,
+   -4.5
+  ],
+  [
+   -2.47,
+   46.97,
+   -4.62
+  ],
+  [
+   -2.72,
+   47.84,
+   -4.78
+  ],
+  [
+   -2.62,
+   48.38,
+   -4.47
+  ],
+  [
+   -2.59,
+   48.76,
+   -3.75
+  ],
+  [
+   -2.78,
+   49.3,
+   -3.01
+  ],
+  [
+   -2.86,
+   49.83,
+   -2.36
+  ],
+  [
+   -2.72,
+   50.18,
+   -1.84
+  ],
+  [
+   -2.19,
+   50.1,
+   -1.26
+  ],
+  [
+   -0.94,
+   49.7,
+   -0.33
+  ],
+  [
+   0.79,
+   49.1,
+   0.53
+  ],
+  [
+   2.52,
+   48.25,
+   1.16
+  ],
+  [
+   3.79,
+   47.08,
+   1.74
+  ],
+  [
+   3.86,
+   46.04,
+   1.94
+  ],
+  [
+   2.87,
+   45.81,
+   1.41
+  ],
+  [
+   2.35,
+   46.1,
+   0.88
+  ],
+  [
+   2.56,
+   46.48,
+   0.6
+  ],
+  [
+   2.93,
+   46.84,
+   0.37
+  ],
+  [
+   3.06,
+   47.08,
+   0.23
+  ],
+  [
+   2.66,
+   46.77,
+   0.54
+  ],
+  [
+   1.57,
+   45.82,
+   1.2
+  ],
+  [
+   0.14,
+   45.27,
+   1.37
+  ],
+  [
+   -1.35,
+   45.53,
+   1.25
+  ],
+  [
+   -2.71,
+   46.2,
+   0.94
+  ],
+  [
+   -3.45,
+   46.94,
+   0.05
+  ],
+  [
+   -3.4,
+   46.95,
+   -0.88
+  ],
+  [
+   -2.97,
+   45.95,
+   -1.15
+  ],
+  [
+   -3.14,
+   44.74,
+   -1.2
+  ],
+  [
+   -3.9,
+   43.79,
+   -1.66
+  ],
+  [
+   -4.73,
+   43.06,
+   -2.53
+  ],
+  [
+   -5.23,
+   42.69,
+   -3.4
+  ],
+  [
+   -4.69,
+   43.23,
+   -3.48
+  ],
+  [
+   -3.09,
+   44.85,
+   -2.64
+  ],
+  [
+   -1.8,
+   46.3,
+   -2.16
+  ],
+  [
+   -1.11,
+   47.28,
+   -2.32
+  ],
+  [
+   -0.8,
+   48.18,
+   -2.49
+  ],
+  [
+   -0.66,
+   49.11,
+   -2.48
+  ],
+  [
+   -0.53,
+   49.95,
+   -2.46
+  ],
+  [
+   -0.64,
+   50.73,
+   -2.22
+  ],
+  [
+   -1.14,
+   51.49,
+   -1.39
+  ],
+  [
+   -1.74,
+   52.06,
+   -0.1
+  ],
+  [
+   -2.15,
+   52.1,
+   1.36
+  ],
+  [
+   -2.36,
+   51.59,
+   2.71
+  ],
+  [
+   -2.39,
+   50.84,
+   3.58
+  ],
+  [
+   -2.24,
+   49.66,
+   3.78
+  ],
+  [
+   -2.09,
+   47.41,
+   3.78
+  ],
+  [
+   -1.96,
+   44.62,
+   3.53
+  ],
+  [
+   -1.71,
+   41.75,
+   2.92
+  ],
+  [
+   -1.4,
+   38.91,
+   2.11
+  ],
+  [
+   -1.21,
+   36.21,
+   1.31
+  ],
+  [
+   -1.11,
+   33.67,
+   0.52
+  ],
+  [
+   -1.05,
+   30.77,
+   -0.42
+  ],
+  [
+   -1.0,
+   27.71,
+   -1.35
+  ],
+  [
+   -0.9,
+   24.67,
+   -2.09
+  ],
+  [
+   -0.78,
+   21.64,
+   -2.4
+  ],
+  [
+   -0.6,
+   18.96,
+   -2.37
+  ],
+  [
+   -0.3,
+   17.49,
+   -2.28
+  ],
+  [
+   0.19,
+   16.57,
+   -2.14
+  ],
+  [
+   0.84,
+   15.64,
+   -1.96
+  ],
+  [
+   1.61,
+   14.64,
+   -1.69
+  ],
+  [
+   2.48,
+   13.51,
+   -1.18
+  ],
+  [
+   3.53,
+   11.97,
+   -0.27
+  ],
+  [
+   4.62,
+   9.96,
+   0.76
+  ],
+  [
+   5.32,
+   7.97,
+   1.05
+  ],
+  [
+   5.52,
+   6.23,
+   0.28
+  ],
+  [
+   5.38,
+   4.64,
+   -1.2
+  ],
+  [
+   5.11,
+   3.02,
+   -2.5
+  ],
+  [
+   4.93,
+   0.56,
+   -2.97
+  ],
+  [
+   4.81,
+   -4.08,
+   -3.18
+  ],
+  [
+   4.58,
+   -10.09,
+   -3.08
+  ],
+  [
+   4.46,
+   -16.24,
+   -2.36
+  ],
+  [
+   4.74,
+   -22.24,
+   -1.16
+  ],
+  [
+   5.46,
+   -27.46,
+   0.19
+  ],
+  [
+   6.24,
+   -31.22,
+   1.51
+  ],
+  [
+   6.89,
+   -34.53,
+   2.81
+  ],
+  [
+   7.34,
+   -38.02,
+   3.7
+  ],
+  [
+   7.79,
+   -41.5,
+   3.82
+  ],
+  [
+   8.39,
+   -44.83,
+   3.5
+  ],
+  [
+   8.92,
+   -47.46,
+   3.12
+  ],
+  [
+   9.23,
+   -49.88,
+   2.32
+  ],
+  [
+   9.24,
+   -53.84,
+   1.36
+  ],
+  [
+   9.09,
+   -59.16,
+   0.93
+  ],
+  [
+   8.78,
+   -64.76,
+   0.96
+  ],
+  [
+   8.24,
+   -69.98,
+   0.98
+  ],
+  [
+   7.62,
+   -74.36,
+   0.83
+  ],
+  [
+   7.39,
+   -77.01,
+   0.5
+  ],
+  [
+   7.66,
+   -78.21,
+   -0.18
+  ],
+  [
+   8.09,
+   -78.79,
+   -1.11
+  ],
+  [
+   8.4,
+   -78.79,
+   -2.16
+  ],
+  [
+   8.34,
+   -74.34,
+   -3.21
+  ],
+  [
+   7.3,
+   -55.1,
+   -3.86
+  ],
+  [
+   5.45,
+   -22.47,
+   -3.52
+  ],
+  [
+   4.46,
+   -1.95,
+   -2.15
+  ],
+  [
+   4.38,
+   4.25,
+   -0.38
+  ],
+  [
+   4.44,
+   6.15,
+   1.2
+  ],
+  [
+   4.23,
+   8.0,
+   1.95
+  ],
+  [
+   3.68,
+   10.14,
+   1.61
+  ],
+  [
+   3.06,
+   11.9,
+   0.75
+  ],
+  [
+   2.52,
+   13.17,
+   0.0
+  ],
+  [
+   2.07,
+   14.33,
+   -0.51
+  ],
+  [
+   1.67,
+   15.47,
+   -0.89
+  ],
+  [
+   1.3,
+   16.57,
+   -1.29
+  ],
+  [
+   1.02,
+   17.49,
+   -1.59
+  ],
+  [
+   0.93,
+   18.56,
+   -1.81
+  ],
+  [
+   1.0,
+   20.45,
+   -2.04
+  ],
+  [
+   1.11,
+   22.88,
+   -2.06
+  ],
+  [
+   1.16,
+   25.47,
+   -1.82
+  ],
+  [
+   1.19,
+   27.99,
+   -1.51
+  ],
+  [
+   1.28,
+   30.21,
+   -1.38
+  ],
+  [
+   1.4,
+   31.96,
+   -1.38
+  ],
+  [
+   1.49,
+   33.6,
+   -1.42
+  ],
+  [
+   1.5,
+   35.25,
+   -1.48
+  ],
+  [
+   1.5,
+   36.91,
+   -1.54
+  ],
+  [
+   1.5,
+   38.76,
+   -1.62
+  ],
+  [
+   1.41,
+   40.73,
+   -1.49
+  ]
+ ],
+ "length": 329.88,
+ "stations": [
+  {
+   "t": 0.01074,
+   "title": "Superior vena cava",
+   "text": "Deoxygenated blood from the head, neck and arms returns through the superior vena cava. It is a low-pressure vessel: 5-10 mmHg.",
+   "fid": "FJ3645",
+   "at": [
+    1.5,
+    49.37,
+    -1.76
+   ]
+  },
+  {
+   "t": 0.03747,
+   "title": "Right atrium",
+   "text": "The right atrium collects the returning blood. The sinoatrial node, the heart's natural pacemaker, sits in its wall and fires about 60-100 times a minute.",
+   "fid": "FJ2424",
+   "at": [
+    0.07,
+    41.46,
+    -2.43
+   ]
+  },
+  {
+   "t": 0.06239,
+   "title": "Right ventricle",
+   "text": "Through the tricuspid valve into the right ventricle. Contraction here pushes blood into the lungs - the pulmonary circuit, the only place where arteries carry deoxygenated blood.",
+   "fid": "FJ2423",
+   "at": [
+    -2.47,
+    46.97,
+    -4.62
+   ]
+  },
+  {
+   "t": 0.07692,
+   "title": "Pulmonary trunk",
+   "text": "The pulmonary trunk leaves the right ventricle and splits into the left and right pulmonary arteries, one for each lung.",
+   "fid": "FJ2966",
+   "at": [
+    -2.72,
+    50.18,
+    -1.84
+   ]
+  },
+  {
+   "t": 0.10519,
+   "title": "Right pulmonary artery",
+   "text": "Inside the lungs the arteries break down into smaller and smaller branches, ending in capillaries around the alveoli. Here CO2 leaves the blood and O2 enters.",
+   "fid": "FJ3019",
+   "at": [
+    3.86,
+    46.04,
+    1.94
+   ]
+  },
+  {
+   "t": 0.11707,
+   "title": "Pulmonary veins",
+   "text": "Oxygenated blood comes back through four pulmonary veins - the only veins that carry oxygen-rich blood - into the left atrium.",
+   "fid": "FJ3020",
+   "at": [
+    2.66,
+    46.77,
+    0.54
+   ]
+  },
+  {
+   "t": 0.14284,
+   "title": "Left atrium",
+   "text": "The left atrium is the receiving chamber for the systemic circuit.",
+   "fid": "FJ2425",
+   "at": [
+    -3.4,
+    46.95,
+    -0.88
+   ]
+  },
+  {
+   "t": 0.16374,
+   "title": "Left ventricle",
+   "text": "Through the mitral valve into the left ventricle. Its wall is the thickest in the heart (8-12 mm) because it has to pump blood to the whole body.",
+   "fid": "FJ2422",
+   "at": [
+    -4.69,
+    43.23,
+    -3.48
+   ]
+  },
+  {
+   "t": 0.1892,
+   "title": "Ascending aorta",
+   "text": "Blood leaves through the aortic valve into the ascending aorta. The coronary arteries branch off immediately - the heart feeds itself first.",
+   "fid": "FJ3413",
+   "at": [
+    -0.53,
+    49.95,
+    -2.46
+   ]
+  },
+  {
+   "t": 0.21258,
+   "title": "Arch of the aorta",
+   "text": "The arch turns backwards and gives off the brachiocephalic, left common carotid and left subclavian arteries, which supply the head and arms.",
+   "fid": "FJ3411",
+   "at": [
+    -2.39,
+    50.84,
+    3.58
+   ]
+  },
+  {
+   "t": 0.25805,
+   "title": "Descending thoracic aorta",
+   "text": "The descending aorta runs down the back of the chest, giving off intercostal and oesophageal branches.",
+   "fid": "FJ1931",
+   "at": [
+    -1.21,
+    36.21,
+    1.31
+   ]
+  },
+  {
+   "t": 0.31195,
+   "title": "Abdominal aorta",
+   "text": "Below the diaphragm it becomes the abdominal aorta: coeliac trunk, mesenteric, renal and gonadal arteries branch off here.",
+   "fid": "FJ1932",
+   "at": [
+    -0.6,
+    18.96,
+    -2.37
+   ]
+  },
+  {
+   "t": 0.33796,
+   "title": "Right common iliac artery",
+   "text": "At about the level of the navel the aorta bifurcates into the two common iliac arteries.",
+   "fid": "FJ3565",
+   "at": [
+    3.53,
+    11.97,
+    -0.27
+   ]
+  },
+  {
+   "t": 0.37074,
+   "title": "Right external iliac artery",
+   "text": "The external iliac artery crosses under the inguinal ligament and becomes the femoral artery.",
+   "fid": "FJ3567",
+   "at": [
+    5.11,
+    3.02,
+    -2.5
+   ]
+  },
+  {
+   "t": 0.4645,
+   "title": "Right femoral artery",
+   "text": "The femoral artery is the main supply of the leg - and a favourite site for a pulse check and for catheter access.",
+   "fid": "FJ2143",
+   "at": [
+    5.46,
+    -27.46,
+    0.19
+   ]
+  },
+  {
+   "t": 0.52794,
+   "title": "Right popliteal artery",
+   "text": "Behind the knee the femoral artery becomes the popliteal artery, which splits into the anterior and posterior tibial arteries.",
+   "fid": "FJ2170",
+   "at": [
+    8.92,
+    -47.46,
+    3.12
+   ]
+  },
+  {
+   "t": 0.6106,
+   "title": "Right anterior tibial artery",
+   "text": "Down the front of the shin, becoming the dorsalis pedis artery on the top of the foot.",
+   "fid": "FJ2130",
+   "at": [
+    7.62,
+    -74.36,
+    0.83
+   ]
+  },
+  {
+   "t": 0.70215,
+   "title": "Right dorsalis pedis artery",
+   "text": "Roughly 5 litres a minute leave the heart; every one of them eventually squeezes through capillaries narrower than a red blood cell is wide (about 7 um).",
+   "fid": "FJ2055",
+   "at": [
+    7.3,
+    -55.1,
+    -3.86
+   ]
+  },
+  {
+   "t": 0.90358,
+   "title": "Right external iliac vein",
+   "text": "Now the return trip. The venous tree of the limb is not segmented in BodyParts3D, so we rejoin it at the external iliac vein, where blood climbs back towards the heart.",
+   "fid": "FJ3568",
+   "at": [
+    3.68,
+    10.14,
+    1.61
+   ]
+  },
+  {
+   "t": 0.92927,
+   "title": "Right common iliac vein",
+   "text": "Venous blood flows upward against gravity, helped by valves and by the calf muscle pump.",
+   "fid": "FJ3566",
+   "at": [
+    1.02,
+    17.49,
+    -1.59
+   ]
+  },
+  {
+   "t": 0.96807,
+   "title": "Inferior vena cava",
+   "text": "The inferior vena cava collects everything below the diaphragm - the largest vein in the body.",
+   "fid": "FJ3659",
+   "at": [
+    1.28,
+    30.21,
+    -1.38
+   ]
+  },
+  {
+   "t": 1.0,
+   "title": "Inferior vena cava",
+   "text": "It passes through the diaphragm and empties into the right atrium. The circuit closes: back where we started in about a minute.",
+   "fid": "FJ3441",
+   "at": [
+    1.41,
+    40.73,
+    -1.49
+   ]
+  }
+ ]
+}

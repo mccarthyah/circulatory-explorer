@@ -1,0 +1,22 @@
+BodyParts3D data attribution
+============================
+
+The 3D anatomy in this project is derived from BodyParts3D:
+
+  BodyParts3D, (c) The Database Center for Life Science
+  licensed under CC Attribution-Share Alike 2.1 Japan
+  https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
+
+Source files: partof_BP3D_4.0_obj_99.zip (PART-OF tree, 99 % polygon reduction)
+Database DOI: 10.18908/lsdba.nbdc00837-000
+
+Reference: Mitsuhashi N, Fujieda K, Tamura T, Kawamoto S, Takagi T, Okubo K.
+BodyParts3D: 3D structure database for anatomical concepts.
+Nucleic Acids Res. 2008 Oct 3. PMID: 18835852
+
+Modifications made by this project: coordinate conversion from BodyParts3D
+(mm, X=left, Y=posterior, Z=superior) to Godot's Y-up space, unit scaled to
+centimetres, smooth vertex normals recomputed, meshes packed into glTF 2.0,
+context organs decimated for use as a translucent ghost.
+
+If you redistribute the models you must keep this attribution and share alike.
