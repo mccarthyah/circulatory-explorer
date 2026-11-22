@@ -35,7 +35,8 @@ in `scripts/main.gd` is enabled.
 2. Open `project.godot` in the project manager, or from a terminal:
    `godot --path .` (the app also starts without the editor's import cache —
    the glTF files are parsed at runtime in that case).
-3. Press **F5**.
+3. Press **F5** (Run Project). Running `main.tscn` directly with **F6** also
+   redirects to the menu rather than loading the model.
 
 The app opens on a **main menu without loading the anatomy model**. Choose:
 

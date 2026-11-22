@@ -10,9 +10,22 @@ func check(ok: bool, message: String) -> void:
 		printerr("FAIL: ", message)
 
 func _run() -> void:
-	var menu = load("res://scenes/start.tscn").instantiate()
-	root.add_child(menu)
-	current_scene = menu
+	check(ProjectSettings.get_setting("application/run/main_scene") == "res://scenes/start.tscn", "project starts at menu")
+	# Simulate the editor's Run Current Scene on main.tscn: it must redirect
+	# before it instantiates a model, rather than bypassing the menu.
+	var direct = load("res://scenes/main.tscn").instantiate()
+	root.add_child(direct)
+	current_scene = direct
+	check(direct.model == null and direct.hud == null, "direct scene has not loaded anatomy")
+	for i in 20:
+		await process_frame
+		if current_scene != direct and current_scene != null:
+			break
+	var menu = current_scene
+	if menu == direct or menu == null:
+		check(false, "direct scene redirects to menu")
+		quit(1)
+		return
 	await process_frame
 	check(menu.buttons.size() == 5, "five main menu choices")
 	check(menu.get_node_or_null("Anatomy") == null, "menu does not instantiate a model")

@@ -29,6 +29,7 @@ func _run() -> void:
 		quit(1)
 		return
 	var main = scene.instantiate()
+	main.region = "all"
 	root.add_child(main)
 	for i in 900:
 		await process_frame

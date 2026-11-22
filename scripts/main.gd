@@ -71,7 +71,9 @@ var labels_root: Node3D
 var headlight: SpotLight3D
 var env: Environment
 
-var region := "all"
+# The menu supplies a region before this node enters the tree. Running this
+# scene directly from the editor must not silently load the whole model.
+var region := ""
 var mode := "free"
 var hover: Dictionary = {}
 var selected_part: Dictionary = {}
@@ -100,6 +102,9 @@ var _controller_active := false
 
 
 func _ready() -> void:
+	if region.is_empty():
+		call_deferred("_return_to_menu")
+		return
 	_configure_controller_ui()
 	hud = HUD_SCRIPT.new()
 	add_child(hud)
