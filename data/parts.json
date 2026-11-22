@@ -6,6 +6,11 @@
  ],
  "unit": "1 unit = 1 cm",
  "source": "BodyParts3D (DBCLS), PART-OF tree, 99% polygon reduction, CC BY-SA 2.1 JP",
+ "detail_levels": {
+  "high": "",
+  "balanced": "_lod1",
+  "performance": "_lod2"
+ },
  "parts": [
   {
    "id": "FJ1932",
@@ -16,6 +21,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2270,
+   "tris_lod1": 1020,
+   "tris_lod2": 407,
    "verts": 1226,
    "centre": [
     -0.841,
@@ -48,6 +55,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 154,
+   "tris_lod1": 68,
+   "tris_lod2": 27,
    "verts": 118,
    "centre": [
     4.726,
@@ -82,6 +91,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 68,
+   "tris_lod1": 30,
+   "tris_lod2": 12,
    "verts": 75,
    "centre": [
     4.461,
@@ -116,6 +127,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 974,
+   "tris_lod1": 437,
+   "tris_lod2": 174,
    "verts": 491,
    "centre": [
     -11.541,
@@ -148,6 +161,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 996,
+   "tris_lod1": 448,
+   "tris_lod2": 178,
    "verts": 504,
    "centre": [
     11.384,
@@ -181,6 +196,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 490,
+   "tris_lod1": 220,
+   "tris_lod2": 87,
    "verts": 296,
    "centre": [
     7.523,
@@ -215,6 +232,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 80,
+   "tris_lod1": 36,
+   "tris_lod2": 14,
    "verts": 83,
    "centre": [
     8.874,
@@ -249,6 +268,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 240,
+   "tris_lod1": 107,
+   "tris_lod2": 43,
    "verts": 162,
    "centre": [
     3.65,
@@ -283,6 +304,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 102,
+   "tris_lod1": 45,
+   "tris_lod2": 19,
    "verts": 90,
    "centre": [
     2.677,
@@ -317,6 +340,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 178,
+   "tris_lod1": 80,
+   "tris_lod2": 32,
    "verts": 125,
    "centre": [
     4.519,
@@ -351,6 +376,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 130,
+   "tris_lod1": 56,
+   "tris_lod2": 21,
    "verts": 109,
    "centre": [
     4.206,
@@ -385,6 +412,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 120,
+   "tris_lod1": 52,
+   "tris_lod2": 21,
    "verts": 97,
    "centre": [
     6.369,
@@ -418,6 +447,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 80,
+   "tris_lod1": 35,
+   "tris_lod2": 14,
    "verts": 63,
    "centre": [
     -0.017,
@@ -451,6 +482,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 920,
+   "tris_lod1": 413,
+   "tris_lod2": 164,
    "verts": 508,
    "centre": [
     -1.888,
@@ -485,6 +518,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 766,
+   "tris_lod1": 344,
+   "tris_lod2": 136,
    "verts": 519,
    "centre": [
     -1.869,
@@ -519,6 +554,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2832,
+   "tris_lod1": 1273,
+   "tris_lod2": 508,
    "verts": 1582,
    "centre": [
     6.471,
@@ -552,6 +589,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1666,
+   "tris_lod1": 748,
+   "tris_lod2": 298,
    "verts": 1244,
    "centre": [
     6.448,
@@ -586,6 +625,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2806,
+   "tris_lod1": 1260,
+   "tris_lod2": 504,
    "verts": 1409,
    "centre": [
     4.287,
@@ -618,6 +659,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 990,
+   "tris_lod1": 445,
+   "tris_lod2": 177,
    "verts": 502,
    "centre": [
     6.137,
@@ -650,6 +693,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 7558,
+   "tris_lod1": 3400,
+   "tris_lod2": 1359,
    "verts": 4052,
    "centre": [
     -3.027,
@@ -684,6 +729,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 8160,
+   "tris_lod1": 3671,
+   "tris_lod2": 1468,
    "verts": 4282,
    "centre": [
     0.018,
@@ -717,6 +764,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 882,
+   "tris_lod1": 396,
+   "tris_lod2": 158,
    "verts": 580,
    "centre": [
     -2.89,
@@ -751,6 +800,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 390,
+   "tris_lod1": 174,
+   "tris_lod2": 70,
    "verts": 197,
    "centre": [
     4.424,
@@ -785,6 +836,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 226,
+   "tris_lod1": 99,
+   "tris_lod2": 40,
    "verts": 117,
    "centre": [
     8.898,
@@ -819,6 +872,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 308,
+   "tris_lod1": 138,
+   "tris_lod2": 54,
    "verts": 161,
    "centre": [
     8.097,
@@ -853,6 +908,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 250,
+   "tris_lod1": 110,
+   "tris_lod2": 44,
    "verts": 167,
    "centre": [
     3.154,
@@ -887,6 +944,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 620,
+   "tris_lod1": 279,
+   "tris_lod2": 111,
    "verts": 368,
    "centre": [
     2.821,
@@ -921,6 +980,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 202,
+   "tris_lod1": 89,
+   "tris_lod2": 34,
    "verts": 134,
    "centre": [
     2.832,
@@ -955,6 +1016,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 174,
+   "tris_lod1": 77,
+   "tris_lod2": 30,
    "verts": 130,
    "centre": [
     3.208,
@@ -989,6 +1052,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 188,
+   "tris_lod1": 84,
+   "tris_lod2": 32,
    "verts": 134,
    "centre": [
     2.796,
@@ -1023,6 +1088,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 178,
+   "tris_lod1": 80,
+   "tris_lod2": 32,
    "verts": 103,
    "centre": [
     3.838,
@@ -1057,6 +1124,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 770,
+   "tris_lod1": 346,
+   "tris_lod2": 136,
    "verts": 404,
    "centre": [
     4.848,
@@ -1090,6 +1159,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 892,
+   "tris_lod1": 400,
+   "tris_lod2": 158,
    "verts": 459,
    "centre": [
     5.012,
@@ -1124,6 +1195,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2488,
+   "tris_lod1": 1118,
+   "tris_lod2": 446,
    "verts": 1471,
    "centre": [
     -3.833,
@@ -1158,6 +1231,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2488,
+   "tris_lod1": 1118,
+   "tris_lod2": 447,
    "verts": 1473,
    "centre": [
     3.706,
@@ -1192,6 +1267,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1226,
+   "tris_lod1": 551,
+   "tris_lod2": 220,
    "verts": 1431,
    "centre": [
     2.148,
@@ -1226,6 +1303,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 316,
+   "tris_lod1": 141,
+   "tris_lod2": 55,
    "verts": 368,
    "centre": [
     1.67,
@@ -1260,6 +1339,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 816,
+   "tris_lod1": 365,
+   "tris_lod2": 146,
    "verts": 532,
    "centre": [
     -4.694,
@@ -1294,6 +1375,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 360,
+   "tris_lod1": 160,
+   "tris_lod2": 64,
    "verts": 234,
    "centre": [
     3.285,
@@ -1328,6 +1411,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 112,
+   "tris_lod1": 50,
+   "tris_lod2": 20,
    "verts": 101,
    "centre": [
     3.887,
@@ -1362,6 +1447,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 856,
+   "tris_lod1": 384,
+   "tris_lod2": 153,
    "verts": 517,
    "centre": [
     3.547,
@@ -1396,6 +1483,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 212,
+   "tris_lod1": 94,
+   "tris_lod2": 37,
    "verts": 148,
    "centre": [
     3.877,
@@ -1430,6 +1519,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 230,
+   "tris_lod1": 102,
+   "tris_lod2": 40,
    "verts": 132,
    "centre": [
     2.662,
@@ -1464,6 +1555,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 204,
+   "tris_lod1": 90,
+   "tris_lod2": 36,
    "verts": 107,
    "centre": [
     2.833,
@@ -1498,6 +1591,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 102,
+   "tris_lod1": 45,
+   "tris_lod2": 17,
    "verts": 81,
    "centre": [
     2.286,
@@ -1532,6 +1627,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 90,
+   "tris_lod1": 39,
+   "tris_lod2": 16,
    "verts": 88,
    "centre": [
     6.518,
@@ -1566,6 +1663,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 120,
+   "tris_lod1": 52,
+   "tris_lod2": 21,
    "verts": 100,
    "centre": [
     6.223,
@@ -1600,6 +1699,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 912,
+   "tris_lod1": 409,
+   "tris_lod2": 163,
    "verts": 498,
    "centre": [
     4.198,
@@ -1634,6 +1735,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 868,
+   "tris_lod1": 390,
+   "tris_lod2": 155,
    "verts": 733,
    "centre": [
     4.239,
@@ -1667,6 +1770,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 670,
+   "tris_lod1": 301,
+   "tris_lod2": 119,
    "verts": 381,
    "centre": [
     -1.563,
@@ -1698,6 +1803,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 396,
+   "tris_lod1": 177,
+   "tris_lod2": 71,
    "verts": 229,
    "centre": [
     -1.108,
@@ -1729,6 +1836,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 358,
+   "tris_lod1": 161,
+   "tris_lod2": 64,
    "verts": 262,
    "centre": [
     5.673,
@@ -1762,6 +1871,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 18260,
+   "tris_lod1": 8216,
+   "tris_lod2": 3286,
    "verts": 9132,
    "centre": [
     1.081,
@@ -1796,6 +1907,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 144,
+   "tris_lod1": 64,
+   "tris_lod2": 25,
    "verts": 109,
    "centre": [
     9.468,
@@ -1830,6 +1943,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 316,
+   "tris_lod1": 141,
+   "tris_lod2": 56,
    "verts": 232,
    "centre": [
     10.613,
@@ -1864,6 +1979,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 262,
+   "tris_lod1": 117,
+   "tris_lod2": 46,
    "verts": 140,
    "centre": [
     -0.021,
@@ -1897,6 +2014,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 244,
+   "tris_lod1": 109,
+   "tris_lod2": 42,
    "verts": 128,
    "centre": [
     0.004,
@@ -1930,6 +2049,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 262,
+   "tris_lod1": 117,
+   "tris_lod2": 46,
    "verts": 160,
    "centre": [
     0.432,
@@ -1960,6 +2081,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 430,
+   "tris_lod1": 193,
+   "tris_lod2": 75,
    "verts": 250,
    "centre": [
     0.524,
@@ -1993,6 +2116,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 494,
+   "tris_lod1": 221,
+   "tris_lod2": 88,
    "verts": 319,
    "centre": [
     -0.1,
@@ -2026,6 +2151,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 362,
+   "tris_lod1": 162,
+   "tris_lod2": 65,
    "verts": 214,
    "centre": [
     2.489,
@@ -2059,6 +2186,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 362,
+   "tris_lod1": 162,
+   "tris_lod2": 65,
    "verts": 214,
    "centre": [
     2.489,
@@ -2092,6 +2221,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 316,
+   "tris_lod1": 140,
+   "tris_lod2": 56,
    "verts": 180,
    "centre": [
     2.338,
@@ -2124,6 +2255,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1064,
+   "tris_lod1": 477,
+   "tris_lod2": 190,
    "verts": 587,
    "centre": [
     -1.945,
@@ -2158,6 +2291,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1722,
+   "tris_lod1": 774,
+   "tris_lod2": 307,
    "verts": 879,
    "centre": [
     -3.601,
@@ -2192,6 +2327,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2244,
+   "tris_lod1": 1008,
+   "tris_lod2": 401,
    "verts": 1193,
    "centre": [
     1.343,
@@ -2224,6 +2361,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1918,
+   "tris_lod1": 862,
+   "tris_lod2": 344,
    "verts": 973,
    "centre": [
     -2.086,
@@ -2255,6 +2394,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 238,
+   "tris_lod1": 106,
+   "tris_lod2": 42,
    "verts": 133,
    "centre": [
     -0.718,
@@ -2285,6 +2426,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 238,
+   "tris_lod1": 106,
+   "tris_lod2": 42,
    "verts": 133,
    "centre": [
     -0.718,
@@ -2315,6 +2458,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 1380,
+   "tris_lod1": 620,
+   "tris_lod2": 248,
    "verts": 692,
    "centre": [
     -4.559,
@@ -2346,6 +2491,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 396,
+   "tris_lod1": 178,
+   "tris_lod2": 71,
    "verts": 316,
    "centre": [
     -5.803,
@@ -2377,6 +2524,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 510,
+   "tris_lod1": 228,
+   "tris_lod2": 91,
    "verts": 395,
    "centre": [
     -7.015,
@@ -2408,6 +2557,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 308,
+   "tris_lod1": 137,
+   "tris_lod2": 55,
    "verts": 240,
    "centre": [
     -6.724,
@@ -2439,6 +2590,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 252,
+   "tris_lod1": 112,
+   "tris_lod2": 45,
    "verts": 232,
    "centre": [
     -7.586,
@@ -2470,6 +2623,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 172,
+   "tris_lod1": 76,
+   "tris_lod2": 29,
    "verts": 150,
    "centre": [
     -7.571,
@@ -2501,6 +2656,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 348,
+   "tris_lod1": 156,
+   "tris_lod2": 61,
    "verts": 184,
    "centre": [
     0.454,
@@ -2532,6 +2689,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 478,
+   "tris_lod1": 214,
+   "tris_lod2": 85,
    "verts": 269,
    "centre": [
     -4.367,
@@ -2564,6 +2723,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 306,
+   "tris_lod1": 136,
+   "tris_lod2": 54,
    "verts": 193,
    "centre": [
     -3.675,
@@ -2596,6 +2757,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 788,
+   "tris_lod1": 353,
+   "tris_lod2": 140,
    "verts": 398,
    "centre": [
     -13.822,
@@ -2628,6 +2791,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 812,
+   "tris_lod1": 364,
+   "tris_lod2": 146,
    "verts": 409,
    "centre": [
     13.554,
@@ -2661,6 +2826,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4562,
+   "tris_lod1": 2051,
+   "tris_lod2": 820,
    "verts": 2351,
    "centre": [
     -1.445,
@@ -2692,6 +2859,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2290,
+   "tris_lod1": 1029,
+   "tris_lod2": 410,
    "verts": 1229,
    "centre": [
     -1.862,
@@ -2724,6 +2893,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 492,
+   "tris_lod1": 220,
+   "tris_lod2": 87,
    "verts": 318,
    "centre": [
     -7.395,
@@ -2756,6 +2927,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 196,
+   "tris_lod1": 88,
+   "tris_lod2": 35,
    "verts": 158,
    "centre": [
     -7.303,
@@ -2788,6 +2961,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 766,
+   "tris_lod1": 344,
+   "tris_lod2": 137,
    "verts": 495,
    "centre": [
     -6.354,
@@ -2820,6 +2995,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 420,
+   "tris_lod1": 188,
+   "tris_lod2": 75,
    "verts": 282,
    "centre": [
     -6.128,
@@ -2852,6 +3029,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 160,
+   "tris_lod1": 71,
+   "tris_lod2": 27,
    "verts": 144,
    "centre": [
     -6.675,
@@ -2884,6 +3063,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 290,
+   "tris_lod1": 130,
+   "tris_lod2": 51,
    "verts": 246,
    "centre": [
     -7.483,
@@ -2916,6 +3097,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 150,
+   "tris_lod1": 66,
+   "tris_lod2": 26,
    "verts": 122,
    "centre": [
     -7.288,
@@ -2948,6 +3131,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 260,
+   "tris_lod1": 116,
+   "tris_lod2": 46,
    "verts": 218,
    "centre": [
     -7.076,
@@ -2980,6 +3165,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 964,
+   "tris_lod1": 432,
+   "tris_lod2": 173,
    "verts": 525,
    "centre": [
     -6.972,
@@ -3012,6 +3199,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 286,
+   "tris_lod1": 127,
+   "tris_lod2": 51,
    "verts": 203,
    "centre": [
     -7.669,
@@ -3044,6 +3233,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 786,
+   "tris_lod1": 353,
+   "tris_lod2": 140,
    "verts": 407,
    "centre": [
     11.933,
@@ -3078,6 +3269,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 732,
+   "tris_lod1": 329,
+   "tris_lod2": 130,
    "verts": 405,
    "centre": [
     -12.152,
@@ -3112,6 +3305,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 320,
+   "tris_lod1": 143,
+   "tris_lod2": 55,
    "verts": 169,
    "centre": [
     -26.984,
@@ -3144,6 +3339,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 312,
+   "tris_lod1": 139,
+   "tris_lod2": 56,
    "verts": 166,
    "centre": [
     26.929,
@@ -3177,6 +3374,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1010,
+   "tris_lod1": 453,
+   "tris_lod2": 179,
    "verts": 727,
    "centre": [
     0.872,
@@ -3207,6 +3406,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 478,
+   "tris_lod1": 214,
+   "tris_lod2": 85,
    "verts": 313,
    "centre": [
     -1.249,
@@ -3238,6 +3439,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 338,
+   "tris_lod1": 152,
+   "tris_lod2": 60,
    "verts": 243,
    "centre": [
     -2.417,
@@ -3269,6 +3472,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 252,
+   "tris_lod1": 112,
+   "tris_lod2": 44,
    "verts": 198,
    "centre": [
     -2.82,
@@ -3300,6 +3505,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 794,
+   "tris_lod1": 357,
+   "tris_lod2": 141,
    "verts": 482,
    "centre": [
     -4.977,
@@ -3331,6 +3538,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 218,
+   "tris_lod1": 97,
+   "tris_lod2": 38,
    "verts": 185,
    "centre": [
     -7.177,
@@ -3362,6 +3571,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 232,
+   "tris_lod1": 104,
+   "tris_lod2": 40,
    "verts": 188,
    "centre": [
     -7.028,
@@ -3393,6 +3604,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 340,
+   "tris_lod1": 151,
+   "tris_lod2": 61,
    "verts": 259,
    "centre": [
     -3.467,
@@ -3424,6 +3637,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 186,
+   "tris_lod1": 82,
+   "tris_lod2": 33,
    "verts": 139,
    "centre": [
     -4.241,
@@ -3455,6 +3670,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 380,
+   "tris_lod1": 170,
+   "tris_lod2": 67,
    "verts": 299,
    "centre": [
     -4.562,
@@ -3486,6 +3703,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 320,
+   "tris_lod1": 144,
+   "tris_lod2": 56,
    "verts": 233,
    "centre": [
     -5.99,
@@ -3517,6 +3736,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 256,
+   "tris_lod1": 115,
+   "tris_lod2": 46,
    "verts": 198,
    "centre": [
     -6.777,
@@ -3548,6 +3769,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 320,
+   "tris_lod1": 144,
+   "tris_lod2": 55,
    "verts": 244,
    "centre": [
     -6.29,
@@ -3579,6 +3802,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 108,
+   "tris_lod1": 48,
+   "tris_lod2": 18,
    "verts": 91,
    "centre": [
     -4.806,
@@ -3611,6 +3836,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 318,
+   "tris_lod1": 143,
+   "tris_lod2": 55,
    "verts": 224,
    "centre": [
     -4.943,
@@ -3643,6 +3870,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 826,
+   "tris_lod1": 370,
+   "tris_lod2": 146,
    "verts": 434,
    "centre": [
     -4.613,
@@ -3673,6 +3902,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4266,
+   "tris_lod1": 1918,
+   "tris_lod2": 766,
    "verts": 2135,
    "centre": [
     -1.325,
@@ -3707,6 +3938,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 358,
+   "tris_lod1": 160,
+   "tris_lod2": 64,
    "verts": 181,
    "centre": [
     1.552,
@@ -3738,6 +3971,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3582,
+   "tris_lod1": 1610,
+   "tris_lod2": 642,
    "verts": 1793,
    "centre": [
     1.327,
@@ -3768,6 +4003,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 186,
+   "tris_lod1": 83,
+   "tris_lod2": 33,
    "verts": 134,
    "centre": [
     4.057,
@@ -3799,6 +4036,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 114,
+   "tris_lod1": 51,
+   "tris_lod2": 20,
    "verts": 94,
    "centre": [
     3.93,
@@ -3832,6 +4071,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 244,
+   "tris_lod1": 109,
+   "tris_lod2": 43,
    "verts": 136,
    "centre": [
     1.596,
@@ -3863,6 +4104,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 108,
+   "tris_lod1": 48,
+   "tris_lod2": 19,
    "verts": 89,
    "centre": [
     4.089,
@@ -3897,6 +4140,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 180,
+   "tris_lod1": 80,
+   "tris_lod2": 32,
    "verts": 130,
    "centre": [
     4.715,
@@ -3931,6 +4176,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 2112,
+   "tris_lod1": 949,
+   "tris_lod2": 380,
    "verts": 1111,
    "centre": [
     -8.339,
@@ -3965,6 +4212,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 486,
+   "tris_lod1": 217,
+   "tris_lod2": 86,
    "verts": 306,
    "centre": [
     -9.723,
@@ -3999,6 +4248,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 278,
+   "tris_lod1": 125,
+   "tris_lod2": 49,
    "verts": 161,
    "centre": [
     -8.415,
@@ -4033,6 +4284,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 136,
+   "tris_lod1": 60,
+   "tris_lod2": 24,
    "verts": 115,
    "centre": [
     -9.23,
@@ -4067,6 +4320,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 546,
+   "tris_lod1": 244,
+   "tris_lod2": 98,
    "verts": 299,
    "centre": [
     -1.093,
@@ -4097,6 +4352,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 260,
+   "tris_lod1": 115,
+   "tris_lod2": 45,
    "verts": 154,
    "centre": [
     0.785,
@@ -4128,6 +4385,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 486,
+   "tris_lod1": 218,
+   "tris_lod2": 87,
    "verts": 258,
    "centre": [
     3.372,
@@ -4162,6 +4421,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 106,
+   "tris_lod1": 46,
+   "tris_lod2": 18,
    "verts": 75,
    "centre": [
     4.856,
@@ -4196,6 +4457,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 254,
+   "tris_lod1": 114,
+   "tris_lod2": 44,
    "verts": 158,
    "centre": [
     3.642,
@@ -4230,6 +4493,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1042,
+   "tris_lod1": 467,
+   "tris_lod2": 186,
    "verts": 651,
    "centre": [
     -2.283,
@@ -4260,6 +4525,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 798,
+   "tris_lod1": 358,
+   "tris_lod2": 143,
    "verts": 654,
    "centre": [
     -8.811,
@@ -4290,6 +4557,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 500,
+   "tris_lod1": 224,
+   "tris_lod2": 89,
    "verts": 478,
    "centre": [
     -8.572,
@@ -4320,6 +4589,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 328,
+   "tris_lod1": 147,
+   "tris_lod2": 59,
    "verts": 297,
    "centre": [
     -1.85,
@@ -4350,6 +4621,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 592,
+   "tris_lod1": 266,
+   "tris_lod2": 106,
    "verts": 624,
    "centre": [
     -11.2,
@@ -4380,6 +4653,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 992,
+   "tris_lod1": 445,
+   "tris_lod2": 178,
    "verts": 510,
    "centre": [
     -10.848,
@@ -4410,6 +4685,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1410,
+   "tris_lod1": 633,
+   "tris_lod2": 251,
    "verts": 793,
    "centre": [
     1.424,
@@ -4440,6 +4717,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1670,
+   "tris_lod1": 750,
+   "tris_lod2": 298,
    "verts": 968,
    "centre": [
     0.998,
@@ -4470,6 +4749,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 558,
+   "tris_lod1": 249,
+   "tris_lod2": 100,
    "verts": 524,
    "centre": [
     -1.474,
@@ -4504,6 +4785,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 414,
+   "tris_lod1": 186,
+   "tris_lod2": 74,
    "verts": 241,
    "centre": [
     7.472,
@@ -4538,6 +4821,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 190,
+   "tris_lod1": 85,
+   "tris_lod2": 33,
    "verts": 111,
    "centre": [
     10.127,
@@ -4572,6 +4857,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 416,
+   "tris_lod1": 187,
+   "tris_lod2": 73,
    "verts": 237,
    "centre": [
     7.582,
@@ -4606,6 +4893,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1456,
+   "tris_lod1": 654,
+   "tris_lod2": 262,
    "verts": 730,
    "centre": [
     8.236,
@@ -4640,6 +4929,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 310,
+   "tris_lod1": 139,
+   "tris_lod2": 55,
    "verts": 222,
    "centre": [
     8.448,
@@ -4674,6 +4965,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 558,
+   "tris_lod1": 250,
+   "tris_lod2": 99,
    "verts": 515,
    "centre": [
     1.333,
@@ -4708,6 +5001,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 630,
+   "tris_lod1": 282,
+   "tris_lod2": 113,
    "verts": 366,
    "centre": [
     5.232,
@@ -4742,6 +5037,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 172,
+   "tris_lod1": 76,
+   "tris_lod2": 29,
    "verts": 143,
    "centre": [
     6.619,
@@ -4776,6 +5073,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 56,
+   "tris_lod1": 24,
+   "tris_lod2": 11,
    "verts": 60,
    "centre": [
     7.649,
@@ -4810,6 +5109,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2284,
+   "tris_lod1": 1026,
+   "tris_lod2": 410,
    "verts": 1161,
    "centre": [
     -2.529,
@@ -4844,6 +5145,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 618,
+   "tris_lod1": 278,
+   "tris_lod2": 111,
    "verts": 364,
    "centre": [
     -2.867,
@@ -4878,6 +5181,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 780,
+   "tris_lod1": 350,
+   "tris_lod2": 140,
    "verts": 487,
    "centre": [
     -6.18,
@@ -4912,6 +5217,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2364,
+   "tris_lod1": 1062,
+   "tris_lod2": 424,
    "verts": 1217,
    "centre": [
     -3.189,
@@ -4946,6 +5253,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 598,
+   "tris_lod1": 269,
+   "tris_lod2": 107,
    "verts": 341,
    "centre": [
     -3.259,
@@ -4980,6 +5289,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 658,
+   "tris_lod1": 294,
+   "tris_lod2": 117,
    "verts": 460,
    "centre": [
     -3.906,
@@ -5014,6 +5325,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1506,
+   "tris_lod1": 677,
+   "tris_lod2": 271,
    "verts": 841,
    "centre": [
     6.326,
@@ -5048,6 +5361,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 642,
+   "tris_lod1": 287,
+   "tris_lod2": 113,
    "verts": 376,
    "centre": [
     6.396,
@@ -5082,6 +5397,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 2400,
+   "tris_lod1": 1080,
+   "tris_lod2": 430,
    "verts": 1292,
    "centre": [
     -9.221,
@@ -5116,6 +5433,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 138,
+   "tris_lod1": 61,
+   "tris_lod2": 24,
    "verts": 102,
    "centre": [
     -11.899,
@@ -5150,6 +5469,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 104,
+   "tris_lod1": 45,
+   "tris_lod2": 19,
    "verts": 88,
    "centre": [
     -11.784,
@@ -5184,6 +5505,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 590,
+   "tris_lod1": 264,
+   "tris_lod2": 105,
    "verts": 312,
    "centre": [
     -8.962,
@@ -5216,6 +5539,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 136,
+   "tris_lod1": 59,
+   "tris_lod2": 23,
    "verts": 93,
    "centre": [
     -10.799,
@@ -5248,6 +5573,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 504,
+   "tris_lod1": 224,
+   "tris_lod2": 90,
    "verts": 274,
    "centre": [
     -9.323,
@@ -5280,6 +5607,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 162,
+   "tris_lod1": 72,
+   "tris_lod2": 29,
    "verts": 101,
    "centre": [
     -9.197,
@@ -5312,6 +5641,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 400,
+   "tris_lod1": 179,
+   "tris_lod2": 71,
    "verts": 213,
    "centre": [
     -0.807,
@@ -5344,6 +5675,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 418,
+   "tris_lod1": 188,
+   "tris_lod2": 74,
    "verts": 343,
    "centre": [
     -2.839,
@@ -5376,6 +5709,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3272,
+   "tris_lod1": 1472,
+   "tris_lod2": 588,
    "verts": 1669,
    "centre": [
     -17.013,
@@ -5407,6 +5742,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1272,
+   "tris_lod1": 571,
+   "tris_lod2": 227,
    "verts": 708,
    "centre": [
     -3.294,
@@ -5441,6 +5778,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1966,
+   "tris_lod1": 884,
+   "tris_lod2": 352,
    "verts": 991,
    "centre": [
     -23.13,
@@ -5474,6 +5813,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 692,
+   "tris_lod1": 309,
+   "tris_lod2": 123,
    "verts": 400,
    "centre": [
     -7.033,
@@ -5508,6 +5849,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 210,
+   "tris_lod1": 92,
+   "tris_lod2": 36,
    "verts": 127,
    "centre": [
     -8.718,
@@ -5542,6 +5885,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 280,
+   "tris_lod1": 125,
+   "tris_lod2": 50,
    "verts": 147,
    "centre": [
     -8.164,
@@ -5576,6 +5921,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1006,
+   "tris_lod1": 450,
+   "tris_lod2": 181,
    "verts": 543,
    "centre": [
     -5.504,
@@ -5610,6 +5957,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 150,
+   "tris_lod1": 67,
+   "tris_lod2": 26,
    "verts": 131,
    "centre": [
     -4.943,
@@ -5644,6 +5993,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 786,
+   "tris_lod1": 353,
+   "tris_lod2": 140,
    "verts": 435,
    "centre": [
     -5.153,
@@ -5678,6 +6029,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 120,
+   "tris_lod1": 53,
+   "tris_lod2": 25,
    "verts": 101,
    "centre": [
     -5.309,
@@ -5712,6 +6065,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 210,
+   "tris_lod1": 92,
+   "tris_lod2": 37,
    "verts": 146,
    "centre": [
     -6.182,
@@ -5746,6 +6101,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 468,
+   "tris_lod1": 208,
+   "tris_lod2": 84,
    "verts": 239,
    "centre": [
     -6.687,
@@ -5780,6 +6137,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 242,
+   "tris_lod1": 108,
+   "tris_lod2": 42,
    "verts": 150,
    "centre": [
     -7.862,
@@ -5814,6 +6173,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 128,
+   "tris_lod1": 56,
+   "tris_lod2": 23,
    "verts": 88,
    "centre": [
     -8.258,
@@ -5848,6 +6209,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 17412,
+   "tris_lod1": 7834,
+   "tris_lod2": 3134,
    "verts": 8708,
    "centre": [
     -8.93,
@@ -5880,6 +6243,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 466,
+   "tris_lod1": 208,
+   "tris_lod2": 90,
    "verts": 236,
    "centre": [
     -20.555,
@@ -5912,6 +6277,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 418,
+   "tris_lod1": 187,
+   "tris_lod2": 74,
    "verts": 220,
    "centre": [
     -4.086,
@@ -5946,6 +6313,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 174,
+   "tris_lod1": 78,
+   "tris_lod2": 30,
    "verts": 121,
    "centre": [
     -4.891,
@@ -5980,6 +6349,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 196,
+   "tris_lod1": 87,
+   "tris_lod2": 34,
    "verts": 133,
    "centre": [
     -3.139,
@@ -6014,6 +6385,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 188,
+   "tris_lod1": 84,
+   "tris_lod2": 32,
    "verts": 123,
    "centre": [
     -5.304,
@@ -6048,6 +6421,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 448,
+   "tris_lod1": 201,
+   "tris_lod2": 80,
    "verts": 228,
    "centre": [
     -4.303,
@@ -6082,6 +6457,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 174,
+   "tris_lod1": 78,
+   "tris_lod2": 30,
    "verts": 90,
    "centre": [
     -3.419,
@@ -6116,6 +6493,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 314,
+   "tris_lod1": 140,
+   "tris_lod2": 54,
    "verts": 186,
    "centre": [
     -5.317,
@@ -6150,6 +6529,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 188,
+   "tris_lod1": 83,
+   "tris_lod2": 32,
    "verts": 103,
    "centre": [
     -4.293,
@@ -6184,6 +6565,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 200,
+   "tris_lod1": 89,
+   "tris_lod2": 34,
    "verts": 117,
    "centre": [
     -5.07,
@@ -6218,6 +6601,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 114,
+   "tris_lod1": 51,
+   "tris_lod2": 20,
    "verts": 76,
    "centre": [
     -6.335,
@@ -6252,6 +6637,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 174,
+   "tris_lod1": 77,
+   "tris_lod2": 30,
    "verts": 104,
    "centre": [
     -5.667,
@@ -6286,6 +6673,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 642,
+   "tris_lod1": 288,
+   "tris_lod2": 114,
    "verts": 324,
    "centre": [
     -10.635,
@@ -6320,6 +6709,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 18338,
+   "tris_lod1": 8251,
+   "tris_lod2": 3300,
    "verts": 9177,
    "centre": [
     -18.152,
@@ -6351,6 +6742,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3470,
+   "tris_lod1": 1560,
+   "tris_lod2": 624,
    "verts": 1737,
    "centre": [
     -17.493,
@@ -6382,6 +6775,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 748,
+   "tris_lod1": 336,
+   "tris_lod2": 134,
    "verts": 377,
    "centre": [
     -0.284,
@@ -6412,6 +6807,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 22874,
+   "tris_lod1": 10292,
+   "tris_lod2": 4117,
    "verts": 11505,
    "centre": [
     -20.163,
@@ -6443,6 +6840,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 762,
+   "tris_lod1": 341,
+   "tris_lod2": 136,
    "verts": 389,
    "centre": [
     -14.007,
@@ -6475,6 +6874,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 182,
+   "tris_lod1": 81,
+   "tris_lod2": 31,
    "verts": 131,
    "centre": [
     -2.235,
@@ -6506,6 +6907,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 170,
+   "tris_lod1": 75,
+   "tris_lod2": 29,
    "verts": 126,
    "centre": [
     -1.782,
@@ -6536,6 +6939,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 248,
+   "tris_lod1": 110,
+   "tris_lod2": 44,
    "verts": 128,
    "centre": [
     -1.85,
@@ -6566,6 +6971,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 430,
+   "tris_lod1": 192,
+   "tris_lod2": 75,
    "verts": 244,
    "centre": [
     -0.222,
@@ -6596,6 +7003,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 436,
+   "tris_lod1": 196,
+   "tris_lod2": 78,
    "verts": 220,
    "centre": [
     -21.805,
@@ -6628,6 +7037,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2506,
+   "tris_lod1": 1126,
+   "tris_lod2": 450,
    "verts": 1255,
    "centre": [
     -18.744,
@@ -6659,6 +7070,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1100,
+   "tris_lod1": 493,
+   "tris_lod2": 196,
    "verts": 586,
    "centre": [
     -4.014,
@@ -6691,6 +7104,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 6530,
+   "tris_lod1": 2938,
+   "tris_lod2": 1175,
    "verts": 3293,
    "centre": [
     -4.74,
@@ -6725,6 +7140,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 724,
+   "tris_lod1": 323,
+   "tris_lod2": 129,
    "verts": 379,
    "centre": [
     -24.383,
@@ -6757,6 +7174,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4532,
+   "tris_lod1": 2039,
+   "tris_lod2": 815,
    "verts": 2335,
    "centre": [
     -7.589,
@@ -6790,6 +7209,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1148,
+   "tris_lod1": 516,
+   "tris_lod2": 204,
    "verts": 576,
    "centre": [
     -7.993,
@@ -6823,6 +7244,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 462,
+   "tris_lod1": 206,
+   "tris_lod2": 82,
    "verts": 236,
    "centre": [
     -4.863,
@@ -6854,6 +7277,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 670,
+   "tris_lod1": 300,
+   "tris_lod2": 119,
    "verts": 376,
    "centre": [
     -3.857,
@@ -6884,6 +7309,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 168,
+   "tris_lod1": 75,
+   "tris_lod2": 29,
    "verts": 100,
    "centre": [
     -1.339,
@@ -6914,6 +7341,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 186,
+   "tris_lod1": 82,
+   "tris_lod2": 33,
    "verts": 100,
    "centre": [
     -1.517,
@@ -6944,6 +7373,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 112,
+   "tris_lod1": 49,
+   "tris_lod2": 20,
    "verts": 88,
    "centre": [
     -1.653,
@@ -6974,6 +7405,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 740,
+   "tris_lod1": 332,
+   "tris_lod2": 132,
    "verts": 373,
    "centre": [
     -5.06,
@@ -7006,6 +7439,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1100,
+   "tris_lod1": 494,
+   "tris_lod2": 197,
    "verts": 578,
    "centre": [
     -1.853,
@@ -7037,6 +7472,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1386,
+   "tris_lod1": 622,
+   "tris_lod2": 248,
    "verts": 803,
    "centre": [
     -2.845,
@@ -7069,6 +7506,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 6824,
+   "tris_lod1": 3070,
+   "tris_lod2": 1228,
    "verts": 3414,
    "centre": [
     -3.54,
@@ -7101,6 +7540,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 742,
+   "tris_lod1": 332,
+   "tris_lod2": 132,
    "verts": 594,
    "centre": [
     -2.378,
@@ -7131,6 +7572,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 772,
+   "tris_lod1": 347,
+   "tris_lod2": 136,
    "verts": 603,
    "centre": [
     -9.32,
@@ -7161,6 +7604,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 334,
+   "tris_lod1": 150,
+   "tris_lod2": 58,
    "verts": 305,
    "centre": [
     -6.995,
@@ -7191,6 +7636,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 384,
+   "tris_lod1": 172,
+   "tris_lod2": 69,
    "verts": 338,
    "centre": [
     -10.688,
@@ -7221,6 +7668,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 556,
+   "tris_lod1": 249,
+   "tris_lod2": 99,
    "verts": 496,
    "centre": [
     -7.187,
@@ -7251,6 +7700,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 266,
+   "tris_lod1": 119,
+   "tris_lod2": 46,
    "verts": 233,
    "centre": [
     -11.581,
@@ -7281,6 +7732,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 188,
+   "tris_lod1": 83,
+   "tris_lod2": 32,
    "verts": 190,
    "centre": [
     -6.27,
@@ -7311,6 +7764,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 310,
+   "tris_lod1": 138,
+   "tris_lod2": 54,
    "verts": 157,
    "centre": [
     -5.019,
@@ -7340,6 +7795,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 326,
+   "tris_lod1": 146,
+   "tris_lod2": 56,
    "verts": 165,
    "centre": [
     -5.21,
@@ -7369,6 +7826,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 556,
+   "tris_lod1": 250,
+   "tris_lod2": 100,
    "verts": 280,
    "centre": [
     -5.259,
@@ -7398,6 +7857,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 954,
+   "tris_lod1": 429,
+   "tris_lod2": 170,
    "verts": 810,
    "centre": [
     -4.746,
@@ -7429,6 +7890,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 480,
+   "tris_lod1": 215,
+   "tris_lod2": 85,
    "verts": 302,
    "centre": [
     -3.642,
@@ -7461,6 +7924,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1176,
+   "tris_lod1": 529,
+   "tris_lod2": 211,
    "verts": 591,
    "centre": [
     -19.223,
@@ -7492,6 +7957,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1272,
+   "tris_lod1": 571,
+   "tris_lod2": 226,
    "verts": 650,
    "centre": [
     -1.93,
@@ -7523,6 +7990,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 270,
+   "tris_lod1": 121,
+   "tris_lod2": 47,
    "verts": 194,
    "centre": [
     -2.911,
@@ -7554,6 +8023,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 208,
+   "tris_lod1": 92,
+   "tris_lod2": 36,
    "verts": 134,
    "centre": [
     -1.966,
@@ -7584,6 +8055,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 176,
+   "tris_lod1": 78,
+   "tris_lod2": 31,
    "verts": 121,
    "centre": [
     -2.056,
@@ -7614,6 +8087,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 180,
+   "tris_lod1": 79,
+   "tris_lod2": 32,
    "verts": 144,
    "centre": [
     -1.965,
@@ -7644,6 +8119,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3642,
+   "tris_lod1": 1638,
+   "tris_lod2": 654,
    "verts": 1823,
    "centre": [
     -2.319,
@@ -7675,6 +8152,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 62,
+   "tris_lod1": 27,
+   "tris_lod2": 12,
    "verts": 66,
    "centre": [
     -10.624,
@@ -7708,6 +8187,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1710,
+   "tris_lod1": 769,
+   "tris_lod2": 306,
    "verts": 861,
    "centre": [
     -9.288,
@@ -7741,6 +8222,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 670,
+   "tris_lod1": 300,
+   "tris_lod2": 119,
    "verts": 397,
    "centre": [
     -10.225,
@@ -7774,6 +8257,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 236,
+   "tris_lod1": 105,
+   "tris_lod2": 40,
    "verts": 151,
    "centre": [
     -11.577,
@@ -7807,6 +8292,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 678,
+   "tris_lod1": 305,
+   "tris_lod2": 120,
    "verts": 355,
    "centre": [
     -8.603,
@@ -7841,6 +8328,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 144,
+   "tris_lod1": 63,
+   "tris_lod2": 25,
    "verts": 82,
    "centre": [
     -10.669,
@@ -7875,6 +8364,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 168,
+   "tris_lod1": 74,
+   "tris_lod2": 30,
    "verts": 114,
    "centre": [
     -9.657,
@@ -7909,6 +8400,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 110,
+   "tris_lod1": 49,
+   "tris_lod2": 18,
    "verts": 92,
    "centre": [
     -10.551,
@@ -7943,6 +8436,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1102,
+   "tris_lod1": 494,
+   "tris_lod2": 196,
    "verts": 577,
    "centre": [
     -9.566,
@@ -7977,6 +8472,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2204,
+   "tris_lod1": 989,
+   "tris_lod2": 395,
    "verts": 1202,
    "centre": [
     -0.623,
@@ -8011,6 +8508,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 900,
+   "tris_lod1": 403,
+   "tris_lod2": 160,
    "verts": 453,
    "centre": [
     -9.385,
@@ -8044,6 +8543,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1608,
+   "tris_lod1": 722,
+   "tris_lod2": 288,
    "verts": 806,
    "centre": [
     -9.723,
@@ -8078,6 +8579,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2350,
+   "tris_lod1": 1057,
+   "tris_lod2": 422,
    "verts": 1216,
    "centre": [
     -12.146,
@@ -8109,6 +8612,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 960,
+   "tris_lod1": 430,
+   "tris_lod2": 171,
    "verts": 547,
    "centre": [
     -6.559,
@@ -8139,6 +8644,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 280,
+   "tris_lod1": 125,
+   "tris_lod2": 50,
    "verts": 195,
    "centre": [
     -7.563,
@@ -8169,6 +8676,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 238,
+   "tris_lod1": 106,
+   "tris_lod2": 41,
    "verts": 185,
    "centre": [
     -5.971,
@@ -8199,6 +8708,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1274,
+   "tris_lod1": 573,
+   "tris_lod2": 229,
    "verts": 698,
    "centre": [
     -9.923,
@@ -8233,6 +8744,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 462,
+   "tris_lod1": 207,
+   "tris_lod2": 81,
    "verts": 276,
    "centre": [
     -10.16,
@@ -8267,6 +8780,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2588,
+   "tris_lod1": 1164,
+   "tris_lod2": 465,
    "verts": 1713,
    "centre": [
     -0.781,
@@ -8301,6 +8816,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 764,
+   "tris_lod1": 343,
+   "tris_lod2": 136,
    "verts": 410,
    "centre": [
     -7.184,
@@ -8334,6 +8851,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 552,
+   "tris_lod1": 247,
+   "tris_lod2": 99,
    "verts": 540,
    "centre": [
     -4.14,
@@ -8364,6 +8883,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2564,
+   "tris_lod1": 1152,
+   "tris_lod2": 460,
    "verts": 1284,
    "centre": [
     -6.828,
@@ -8396,6 +8917,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2410,
+   "tris_lod1": 1084,
+   "tris_lod2": 432,
    "verts": 1207,
    "centre": [
     -1.264,
@@ -8428,6 +8951,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 16732,
+   "tris_lod1": 7528,
+   "tris_lod2": 3010,
    "verts": 8368,
    "centre": [
     -7.72,
@@ -8460,6 +8985,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1354,
+   "tris_lod1": 609,
+   "tris_lod2": 243,
    "verts": 786,
    "centre": [
     -1.457,
@@ -8492,6 +9019,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 6706,
+   "tris_lod1": 3016,
+   "tris_lod2": 1207,
    "verts": 4965,
    "centre": [
     2.045,
@@ -8524,6 +9053,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1748,
+   "tris_lod1": 784,
+   "tris_lod2": 314,
    "verts": 878,
    "centre": [
     -7.378,
@@ -8557,6 +9088,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 150,
+   "tris_lod1": 67,
+   "tris_lod2": 26,
    "verts": 115,
    "centre": [
     -7.865,
@@ -8590,6 +9123,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 618,
+   "tris_lod1": 277,
+   "tris_lod2": 110,
    "verts": 354,
    "centre": [
     -7.03,
@@ -8623,6 +9158,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 92,
+   "tris_lod1": 41,
+   "tris_lod2": 15,
    "verts": 79,
    "centre": [
     -5.329,
@@ -8656,6 +9193,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 560,
+   "tris_lod1": 250,
+   "tris_lod2": 99,
    "verts": 330,
    "centre": [
     -6.898,
@@ -8689,6 +9228,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 262,
+   "tris_lod1": 117,
+   "tris_lod2": 46,
    "verts": 164,
    "centre": [
     -6.135,
@@ -8722,6 +9263,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 376,
+   "tris_lod1": 168,
+   "tris_lod2": 66,
    "verts": 209,
    "centre": [
     -5.666,
@@ -8754,6 +9297,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 200,
+   "tris_lod1": 88,
+   "tris_lod2": 34,
    "verts": 117,
    "centre": [
     -5.761,
@@ -8786,6 +9331,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 104,
+   "tris_lod1": 45,
+   "tris_lod2": 18,
    "verts": 83,
    "centre": [
     -6.332,
@@ -8818,6 +9365,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 190,
+   "tris_lod1": 85,
+   "tris_lod2": 34,
    "verts": 119,
    "centre": [
     -6.41,
@@ -8850,6 +9399,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 974,
+   "tris_lod1": 438,
+   "tris_lod2": 174,
    "verts": 489,
    "centre": [
     -16.441,
@@ -8881,6 +9432,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 688,
+   "tris_lod1": 308,
+   "tris_lod2": 122,
    "verts": 367,
    "centre": [
     -17.014,
@@ -8912,6 +9465,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 204,
+   "tris_lod1": 91,
+   "tris_lod2": 36,
    "verts": 122,
    "centre": [
     -1.008,
@@ -8945,6 +9500,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 914,
+   "tris_lod1": 411,
+   "tris_lod2": 162,
    "verts": 526,
    "centre": [
     -2.66,
@@ -8979,6 +9536,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 326,
+   "tris_lod1": 146,
+   "tris_lod2": 57,
    "verts": 274,
    "centre": [
     -1.786,
@@ -9011,6 +9570,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 306,
+   "tris_lod1": 137,
+   "tris_lod2": 54,
    "verts": 428,
    "centre": [
     -2.196,
@@ -9043,6 +9604,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 240,
+   "tris_lod1": 107,
+   "tris_lod2": 43,
    "verts": 356,
    "centre": [
     -1.412,
@@ -9075,6 +9638,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 224,
+   "tris_lod1": 100,
+   "tris_lod2": 40,
    "verts": 344,
    "centre": [
     -1.183,
@@ -9107,6 +9672,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 286,
+   "tris_lod1": 127,
+   "tris_lod2": 50,
    "verts": 258,
    "centre": [
     -2.983,
@@ -9139,6 +9706,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 322,
+   "tris_lod1": 143,
+   "tris_lod2": 57,
    "verts": 280,
    "centre": [
     -3.117,
@@ -9171,6 +9740,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 292,
+   "tris_lod1": 130,
+   "tris_lod2": 52,
    "verts": 284,
    "centre": [
     -4.667,
@@ -9203,6 +9774,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 84,
+   "tris_lod1": 37,
+   "tris_lod2": 15,
    "verts": 122,
    "centre": [
     -1.414,
@@ -9235,6 +9808,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 86,
+   "tris_lod1": 38,
+   "tris_lod2": 14,
    "verts": 136,
    "centre": [
     -3.028,
@@ -9267,6 +9842,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 176,
+   "tris_lod1": 78,
+   "tris_lod2": 31,
    "verts": 238,
    "centre": [
     -4.977,
@@ -9299,6 +9876,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 166,
+   "tris_lod1": 74,
+   "tris_lod2": 28,
    "verts": 210,
    "centre": [
     -5.038,
@@ -9331,6 +9910,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 736,
+   "tris_lod1": 331,
+   "tris_lod2": 132,
    "verts": 817,
    "centre": [
     -1.445,
@@ -9363,6 +9944,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 796,
+   "tris_lod1": 358,
+   "tris_lod2": 142,
    "verts": 673,
    "centre": [
     -3.338,
@@ -9395,6 +9978,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 880,
+   "tris_lod1": 395,
+   "tris_lod2": 157,
    "verts": 557,
    "centre": [
     -0.55,
@@ -9429,6 +10014,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 318,
+   "tris_lod1": 143,
+   "tris_lod2": 55,
    "verts": 184,
    "centre": [
     -6.208,
@@ -9463,6 +10050,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 150,
+   "tris_lod1": 67,
+   "tris_lod2": 26,
    "verts": 118,
    "centre": [
     -7.529,
@@ -9497,6 +10086,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 198,
+   "tris_lod1": 88,
+   "tris_lod2": 35,
    "verts": 125,
    "centre": [
     -7.349,
@@ -9531,6 +10122,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 250,
+   "tris_lod1": 111,
+   "tris_lod2": 44,
    "verts": 144,
    "centre": [
     -6.19,
@@ -9565,6 +10158,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 332,
+   "tris_lod1": 148,
+   "tris_lod2": 58,
    "verts": 178,
    "centre": [
     -4.714,
@@ -9599,6 +10194,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 334,
+   "tris_lod1": 149,
+   "tris_lod2": 58,
    "verts": 216,
    "centre": [
     -6.718,
@@ -9633,6 +10230,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 150,
+   "tris_lod1": 67,
+   "tris_lod2": 26,
    "verts": 98,
    "centre": [
     -8.321,
@@ -9667,6 +10266,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 522,
+   "tris_lod1": 233,
+   "tris_lod2": 91,
    "verts": 293,
    "centre": [
     -5.766,
@@ -9701,6 +10302,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 112,
+   "tris_lod1": 50,
+   "tris_lod2": 20,
    "verts": 90,
    "centre": [
     -7.432,
@@ -9735,6 +10338,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 190,
+   "tris_lod1": 85,
+   "tris_lod2": 34,
    "verts": 106,
    "centre": [
     -6.76,
@@ -9769,6 +10374,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 168,
+   "tris_lod1": 75,
+   "tris_lod2": 30,
    "verts": 105,
    "centre": [
     -6.595,
@@ -9803,6 +10410,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 176,
+   "tris_lod1": 79,
+   "tris_lod2": 31,
    "verts": 109,
    "centre": [
     -7.49,
@@ -9837,6 +10446,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 142,
+   "tris_lod1": 63,
+   "tris_lod2": 25,
    "verts": 100,
    "centre": [
     -7.493,
@@ -9871,6 +10482,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 13218,
+   "tris_lod1": 5947,
+   "tris_lod2": 2379,
    "verts": 6658,
    "centre": [
     -6.42,
@@ -9903,6 +10516,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 378,
+   "tris_lod1": 170,
+   "tris_lod2": 67,
    "verts": 216,
    "centre": [
     -19.129,
@@ -9935,6 +10550,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 5450,
+   "tris_lod1": 2452,
+   "tris_lod2": 980,
    "verts": 2727,
    "centre": [
     -4.168,
@@ -9965,6 +10582,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 7764,
+   "tris_lod1": 3492,
+   "tris_lod2": 1396,
    "verts": 3884,
    "centre": [
     -25.825,
@@ -9996,6 +10615,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2606,
+   "tris_lod1": 1172,
+   "tris_lod2": 468,
    "verts": 1305,
    "centre": [
     -23.662,
@@ -10028,6 +10649,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 288,
+   "tris_lod1": 129,
+   "tris_lod2": 50,
    "verts": 166,
    "centre": [
     -2.148,
@@ -10058,6 +10681,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 262,
+   "tris_lod1": 117,
+   "tris_lod2": 47,
    "verts": 144,
    "centre": [
     -0.958,
@@ -10092,6 +10717,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1276,
+   "tris_lod1": 574,
+   "tris_lod2": 228,
    "verts": 649,
    "centre": [
     -0.452,
@@ -10126,6 +10753,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 646,
+   "tris_lod1": 290,
+   "tris_lod2": 114,
    "verts": 362,
    "centre": [
     -4.797,
@@ -10156,6 +10785,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1334,
+   "tris_lod1": 599,
+   "tris_lod2": 240,
    "verts": 706,
    "centre": [
     -4.551,
@@ -10186,6 +10817,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 790,
+   "tris_lod1": 353,
+   "tris_lod2": 140,
    "verts": 417,
    "centre": [
     -13.645,
@@ -10217,6 +10850,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 646,
+   "tris_lod1": 290,
+   "tris_lod2": 114,
    "verts": 426,
    "centre": [
     -5.394,
@@ -10250,6 +10885,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2622,
+   "tris_lod1": 1177,
+   "tris_lod2": 471,
    "verts": 1391,
    "centre": [
     -5.135,
@@ -10283,6 +10920,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 948,
+   "tris_lod1": 424,
+   "tris_lod2": 170,
    "verts": 476,
    "centre": [
     -7.539,
@@ -10317,6 +10956,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 406,
+   "tris_lod1": 182,
+   "tris_lod2": 72,
    "verts": 226,
    "centre": [
     -1.302,
@@ -10351,6 +10992,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2270,
+   "tris_lod1": 1020,
+   "tris_lod2": 407,
    "verts": 1167,
    "centre": [
     -1.205,
@@ -10383,6 +11026,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 206,
+   "tris_lod1": 92,
+   "tris_lod2": 36,
    "verts": 106,
    "centre": [
     -4.939,
@@ -10415,6 +11060,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 786,
+   "tris_lod1": 352,
+   "tris_lod2": 140,
    "verts": 396,
    "centre": [
     -2.934,
@@ -10449,6 +11096,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 414,
+   "tris_lod1": 186,
+   "tris_lod2": 74,
    "verts": 209,
    "centre": [
     -4.652,
@@ -10478,6 +11127,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 472,
+   "tris_lod1": 211,
+   "tris_lod2": 82,
    "verts": 239,
    "centre": [
     -5.51,
@@ -10507,6 +11158,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 590,
+   "tris_lod1": 265,
+   "tris_lod2": 105,
    "verts": 332,
    "centre": [
     -5.029,
@@ -10539,6 +11192,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 94,
+   "tris_lod1": 41,
+   "tris_lod2": 16,
    "verts": 85,
    "centre": [
     -5.081,
@@ -10571,6 +11226,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 114,
+   "tris_lod1": 51,
+   "tris_lod2": 19,
    "verts": 91,
    "centre": [
     -6.199,
@@ -10603,6 +11260,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 418,
+   "tris_lod1": 188,
+   "tris_lod2": 75,
    "verts": 224,
    "centre": [
     -4.831,
@@ -10635,6 +11294,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 126,
+   "tris_lod1": 55,
+   "tris_lod2": 21,
    "verts": 87,
    "centre": [
     -4.67,
@@ -10667,6 +11328,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 416,
+   "tris_lod1": 186,
+   "tris_lod2": 73,
    "verts": 242,
    "centre": [
     -6.489,
@@ -10699,6 +11362,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 136,
+   "tris_lod1": 59,
+   "tris_lod2": 23,
    "verts": 96,
    "centre": [
     -7.967,
@@ -10731,6 +11396,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1476,
+   "tris_lod1": 664,
+   "tris_lod2": 264,
    "verts": 740,
    "centre": [
     -18.539,
@@ -10762,6 +11429,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 674,
+   "tris_lod1": 301,
+   "tris_lod2": 121,
    "verts": 476,
    "centre": [
     -3.566,
@@ -10792,6 +11461,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1928,
+   "tris_lod1": 865,
+   "tris_lod2": 347,
    "verts": 1062,
    "centre": [
     -10.672,
@@ -10824,6 +11495,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 12420,
+   "tris_lod1": 5587,
+   "tris_lod2": 2235,
    "verts": 6233,
    "centre": [
     -3.918,
@@ -10854,6 +11527,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 14488,
+   "tris_lod1": 6519,
+   "tris_lod2": 2606,
    "verts": 7286,
    "centre": [
     -4.192,
@@ -10884,6 +11559,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 778,
+   "tris_lod1": 350,
+   "tris_lod2": 140,
    "verts": 883,
    "centre": [
     -1.678,
@@ -10918,6 +11595,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 706,
+   "tris_lod1": 316,
+   "tris_lod2": 127,
    "verts": 505,
    "centre": [
     -0.938,
@@ -10952,6 +11631,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2104,
+   "tris_lod1": 945,
+   "tris_lod2": 377,
    "verts": 1100,
    "centre": [
     -13.327,
@@ -10984,6 +11665,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 366,
+   "tris_lod1": 163,
+   "tris_lod2": 63,
    "verts": 200,
    "centre": [
     -5.278,
@@ -11016,6 +11699,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 7114,
+   "tris_lod1": 3201,
+   "tris_lod2": 1279,
    "verts": 3562,
    "centre": [
     -22.302,
@@ -11047,6 +11732,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 800,
+   "tris_lod1": 359,
+   "tris_lod2": 143,
    "verts": 489,
    "centre": [
     -1.792,
@@ -11078,6 +11765,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2106,
+   "tris_lod1": 947,
+   "tris_lod2": 378,
    "verts": 1361,
    "centre": [
     -2.138,
@@ -11109,6 +11798,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 360,
+   "tris_lod1": 161,
+   "tris_lod2": 64,
    "verts": 267,
    "centre": [
     -2.534,
@@ -11140,6 +11831,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 216,
+   "tris_lod1": 97,
+   "tris_lod2": 38,
    "verts": 176,
    "centre": [
     -3.09,
@@ -11171,6 +11864,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 742,
+   "tris_lod1": 332,
+   "tris_lod2": 132,
    "verts": 447,
    "centre": [
     -0.62,
@@ -11202,6 +11897,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 284,
+   "tris_lod1": 126,
+   "tris_lod2": 50,
    "verts": 186,
    "centre": [
     -0.994,
@@ -11233,6 +11930,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 200,
+   "tris_lod1": 88,
+   "tris_lod2": 35,
    "verts": 148,
    "centre": [
     0.325,
@@ -11264,6 +11963,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2106,
+   "tris_lod1": 946,
+   "tris_lod2": 379,
    "verts": 1360,
    "centre": [
     -2.142,
@@ -11297,6 +11998,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 294,
+   "tris_lod1": 131,
+   "tris_lod2": 51,
    "verts": 282,
    "centre": [
     -0.634,
@@ -11331,6 +12034,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 294,
+   "tris_lod1": 131,
+   "tris_lod2": 50,
    "verts": 282,
    "centre": [
     0.505,
@@ -11365,6 +12070,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 236,
+   "tris_lod1": 106,
+   "tris_lod2": 41,
    "verts": 167,
    "centre": [
     3.781,
@@ -11399,6 +12106,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 604,
+   "tris_lod1": 270,
+   "tris_lod2": 108,
    "verts": 353,
    "centre": [
     4.561,
@@ -11433,6 +12142,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 296,
+   "tris_lod1": 132,
+   "tris_lod2": 53,
    "verts": 200,
    "centre": [
     3.613,
@@ -11467,6 +12178,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1660,
+   "tris_lod1": 746,
+   "tris_lod2": 298,
    "verts": 838,
    "centre": [
     0.763,
@@ -11501,6 +12214,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 754,
+   "tris_lod1": 338,
+   "tris_lod2": 134,
    "verts": 425,
    "centre": [
     0.884,
@@ -11535,6 +12250,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1162,
+   "tris_lod1": 521,
+   "tris_lod2": 208,
    "verts": 662,
    "centre": [
     2.099,
@@ -11569,6 +12286,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 612,
+   "tris_lod1": 275,
+   "tris_lod2": 110,
    "verts": 496,
    "centre": [
     2.217,
@@ -11603,6 +12322,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 806,
+   "tris_lod1": 361,
+   "tris_lod2": 143,
    "verts": 466,
    "centre": [
     5.229,
@@ -11637,6 +12358,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 70,
+   "tris_lod1": 31,
+   "tris_lod2": 12,
    "verts": 71,
    "centre": [
     5.119,
@@ -11671,6 +12394,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 770,
+   "tris_lod1": 346,
+   "tris_lod2": 136,
    "verts": 450,
    "centre": [
     -3.758,
@@ -11701,6 +12426,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 252,
+   "tris_lod1": 112,
+   "tris_lod2": 45,
    "verts": 184,
    "centre": [
     -3.999,
@@ -11731,6 +12458,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 376,
+   "tris_lod1": 168,
+   "tris_lod2": 67,
    "verts": 331,
    "centre": [
     -5.923,
@@ -11761,6 +12490,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 204,
+   "tris_lod1": 91,
+   "tris_lod2": 36,
    "verts": 210,
    "centre": [
     -5.876,
@@ -11791,6 +12522,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 360,
+   "tris_lod1": 161,
+   "tris_lod2": 64,
    "verts": 365,
    "centre": [
     -6.542,
@@ -11821,6 +12554,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 168,
+   "tris_lod1": 75,
+   "tris_lod2": 30,
    "verts": 178,
    "centre": [
     -6.8,
@@ -11851,6 +12586,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 264,
+   "tris_lod1": 118,
+   "tris_lod2": 46,
    "verts": 192,
    "centre": [
     -2.154,
@@ -11881,6 +12618,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 236,
+   "tris_lod1": 106,
+   "tris_lod2": 40,
    "verts": 171,
    "centre": [
     -2.818,
@@ -11911,6 +12650,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 280,
+   "tris_lod1": 125,
+   "tris_lod2": 50,
    "verts": 220,
    "centre": [
     -2.453,
@@ -11941,6 +12682,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 618,
+   "tris_lod1": 277,
+   "tris_lod2": 110,
    "verts": 493,
    "centre": [
     -1.904,
@@ -11971,6 +12714,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 306,
+   "tris_lod1": 136,
+   "tris_lod2": 55,
    "verts": 313,
    "centre": [
     -2.644,
@@ -12001,6 +12746,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 274,
+   "tris_lod1": 122,
+   "tris_lod2": 48,
    "verts": 172,
    "centre": [
     -4.727,
@@ -12031,6 +12778,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 364,
+   "tris_lod1": 162,
+   "tris_lod2": 65,
    "verts": 232,
    "centre": [
     -4.292,
@@ -12061,6 +12810,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 156,
+   "tris_lod1": 70,
+   "tris_lod2": 28,
    "verts": 125,
    "centre": [
     -4.567,
@@ -12091,6 +12842,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1430,
+   "tris_lod1": 642,
+   "tris_lod2": 257,
    "verts": 944,
    "centre": [
     1.661,
@@ -12122,6 +12875,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1486,
+   "tris_lod1": 668,
+   "tris_lod2": 266,
    "verts": 853,
    "centre": [
     -2.003,
@@ -12156,6 +12911,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1486,
+   "tris_lod1": 668,
+   "tris_lod2": 265,
    "verts": 855,
    "centre": [
     1.875,
@@ -12190,6 +12947,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3376,
+   "tris_lod1": 1519,
+   "tris_lod2": 605,
    "verts": 1693,
    "centre": [
     -10.6,
@@ -12222,6 +12981,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3400,
+   "tris_lod1": 1528,
+   "tris_lod2": 610,
    "verts": 1702,
    "centre": [
     10.416,
@@ -12255,6 +13016,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2724,
+   "tris_lod1": 1225,
+   "tris_lod2": 488,
    "verts": 1371,
    "centre": [
     -11.417,
@@ -12288,6 +13051,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2644,
+   "tris_lod1": 1188,
+   "tris_lod2": 473,
    "verts": 1341,
    "centre": [
     11.244,
@@ -12321,6 +13086,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 232,
+   "tris_lod1": 104,
+   "tris_lod2": 41,
    "verts": 149,
    "centre": [
     8.314,
@@ -12355,6 +13122,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 68,
+   "tris_lod1": 30,
+   "tris_lod2": 12,
    "verts": 68,
    "centre": [
     9.826,
@@ -12389,6 +13158,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 302,
+   "tris_lod1": 134,
+   "tris_lod2": 53,
    "verts": 165,
    "centre": [
     5.846,
@@ -12423,6 +13194,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 130,
+   "tris_lod1": 57,
+   "tris_lod2": 23,
    "verts": 102,
    "centre": [
     8.427,
@@ -12457,6 +13230,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 424,
+   "tris_lod1": 189,
+   "tris_lod2": 75,
    "verts": 263,
    "centre": [
     7.609,
@@ -12491,6 +13266,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 90,
+   "tris_lod1": 40,
+   "tris_lod2": 16,
    "verts": 132,
    "centre": [
     6.389,
@@ -12524,6 +13301,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 996,
+   "tris_lod1": 447,
+   "tris_lod2": 179,
    "verts": 573,
    "centre": [
     -3.243,
@@ -12558,6 +13337,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2194,
+   "tris_lod1": 986,
+   "tris_lod2": 392,
    "verts": 1100,
    "centre": [
     5.277,
@@ -12591,6 +13372,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 772,
+   "tris_lod1": 347,
+   "tris_lod2": 137,
    "verts": 479,
    "centre": [
     5.872,
@@ -12625,6 +13408,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 930,
+   "tris_lod1": 417,
+   "tris_lod2": 167,
    "verts": 608,
    "centre": [
     -3.674,
@@ -12656,6 +13441,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 766,
+   "tris_lod1": 344,
+   "tris_lod2": 136,
    "verts": 480,
    "centre": [
     -3.02,
@@ -12687,6 +13474,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 424,
+   "tris_lod1": 190,
+   "tris_lod2": 74,
    "verts": 305,
    "centre": [
     -2.648,
@@ -12718,6 +13507,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 236,
+   "tris_lod1": 106,
+   "tris_lod2": 41,
    "verts": 163,
    "centre": [
     -4.265,
@@ -12749,6 +13540,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 336,
+   "tris_lod1": 151,
+   "tris_lod2": 60,
    "verts": 286,
    "centre": [
     -2.438,
@@ -12780,6 +13573,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 220,
+   "tris_lod1": 98,
+   "tris_lod2": 37,
    "verts": 188,
    "centre": [
     -4.068,
@@ -12811,6 +13606,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 200,
+   "tris_lod1": 89,
+   "tris_lod2": 35,
    "verts": 195,
    "centre": [
     -4.312,
@@ -12842,6 +13639,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 126,
+   "tris_lod1": 55,
+   "tris_lod2": 22,
    "verts": 126,
    "centre": [
     -6.475,
@@ -12873,6 +13672,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 280,
+   "tris_lod1": 125,
+   "tris_lod2": 50,
    "verts": 197,
    "centre": [
     -5.927,
@@ -12904,6 +13705,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3820,
+   "tris_lod1": 1717,
+   "tris_lod2": 687,
    "verts": 2560,
    "centre": [
     -3.876,
@@ -12938,6 +13741,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4926,
+   "tris_lod1": 2216,
+   "tris_lod2": 886,
    "verts": 2729,
    "centre": [
     0.13,
@@ -12971,6 +13776,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 692,
+   "tris_lod1": 310,
+   "tris_lod2": 123,
    "verts": 484,
    "centre": [
     -2.149,
@@ -13005,6 +13812,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 416,
+   "tris_lod1": 186,
+   "tris_lod2": 74,
    "verts": 212,
    "centre": [
     6.095,
@@ -13039,6 +13848,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 250,
+   "tris_lod1": 111,
+   "tris_lod2": 44,
    "verts": 137,
    "centre": [
     8.2,
@@ -13073,6 +13884,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 224,
+   "tris_lod1": 100,
+   "tris_lod2": 39,
    "verts": 123,
    "centre": [
     6.774,
@@ -13107,6 +13920,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 726,
+   "tris_lod1": 326,
+   "tris_lod2": 130,
    "verts": 408,
    "centre": [
     4.966,
@@ -13141,6 +13956,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 134,
+   "tris_lod1": 58,
+   "tris_lod2": 24,
    "verts": 121,
    "centre": [
     8.702,
@@ -13175,6 +13992,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 236,
+   "tris_lod1": 106,
+   "tris_lod2": 41,
    "verts": 167,
    "centre": [
     8.014,
@@ -13209,6 +14028,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1100,
+   "tris_lod1": 494,
+   "tris_lod2": 197,
    "verts": 554,
    "centre": [
     6.03,
@@ -13242,6 +14063,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1712,
+   "tris_lod1": 770,
+   "tris_lod2": 308,
    "verts": 1031,
    "centre": [
     6.641,
@@ -13275,6 +14098,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1616,
+   "tris_lod1": 726,
+   "tris_lod2": 290,
    "verts": 1037,
    "centre": [
     6.285,
@@ -13309,6 +14134,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 814,
+   "tris_lod1": 366,
+   "tris_lod2": 146,
    "verts": 631,
    "centre": [
     6.969,
@@ -13343,6 +14170,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 834,
+   "tris_lod1": 375,
+   "tris_lod2": 149,
    "verts": 497,
    "centre": [
     -4.947,
@@ -13373,6 +14202,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 254,
+   "tris_lod1": 114,
+   "tris_lod2": 45,
    "verts": 229,
    "centre": [
     -7.356,
@@ -13403,6 +14234,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 356,
+   "tris_lod1": 160,
+   "tris_lod2": 63,
    "verts": 340,
    "centre": [
     -4.168,
@@ -13433,6 +14266,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 508,
+   "tris_lod1": 228,
+   "tris_lod2": 90,
    "verts": 377,
    "centre": [
     -4.562,
@@ -13463,6 +14298,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 446,
+   "tris_lod1": 199,
+   "tris_lod2": 79,
    "verts": 387,
    "centre": [
     -6.159,
@@ -13493,6 +14330,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 468,
+   "tris_lod1": 208,
+   "tris_lod2": 83,
    "verts": 352,
    "centre": [
     -6.259,
@@ -13523,6 +14362,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 224,
+   "tris_lod1": 99,
+   "tris_lod2": 39,
    "verts": 175,
    "centre": [
     -4.322,
@@ -13553,6 +14394,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 184,
+   "tris_lod1": 82,
+   "tris_lod2": 33,
    "verts": 172,
    "centre": [
     -4.58,
@@ -13583,6 +14426,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 126,
+   "tris_lod1": 56,
+   "tris_lod2": 22,
    "verts": 119,
    "centre": [
     -6.893,
@@ -13613,6 +14458,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 310,
+   "tris_lod1": 139,
+   "tris_lod2": 55,
    "verts": 310,
    "centre": [
     -7.477,
@@ -13643,6 +14490,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3582,
+   "tris_lod1": 1610,
+   "tris_lod2": 642,
    "verts": 1793,
    "centre": [
     1.327,
@@ -13673,6 +14522,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 282,
+   "tris_lod1": 125,
+   "tris_lod2": 49,
    "verts": 155,
    "centre": [
     -0.39,
@@ -13706,6 +14557,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 282,
+   "tris_lod1": 126,
+   "tris_lod2": 50,
    "verts": 155,
    "centre": [
     0.26,
@@ -13739,6 +14592,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 322,
+   "tris_lod1": 143,
+   "tris_lod2": 56,
    "verts": 171,
    "centre": [
     4.396,
@@ -13771,6 +14626,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 264,
+   "tris_lod1": 118,
+   "tris_lod2": 46,
    "verts": 136,
    "centre": [
     4.217,
@@ -13803,6 +14660,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 400,
+   "tris_lod1": 179,
+   "tris_lod2": 71,
    "verts": 213,
    "centre": [
     0.678,
@@ -13836,6 +14695,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 418,
+   "tris_lod1": 187,
+   "tris_lod2": 75,
    "verts": 343,
    "centre": [
     2.709,
@@ -13869,6 +14730,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3238,
+   "tris_lod1": 1457,
+   "tris_lod2": 581,
    "verts": 1652,
    "centre": [
     16.897,
@@ -13901,6 +14764,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1370,
+   "tris_lod1": 615,
+   "tris_lod2": 246,
    "verts": 769,
    "centre": [
     -1.818,
@@ -13935,6 +14800,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1992,
+   "tris_lod1": 896,
+   "tris_lod2": 357,
    "verts": 1008,
    "centre": [
     23.021,
@@ -13969,6 +14836,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 290,
+   "tris_lod1": 130,
+   "tris_lod2": 52,
    "verts": 158,
    "centre": [
     7.004,
@@ -14003,6 +14872,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 276,
+   "tris_lod1": 123,
+   "tris_lod2": 48,
    "verts": 155,
    "centre": [
     7.805,
@@ -14037,6 +14908,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 202,
+   "tris_lod1": 88,
+   "tris_lod2": 35,
    "verts": 111,
    "centre": [
     6.454,
@@ -14071,6 +14944,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 124,
+   "tris_lod1": 54,
+   "tris_lod2": 22,
    "verts": 86,
    "centre": [
     7.698,
@@ -14105,6 +14980,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 304,
+   "tris_lod1": 136,
+   "tris_lod2": 53,
    "verts": 218,
    "centre": [
     0.501,
@@ -14138,6 +15015,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 17334,
+   "tris_lod1": 7800,
+   "tris_lod2": 3120,
    "verts": 8669,
    "centre": [
     8.803,
@@ -14170,6 +15049,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 472,
+   "tris_lod1": 212,
+   "tris_lod2": 90,
    "verts": 239,
    "centre": [
     20.486,
@@ -14203,6 +15084,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 634,
+   "tris_lod1": 284,
+   "tris_lod2": 114,
    "verts": 322,
    "centre": [
     10.477,
@@ -14237,6 +15120,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 18150,
+   "tris_lod1": 8167,
+   "tris_lod2": 3265,
    "verts": 9080,
    "centre": [
     18.022,
@@ -14268,6 +15153,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3112,
+   "tris_lod1": 1400,
+   "tris_lod2": 560,
    "verts": 1558,
    "centre": [
     17.324,
@@ -14299,6 +15186,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 546,
+   "tris_lod1": 244,
+   "tris_lod2": 98,
    "verts": 275,
    "centre": [
     2.036,
@@ -14329,6 +15218,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 22622,
+   "tris_lod1": 10179,
+   "tris_lod2": 4070,
    "verts": 11381,
    "centre": [
     19.921,
@@ -14360,6 +15251,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 778,
+   "tris_lod1": 349,
+   "tris_lod2": 140,
    "verts": 399,
    "centre": [
     13.877,
@@ -14393,6 +15286,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1000,
+   "tris_lod1": 449,
+   "tris_lod2": 179,
    "verts": 744,
    "centre": [
     4.734,
@@ -14424,6 +15319,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 884,
+   "tris_lod1": 396,
+   "tris_lod2": 158,
    "verts": 448,
    "centre": [
     1.473,
@@ -14455,6 +15352,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 220,
+   "tris_lod1": 98,
+   "tris_lod2": 37,
    "verts": 117,
    "centre": [
     1.228,
@@ -14485,6 +15384,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 358,
+   "tris_lod1": 161,
+   "tris_lod2": 63,
    "verts": 199,
    "centre": [
     1.772,
@@ -14515,6 +15416,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 430,
+   "tris_lod1": 192,
+   "tris_lod2": 75,
    "verts": 222,
    "centre": [
     21.656,
@@ -14548,6 +15451,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 442,
+   "tris_lod1": 197,
+   "tris_lod2": 79,
    "verts": 280,
    "centre": [
     -1.794,
@@ -14579,6 +15484,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 304,
+   "tris_lod1": 135,
+   "tris_lod2": 53,
    "verts": 233,
    "centre": [
     -2.597,
@@ -14610,6 +15517,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2346,
+   "tris_lod1": 1054,
+   "tris_lod2": 420,
    "verts": 1175,
    "centre": [
     18.593,
@@ -14641,6 +15550,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1104,
+   "tris_lod1": 496,
+   "tris_lod2": 198,
    "verts": 594,
    "centre": [
     3.898,
@@ -14674,6 +15585,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 6536,
+   "tris_lod1": 2940,
+   "tris_lod2": 1176,
    "verts": 3338,
    "centre": [
     4.592,
@@ -14708,6 +15621,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 730,
+   "tris_lod1": 326,
+   "tris_lod2": 131,
    "verts": 378,
    "centre": [
     24.175,
@@ -14741,6 +15656,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4446,
+   "tris_lod1": 2000,
+   "tris_lod2": 800,
    "verts": 2293,
    "centre": [
     7.515,
@@ -14775,6 +15692,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1102,
+   "tris_lod1": 494,
+   "tris_lod2": 196,
    "verts": 553,
    "centre": [
     7.86,
@@ -14808,6 +15727,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 396,
+   "tris_lod1": 178,
+   "tris_lod2": 71,
    "verts": 214,
    "centre": [
     4.714,
@@ -14839,6 +15760,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 724,
+   "tris_lod1": 324,
+   "tris_lod2": 129,
    "verts": 396,
    "centre": [
     3.941,
@@ -14869,6 +15792,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 752,
+   "tris_lod1": 338,
+   "tris_lod2": 134,
    "verts": 380,
    "centre": [
     4.973,
@@ -14901,6 +15826,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 478,
+   "tris_lod1": 215,
+   "tris_lod2": 85,
    "verts": 267,
    "centre": [
     -0.437,
@@ -14933,6 +15860,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3538,
+   "tris_lod1": 1591,
+   "tris_lod2": 635,
    "verts": 2510,
    "centre": [
     6.404,
@@ -14965,6 +15894,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 6888,
+   "tris_lod1": 3098,
+   "tris_lod2": 1238,
    "verts": 3446,
    "centre": [
     3.671,
@@ -14997,6 +15928,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 840,
+   "tris_lod1": 377,
+   "tris_lod2": 151,
    "verts": 599,
    "centre": [
     4.461,
@@ -15027,6 +15960,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 734,
+   "tris_lod1": 330,
+   "tris_lod2": 132,
    "verts": 580,
    "centre": [
     9.844,
@@ -15057,6 +15992,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 440,
+   "tris_lod1": 197,
+   "tris_lod2": 78,
    "verts": 356,
    "centre": [
     3.851,
@@ -15087,6 +16024,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 380,
+   "tris_lod1": 170,
+   "tris_lod2": 68,
    "verts": 322,
    "centre": [
     9.867,
@@ -15117,6 +16056,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 238,
+   "tris_lod1": 105,
+   "tris_lod2": 41,
    "verts": 215,
    "centre": [
     2.004,
@@ -15147,6 +16088,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 502,
+   "tris_lod1": 224,
+   "tris_lod2": 90,
    "verts": 472,
    "centre": [
     11.429,
@@ -15177,6 +16120,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 342,
+   "tris_lod1": 153,
+   "tris_lod2": 60,
    "verts": 343,
    "centre": [
     10.495,
@@ -15207,6 +16152,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 286,
+   "tris_lod1": 126,
+   "tris_lod2": 51,
    "verts": 302,
    "centre": [
     10.926,
@@ -15237,6 +16184,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 196,
+   "tris_lod1": 87,
+   "tris_lod2": 35,
    "verts": 113,
    "centre": [
     2.084,
@@ -15266,6 +16215,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 754,
+   "tris_lod1": 338,
+   "tris_lod2": 133,
    "verts": 606,
    "centre": [
     4.987,
@@ -15297,6 +16248,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 482,
+   "tris_lod1": 215,
+   "tris_lod2": 86,
    "verts": 311,
    "centre": [
     3.528,
@@ -15330,6 +16283,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1204,
+   "tris_lod1": 540,
+   "tris_lod2": 216,
    "verts": 609,
    "centre": [
     19.08,
@@ -15361,6 +16316,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1272,
+   "tris_lod1": 571,
+   "tris_lod2": 226,
    "verts": 650,
    "centre": [
     1.801,
@@ -15393,6 +16350,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 276,
+   "tris_lod1": 124,
+   "tris_lod2": 48,
    "verts": 201,
    "centre": [
     3.202,
@@ -15424,6 +16383,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 216,
+   "tris_lod1": 96,
+   "tris_lod2": 37,
    "verts": 157,
    "centre": [
     2.709,
@@ -15454,6 +16415,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 202,
+   "tris_lod1": 89,
+   "tris_lod2": 35,
    "verts": 134,
    "centre": [
     2.643,
@@ -15484,6 +16447,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 192,
+   "tris_lod1": 86,
+   "tris_lod2": 34,
    "verts": 149,
    "centre": [
     2.826,
@@ -15514,6 +16479,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 94,
+   "tris_lod1": 42,
+   "tris_lod2": 15,
    "verts": 79,
    "centre": [
     2.345,
@@ -15544,6 +16511,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 202,
+   "tris_lod1": 88,
+   "tris_lod2": 34,
    "verts": 111,
    "centre": [
     2.317,
@@ -15574,6 +16543,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 74,
+   "tris_lod1": 33,
+   "tris_lod2": 13,
    "verts": 70,
    "centre": [
     2.579,
@@ -15604,6 +16575,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 226,
+   "tris_lod1": 99,
+   "tris_lod2": 39,
    "verts": 153,
    "centre": [
     2.528,
@@ -15635,6 +16608,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3546,
+   "tris_lod1": 1594,
+   "tris_lod2": 638,
    "verts": 1775,
    "centre": [
     2.12,
@@ -15667,6 +16642,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3038,
+   "tris_lod1": 1367,
+   "tris_lod2": 546,
    "verts": 1557,
    "centre": [
     1.664,
@@ -15698,6 +16675,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 424,
+   "tris_lod1": 189,
+   "tris_lod2": 75,
    "verts": 231,
    "centre": [
     7.054,
@@ -15730,6 +16709,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 216,
+   "tris_lod1": 97,
+   "tris_lod2": 37,
    "verts": 123,
    "centre": [
     6.763,
@@ -15762,6 +16743,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 152,
+   "tris_lod1": 67,
+   "tris_lod2": 26,
    "verts": 85,
    "centre": [
     10.535,
@@ -15794,6 +16777,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 218,
+   "tris_lod1": 98,
+   "tris_lod2": 38,
    "verts": 120,
    "centre": [
     9.771,
@@ -15826,6 +16811,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1110,
+   "tris_lod1": 499,
+   "tris_lod2": 198,
    "verts": 579,
    "centre": [
     9.555,
@@ -15860,6 +16847,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2204,
+   "tris_lod1": 990,
+   "tris_lod2": 395,
    "verts": 1198,
    "centre": [
     0.495,
@@ -15894,6 +16883,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 936,
+   "tris_lod1": 420,
+   "tris_lod2": 168,
    "verts": 470,
    "centre": [
     9.176,
@@ -15927,6 +16918,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1700,
+   "tris_lod1": 764,
+   "tris_lod2": 304,
    "verts": 852,
    "centre": [
     9.618,
@@ -15961,6 +16954,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2350,
+   "tris_lod1": 1056,
+   "tris_lod2": 421,
    "verts": 1215,
    "centre": [
     12.033,
@@ -15993,6 +16988,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 970,
+   "tris_lod1": 435,
+   "tris_lod2": 174,
    "verts": 627,
    "centre": [
     -1.308,
@@ -16024,6 +17021,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 282,
+   "tris_lod1": 126,
+   "tris_lod2": 50,
    "verts": 190,
    "centre": [
     0.072,
@@ -16055,6 +17054,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 222,
+   "tris_lod1": 98,
+   "tris_lod2": 38,
    "verts": 156,
    "centre": [
     -2.167,
@@ -16086,6 +17087,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 206,
+   "tris_lod1": 92,
+   "tris_lod2": 37,
    "verts": 143,
    "centre": [
     5.937,
@@ -16118,6 +17121,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 80,
+   "tris_lod1": 36,
+   "tris_lod2": 13,
    "verts": 73,
    "centre": [
     4.975,
@@ -16150,6 +17155,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2570,
+   "tris_lod1": 1155,
+   "tris_lod2": 462,
    "verts": 1337,
    "centre": [
     18.379,
@@ -16181,6 +17188,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2588,
+   "tris_lod1": 1164,
+   "tris_lod2": 465,
    "verts": 1724,
    "centre": [
     0.657,
@@ -16215,6 +17224,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 772,
+   "tris_lod1": 347,
+   "tris_lod2": 136,
    "verts": 412,
    "centre": [
     7.061,
@@ -16248,6 +17259,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 654,
+   "tris_lod1": 294,
+   "tris_lod2": 117,
    "verts": 625,
    "centre": [
     3.282,
@@ -16278,6 +17291,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2528,
+   "tris_lod1": 1136,
+   "tris_lod2": 454,
    "verts": 1268,
    "centre": [
     6.821,
@@ -16311,6 +17326,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2410,
+   "tris_lod1": 1084,
+   "tris_lod2": 432,
    "verts": 1207,
    "centre": [
     1.134,
@@ -16344,6 +17361,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 16778,
+   "tris_lod1": 7550,
+   "tris_lod2": 3020,
    "verts": 8391,
    "centre": [
     7.6,
@@ -16376,6 +17395,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3286,
+   "tris_lod1": 1477,
+   "tris_lod2": 591,
    "verts": 1910,
    "centre": [
     7.024,
@@ -16407,6 +17428,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3230,
+   "tris_lod1": 1452,
+   "tris_lod2": 580,
    "verts": 2605,
    "centre": [
     6.278,
@@ -16438,6 +17461,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 586,
+   "tris_lod1": 262,
+   "tris_lod2": 104,
    "verts": 297,
    "centre": [
     5.353,
@@ -16470,6 +17495,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 254,
+   "tris_lod1": 113,
+   "tris_lod2": 45,
    "verts": 159,
    "centre": [
     4.043,
@@ -16502,6 +17529,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 126,
+   "tris_lod1": 56,
+   "tris_lod2": 22,
    "verts": 98,
    "centre": [
     3.881,
@@ -16534,6 +17563,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 206,
+   "tris_lod1": 91,
+   "tris_lod2": 36,
    "verts": 127,
    "centre": [
     5.818,
@@ -16566,6 +17597,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 178,
+   "tris_lod1": 79,
+   "tris_lod2": 32,
    "verts": 121,
    "centre": [
     6.043,
@@ -16598,6 +17631,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 226,
+   "tris_lod1": 99,
+   "tris_lod2": 40,
    "verts": 131,
    "centre": [
     8.634,
@@ -16630,6 +17665,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 170,
+   "tris_lod1": 76,
+   "tris_lod2": 29,
    "verts": 101,
    "centre": [
     8.97,
@@ -16662,6 +17699,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 122,
+   "tris_lod1": 53,
+   "tris_lod2": 20,
    "verts": 89,
    "centre": [
     3.718,
@@ -16694,6 +17733,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 174,
+   "tris_lod1": 77,
+   "tris_lod2": 29,
    "verts": 100,
    "centre": [
     3.212,
@@ -16726,6 +17767,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 984,
+   "tris_lod1": 442,
+   "tris_lod2": 176,
    "verts": 495,
    "centre": [
     16.297,
@@ -16758,6 +17801,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1126,
+   "tris_lod1": 505,
+   "tris_lod2": 201,
    "verts": 570,
    "centre": [
     16.703,
@@ -16790,6 +17835,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 204,
+   "tris_lod1": 90,
+   "tris_lod2": 36,
    "verts": 122,
    "centre": [
     0.878,
@@ -16823,6 +17870,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 316,
+   "tris_lod1": 140,
+   "tris_lod2": 56,
    "verts": 215,
    "centre": [
     -1.455,
@@ -16857,6 +17906,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 326,
+   "tris_lod1": 146,
+   "tris_lod2": 57,
    "verts": 272,
    "centre": [
     1.658,
@@ -16890,6 +17941,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 306,
+   "tris_lod1": 137,
+   "tris_lod2": 55,
    "verts": 427,
    "centre": [
     2.062,
@@ -16923,6 +17976,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 240,
+   "tris_lod1": 107,
+   "tris_lod2": 42,
    "verts": 356,
    "centre": [
     1.284,
@@ -16956,6 +18011,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 224,
+   "tris_lod1": 100,
+   "tris_lod2": 40,
    "verts": 348,
    "centre": [
     1.053,
@@ -16989,6 +18046,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 286,
+   "tris_lod1": 126,
+   "tris_lod2": 51,
    "verts": 261,
    "centre": [
     2.858,
@@ -17022,6 +18081,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 322,
+   "tris_lod1": 144,
+   "tris_lod2": 57,
    "verts": 277,
    "centre": [
     2.987,
@@ -17055,6 +18116,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 292,
+   "tris_lod1": 131,
+   "tris_lod2": 52,
    "verts": 290,
    "centre": [
     4.544,
@@ -17088,6 +18151,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 84,
+   "tris_lod1": 37,
+   "tris_lod2": 15,
    "verts": 122,
    "centre": [
     1.284,
@@ -17121,6 +18186,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 86,
+   "tris_lod1": 38,
+   "tris_lod2": 14,
    "verts": 136,
    "centre": [
     2.898,
@@ -17154,6 +18221,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 176,
+   "tris_lod1": 79,
+   "tris_lod2": 31,
    "verts": 238,
    "centre": [
     4.847,
@@ -17187,6 +18256,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 166,
+   "tris_lod1": 74,
+   "tris_lod2": 28,
    "verts": 212,
    "centre": [
     4.908,
@@ -17220,6 +18291,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 736,
+   "tris_lod1": 331,
+   "tris_lod2": 132,
    "verts": 821,
    "centre": [
     1.313,
@@ -17253,6 +18326,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 796,
+   "tris_lod1": 358,
+   "tris_lod2": 143,
    "verts": 668,
    "centre": [
     3.21,
@@ -17286,6 +18361,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 880,
+   "tris_lod1": 394,
+   "tris_lod2": 157,
    "verts": 557,
    "centre": [
     0.42,
@@ -17320,6 +18397,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 228,
+   "tris_lod1": 102,
+   "tris_lod2": 40,
    "verts": 141,
    "centre": [
     5.057,
@@ -17354,6 +18433,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 168,
+   "tris_lod1": 75,
+   "tris_lod2": 30,
    "verts": 109,
    "centre": [
     6.845,
@@ -17388,6 +18469,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 110,
+   "tris_lod1": 49,
+   "tris_lod2": 19,
    "verts": 77,
    "centre": [
     7.362,
@@ -17422,6 +18505,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 164,
+   "tris_lod1": 72,
+   "tris_lod2": 28,
    "verts": 100,
    "centre": [
     4.999,
@@ -17456,6 +18541,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 188,
+   "tris_lod1": 83,
+   "tris_lod2": 32,
    "verts": 106,
    "centre": [
     5.065,
@@ -17490,6 +18577,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 356,
+   "tris_lod1": 160,
+   "tris_lod2": 64,
    "verts": 185,
    "centre": [
     4.395,
@@ -17524,6 +18613,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 230,
+   "tris_lod1": 103,
+   "tris_lod2": 39,
    "verts": 132,
    "centre": [
     5.429,
@@ -17558,6 +18649,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 13130,
+   "tris_lod1": 5907,
+   "tris_lod2": 2363,
    "verts": 6601,
    "centre": [
     6.269,
@@ -17590,6 +18683,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 380,
+   "tris_lod1": 169,
+   "tris_lod2": 67,
    "verts": 226,
    "centre": [
     19.002,
@@ -17623,6 +18718,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 678,
+   "tris_lod1": 304,
+   "tris_lod2": 120,
    "verts": 341,
    "centre": [
     1.086,
@@ -17653,6 +18750,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 7472,
+   "tris_lod1": 3362,
+   "tris_lod2": 1344,
    "verts": 3738,
    "centre": [
     25.703,
@@ -17685,6 +18784,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2602,
+   "tris_lod1": 1170,
+   "tris_lod2": 468,
    "verts": 1303,
    "centre": [
     23.54,
@@ -17718,6 +18819,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 206,
+   "tris_lod1": 91,
+   "tris_lod2": 37,
    "verts": 124,
    "centre": [
     1.515,
@@ -17748,6 +18851,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 262,
+   "tris_lod1": 116,
+   "tris_lod2": 46,
    "verts": 142,
    "centre": [
     0.832,
@@ -17782,6 +18887,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1276,
+   "tris_lod1": 573,
+   "tris_lod2": 229,
    "verts": 648,
    "centre": [
     0.322,
@@ -17816,6 +18923,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 452,
+   "tris_lod1": 203,
+   "tris_lod2": 80,
    "verts": 247,
    "centre": [
     4.735,
@@ -17847,6 +18956,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 368,
+   "tris_lod1": 164,
+   "tris_lod2": 66,
    "verts": 209,
    "centre": [
     5.543,
@@ -17878,6 +18989,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1526,
+   "tris_lod1": 685,
+   "tris_lod2": 273,
    "verts": 780,
    "centre": [
     4.001,
@@ -17908,6 +19021,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 786,
+   "tris_lod1": 353,
+   "tris_lod2": 140,
    "verts": 431,
    "centre": [
     13.499,
@@ -17940,6 +19055,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 624,
+   "tris_lod1": 280,
+   "tris_lod2": 111,
    "verts": 449,
    "centre": [
     5.31,
@@ -17974,6 +19091,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2924,
+   "tris_lod1": 1315,
+   "tris_lod2": 525,
    "verts": 1565,
    "centre": [
     5.038,
@@ -18007,6 +19126,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 898,
+   "tris_lod1": 404,
+   "tris_lod2": 160,
    "verts": 451,
    "centre": [
     7.419,
@@ -18041,6 +19162,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 406,
+   "tris_lod1": 181,
+   "tris_lod2": 73,
    "verts": 226,
    "centre": [
     1.173,
@@ -18075,6 +19198,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2252,
+   "tris_lod1": 1012,
+   "tris_lod2": 403,
    "verts": 1149,
    "centre": [
     1.087,
@@ -18108,6 +19233,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 184,
+   "tris_lod1": 81,
+   "tris_lod2": 32,
    "verts": 103,
    "centre": [
     4.835,
@@ -18141,6 +19268,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 324,
+   "tris_lod1": 144,
+   "tris_lod2": 57,
    "verts": 171,
    "centre": [
     2.491,
@@ -18170,6 +19299,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 548,
+   "tris_lod1": 245,
+   "tris_lod2": 96,
    "verts": 284,
    "centre": [
     5.037,
@@ -18200,6 +19331,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 338,
+   "tris_lod1": 151,
+   "tris_lod2": 59,
    "verts": 205,
    "centre": [
     5.696,
@@ -18230,6 +19363,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 102,
+   "tris_lod1": 45,
+   "tris_lod2": 17,
    "verts": 68,
    "centre": [
     7.29,
@@ -18260,6 +19395,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 134,
+   "tris_lod1": 58,
+   "tris_lod2": 23,
    "verts": 97,
    "centre": [
     2.97,
@@ -18290,6 +19427,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 146,
+   "tris_lod1": 65,
+   "tris_lod2": 25,
    "verts": 95,
    "centre": [
     3.502,
@@ -18320,6 +19459,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 136,
+   "tris_lod1": 59,
+   "tris_lod2": 24,
    "verts": 100,
    "centre": [
     5.698,
@@ -18350,6 +19491,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1476,
+   "tris_lod1": 664,
+   "tris_lod2": 264,
    "verts": 740,
    "centre": [
     18.417,
@@ -18381,6 +19524,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 608,
+   "tris_lod1": 273,
+   "tris_lod2": 108,
    "verts": 474,
    "centre": [
     3.321,
@@ -18411,6 +19556,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1912,
+   "tris_lod1": 859,
+   "tris_lod2": 342,
    "verts": 1027,
    "centre": [
     10.488,
@@ -18444,6 +19591,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 12938,
+   "tris_lod1": 5821,
+   "tris_lod2": 2328,
    "verts": 6497,
    "centre": [
     3.53,
@@ -18474,6 +19623,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 13640,
+   "tris_lod1": 6136,
+   "tris_lod2": 2454,
    "verts": 6899,
    "centre": [
     4.242,
@@ -18504,6 +19655,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 778,
+   "tris_lod1": 349,
+   "tris_lod2": 139,
    "verts": 882,
    "centre": [
     1.551,
@@ -18538,6 +19691,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 706,
+   "tris_lod1": 317,
+   "tris_lod2": 126,
    "verts": 503,
    "centre": [
     0.808,
@@ -18572,6 +19727,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2108,
+   "tris_lod1": 948,
+   "tris_lod2": 379,
    "verts": 1106,
    "centre": [
     13.186,
@@ -18605,6 +19762,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 364,
+   "tris_lod1": 163,
+   "tris_lod2": 65,
    "verts": 201,
    "centre": [
     5.026,
@@ -18638,6 +19797,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 6876,
+   "tris_lod1": 3094,
+   "tris_lod2": 1236,
    "verts": 3440,
    "centre": [
     22.219,
@@ -18670,6 +19831,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 486,
+   "tris_lod1": 218,
+   "tris_lod2": 86,
    "verts": 325,
    "centre": [
     1.839,
@@ -18703,6 +19866,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 800,
+   "tris_lod1": 359,
+   "tris_lod2": 143,
    "verts": 489,
    "centre": [
     1.663,
@@ -18735,6 +19900,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 470,
+   "tris_lod1": 209,
+   "tris_lod2": 84,
    "verts": 287,
    "centre": [
     -4.576,
@@ -18767,6 +19934,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4526,
+   "tris_lod1": 2036,
+   "tris_lod2": 814,
    "verts": 2591,
    "centre": [
     -0.727,
@@ -18800,6 +19969,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 844,
+   "tris_lod1": 378,
+   "tris_lod2": 151,
    "verts": 539,
    "centre": [
     -2.133,
@@ -18834,6 +20005,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1702,
+   "tris_lod1": 765,
+   "tris_lod2": 305,
    "verts": 1222,
    "centre": [
     -4.569,
@@ -18865,6 +20038,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 570,
+   "tris_lod1": 255,
+   "tris_lod2": 102,
    "verts": 294,
    "centre": [
     1.277,
@@ -18895,6 +20070,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 892,
+   "tris_lod1": 400,
+   "tris_lod2": 158,
    "verts": 454,
    "centre": [
     0.728,
@@ -18925,6 +20102,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 800,
+   "tris_lod1": 358,
+   "tris_lod2": 142,
    "verts": 402,
    "centre": [
     2.824,
@@ -18959,6 +20138,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1674,
+   "tris_lod1": 753,
+   "tris_lod2": 299,
    "verts": 1228,
    "centre": [
     -7.808,
@@ -18990,6 +20171,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 440,
+   "tris_lod1": 196,
+   "tris_lod2": 79,
    "verts": 599,
    "centre": [
     -4.865,
@@ -19021,6 +20204,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2588,
+   "tris_lod1": 1163,
+   "tris_lod2": 465,
    "verts": 2325,
    "centre": [
     -3.997,
@@ -19052,6 +20237,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1742,
+   "tris_lod1": 783,
+   "tris_lod2": 312,
    "verts": 1273,
    "centre": [
     -7.663,
@@ -19083,6 +20270,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 72,
+   "tris_lod1": 32,
+   "tris_lod2": 13,
    "verts": 76,
    "centre": [
     5.71,
@@ -19117,6 +20306,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 604,
+   "tris_lod1": 270,
+   "tris_lod2": 108,
    "verts": 313,
    "centre": [
     5.388,
@@ -19151,6 +20342,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 294,
+   "tris_lod1": 131,
+   "tris_lod2": 50,
    "verts": 178,
    "centre": [
     4.692,
@@ -19185,6 +20378,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 254,
+   "tris_lod1": 114,
+   "tris_lod2": 45,
    "verts": 173,
    "centre": [
     5.735,
@@ -19219,6 +20414,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 854,
+   "tris_lod1": 384,
+   "tris_lod2": 152,
    "verts": 511,
    "centre": [
     4.137,
@@ -19253,6 +20450,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 1084,
+   "tris_lod1": 485,
+   "tris_lod2": 195,
    "verts": 609,
    "centre": [
     -7.866,
@@ -19287,6 +20486,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 84,
+   "tris_lod1": 37,
+   "tris_lod2": 15,
    "verts": 85,
    "centre": [
     -10.61,
@@ -19321,6 +20522,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 210,
+   "tris_lod1": 93,
+   "tris_lod2": 37,
    "verts": 133,
    "centre": [
     -9.45,
@@ -19355,6 +20558,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 200,
+   "tris_lod1": 88,
+   "tris_lod2": 34,
    "verts": 105,
    "centre": [
     -10.312,
@@ -19389,6 +20594,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 416,
+   "tris_lod1": 187,
+   "tris_lod2": 73,
    "verts": 218,
    "centre": [
     -6.773,
@@ -19423,6 +20630,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 180,
+   "tris_lod1": 79,
+   "tris_lod2": 31,
    "verts": 125,
    "centre": [
     -7.199,
@@ -19457,6 +20666,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1088,
+   "tris_lod1": 488,
+   "tris_lod2": 193,
    "verts": 615,
    "centre": [
     2.46,
@@ -19487,6 +20698,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 958,
+   "tris_lod1": 430,
+   "tris_lod2": 172,
    "verts": 548,
    "centre": [
     2.557,
@@ -19517,6 +20730,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 526,
+   "tris_lod1": 236,
+   "tris_lod2": 92,
    "verts": 282,
    "centre": [
     3.585,
@@ -19551,6 +20766,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 298,
+   "tris_lod1": 134,
+   "tris_lod2": 53,
    "verts": 171,
    "centre": [
     4.624,
@@ -19585,6 +20802,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 682,
+   "tris_lod1": 306,
+   "tris_lod2": 121,
    "verts": 584,
    "centre": [
     8.058,
@@ -19615,6 +20834,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 308,
+   "tris_lod1": 138,
+   "tris_lod2": 55,
    "verts": 298,
    "centre": [
     7.232,
@@ -19645,6 +20866,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 418,
+   "tris_lod1": 187,
+   "tris_lod2": 75,
    "verts": 397,
    "centre": [
     2.277,
@@ -19675,6 +20898,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 346,
+   "tris_lod1": 154,
+   "tris_lod2": 61,
    "verts": 286,
    "centre": [
     6.239,
@@ -19705,6 +20930,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 556,
+   "tris_lod1": 249,
+   "tris_lod2": 100,
    "verts": 588,
    "centre": [
     10.794,
@@ -19735,6 +20962,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1610,
+   "tris_lod1": 724,
+   "tris_lod2": 289,
    "verts": 1355,
    "centre": [
     10.817,
@@ -19765,6 +20994,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 382,
+   "tris_lod1": 171,
+   "tris_lod2": 67,
    "verts": 454,
    "centre": [
     11.468,
@@ -19795,6 +21026,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 418,
+   "tris_lod1": 187,
+   "tris_lod2": 75,
    "verts": 260,
    "centre": [
     0.967,
@@ -19826,6 +21059,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 598,
+   "tris_lod1": 268,
+   "tris_lod2": 106,
    "verts": 318,
    "centre": [
     1.43,
@@ -19856,6 +21091,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 442,
+   "tris_lod1": 197,
+   "tris_lod2": 79,
    "verts": 322,
    "centre": [
     -5.024,
@@ -19888,6 +21125,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 306,
+   "tris_lod1": 136,
+   "tris_lod2": 54,
    "verts": 216,
    "centre": [
     -4.429,
@@ -19920,6 +21159,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 3032,
+   "tris_lod1": 1364,
+   "tris_lod2": 544,
    "verts": 1549,
    "centre": [
     -5.234,
@@ -19952,6 +21193,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 204,
+   "tris_lod1": 91,
+   "tris_lod2": 36,
    "verts": 119,
    "centre": [
     0.777,
@@ -19985,6 +21228,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 204,
+   "tris_lod1": 90,
+   "tris_lod2": 35,
    "verts": 121,
    "centre": [
     -2.944,
@@ -20016,6 +21261,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1328,
+   "tris_lod1": 596,
+   "tris_lod2": 238,
    "verts": 666,
    "centre": [
     0.985,
@@ -20049,6 +21296,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 730,
+   "tris_lod1": 326,
+   "tris_lod2": 130,
    "verts": 367,
    "centre": [
     0.781,
@@ -20082,6 +21331,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 258,
+   "tris_lod1": 116,
+   "tris_lod2": 44,
    "verts": 132,
    "centre": [
     -1.919,
@@ -20113,6 +21364,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 468,
+   "tris_lod1": 208,
+   "tris_lod2": 84,
    "verts": 236,
    "centre": [
     -9.48,
@@ -20145,6 +21398,8 @@
    "circuit": "pulmonary",
    "coronary": false,
    "tris": 266,
+   "tris_lod1": 119,
+   "tris_lod2": 46,
    "verts": 140,
    "centre": [
     3.064,
@@ -20179,6 +21434,8 @@
    "circuit": "systemic",
    "coronary": true,
    "tris": 4502,
+   "tris_lod1": 2024,
+   "tris_lod2": 810,
    "verts": 2255,
    "centre": [
     0.1,
@@ -20210,6 +21467,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 442,
+   "tris_lod1": 196,
+   "tris_lod2": 78,
    "verts": 223,
    "centre": [
     2.309,
@@ -20243,6 +21502,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 206,
+   "tris_lod1": 92,
+   "tris_lod2": 36,
    "verts": 105,
    "centre": [
     2.133,
@@ -20275,6 +21536,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 282,
+   "tris_lod1": 126,
+   "tris_lod2": 50,
    "verts": 145,
    "centre": [
     1.371,
@@ -20306,6 +21569,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 472,
+   "tris_lod1": 212,
+   "tris_lod2": 82,
    "verts": 238,
    "centre": [
     9.354,
@@ -20339,6 +21604,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1506,
+   "tris_lod1": 676,
+   "tris_lod2": 270,
    "verts": 782,
    "centre": [
     2.33,
@@ -20370,6 +21637,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1296,
+   "tris_lod1": 582,
+   "tris_lod2": 232,
    "verts": 868,
    "centre": [
     -3.173,
@@ -20401,6 +21670,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 468,
+   "tris_lod1": 208,
+   "tris_lod2": 84,
    "verts": 280,
    "centre": [
     2.898,
@@ -20432,6 +21703,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 606,
+   "tris_lod1": 272,
+   "tris_lod2": 109,
    "verts": 365,
    "centre": [
     2.701,
@@ -20463,6 +21736,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 7544,
+   "tris_lod1": 3393,
+   "tris_lod2": 1356,
    "verts": 4284,
    "centre": [
     -2.235,
@@ -20497,6 +21772,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 17784,
+   "tris_lod1": 8001,
+   "tris_lod2": 3200,
    "verts": 9887,
    "centre": [
     1.442,
@@ -20529,21 +21806,23 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4499,
-   "verts": 2686,
+   "tris_lod1": 1798,
+   "tris_lod2": 629,
+   "verts": 15286,
    "centre": [
-    -2.74,
-    78.79,
-    3.378
+    -2.768,
+    78.665,
+    3.446
    ],
    "min": [
-    -6.344,
-    74.014,
-    -6.172
+    -6.311,
+    74.029,
+    -6.166
    ],
    "max": [
     -0.362,
-    84.129,
-    10.127
+    84.132,
+    10.145
    ],
    "lineage": [
     "nervous system",
@@ -20563,21 +21842,23 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4500,
-   "verts": 2351,
+   "tris_lod1": 1798,
+   "tris_lod2": 628,
+   "verts": 3196,
    "centre": [
-    -0.645,
-    71.151,
-    3.188
+    -0.615,
+    71.155,
+    3.164
    ],
    "min": [
     -1.336,
     68.288,
-    1.632
+    1.633
    ],
    "max": [
     0.001,
     72.416,
-    4.952
+    4.953
    ],
    "lineage": [
     "human body",
@@ -20594,17 +21875,19 @@
    "material": "context",
    "circuit": "systemic",
    "coronary": false,
-   "tris": 4500,
-   "verts": 2710,
+   "tris": 4499,
+   "tris_lod1": 1798,
+   "tris_lod2": 629,
+   "verts": 4157,
    "centre": [
-    -0.543,
-    75.588,
-    2.192
+    -0.483,
+    75.594,
+    2.173
    ],
    "min": [
     -1.466,
     74.687,
-    0.485
+    0.484
    ],
    "max": [
     0.001,
@@ -20625,20 +21908,22 @@
    "material": "context",
    "circuit": "systemic",
    "coronary": false,
-   "tris": 4499,
-   "verts": 2473,
+   "tris": 4500,
+   "tris_lod1": 1799,
+   "tris_lod2": 629,
+   "verts": 5764,
    "centre": [
-    -0.95,
-    73.436,
-    2.2
+    -0.917,
+    73.413,
+    2.134
    ],
    "min": [
     -2.109,
     72.045,
-    0.38
+    0.378
    ],
    "max": [
-    0.002,
+    0.001,
     74.907,
     3.819
    ],
@@ -20658,22 +21943,24 @@
    "material": "context",
    "circuit": "systemic",
    "coronary": false,
-   "tris": 4499,
-   "verts": 2290,
+   "tris": 4498,
+   "tris_lod1": 1800,
+   "tris_lod2": 630,
+   "verts": 12098,
    "centre": [
-    -1.646,
-    73.021,
-    5.63
+    -1.538,
+    73.052,
+    5.633
    ],
    "min": [
-    -5.325,
-    70.563,
-    3.234
+    -5.326,
+    70.564,
+    3.232
    ],
    "max": [
-    0.004,
-    75.891,
-    8.86
+    0.0,
+    75.889,
+    8.859
    ],
    "lineage": [
     "human body",
@@ -20689,22 +21976,24 @@
    "material": "context",
    "circuit": "systemic",
    "coronary": false,
-   "tris": 4498,
-   "verts": 2594,
+   "tris": 4499,
+   "tris_lod1": 1798,
+   "tris_lod2": 630,
+   "verts": 15757,
    "centre": [
-    2.805,
-    78.782,
-    3.333
+    2.762,
+    78.687,
+    3.469
    ],
    "min": [
-    0.371,
-    74.041,
-    -6.213
+    0.38,
+    74.03,
+    -6.177
    ],
    "max": [
-    6.31,
-    84.159,
-    10.132
+    6.315,
+    84.138,
+    10.14
    ],
    "lineage": [
     "nervous system",
@@ -20724,6 +22013,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4890,
+   "tris_lod1": 1799,
+   "tris_lod2": 630,
    "verts": 2462,
    "centre": [
     -0.638,
@@ -20754,11 +22045,13 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4500,
-   "verts": 2322,
+   "tris_lod1": 1800,
+   "tris_lod2": 628,
+   "verts": 2607,
    "centre": [
-    0.01,
-    56.109,
-    0.578
+    0.033,
+    56.034,
+    0.624
    ],
    "min": [
     -1.346,
@@ -20786,6 +22079,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 578,
+   "tris_lod1": 578,
+   "tris_lod2": 578,
    "verts": 323,
    "centre": [
     -0.598,
@@ -20816,6 +22111,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1810,
+   "tris_lod1": 1810,
+   "tris_lod2": 629,
    "verts": 914,
    "centre": [
     -3.678,
@@ -20846,6 +22143,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3310,
+   "tris_lod1": 1800,
+   "tris_lod2": 629,
    "verts": 1812,
    "centre": [
     9.224,
@@ -20875,21 +22174,23 @@
    "material": "context",
    "circuit": "systemic",
    "coronary": false,
-   "tris": 4499,
-   "verts": 2379,
+   "tris": 4500,
+   "tris_lod1": 1798,
+   "tris_lod2": 630,
+   "verts": 3039,
    "centre": [
-    -7.357,
-    14.624,
-    -0.625
+    -7.302,
+    14.681,
+    -0.653
    ],
    "min": [
     -11.813,
-    4.066,
-    -4.108
+    4.07,
+    -4.106
    ],
    "max": [
     1.727,
-    27.967,
+    27.969,
     5.049
    ],
    "lineage": [
@@ -20906,6 +22207,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2118,
+   "tris_lod1": 1800,
+   "tris_lod2": 630,
    "verts": 1121,
    "centre": [
     -0.219,
@@ -20936,6 +22239,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3472,
+   "tris_lod1": 1800,
+   "tris_lod2": 629,
    "verts": 1923,
    "centre": [
     -0.766,
@@ -20966,6 +22271,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1860,
+   "tris_lod1": 1860,
+   "tris_lod2": 628,
    "verts": 977,
    "centre": [
     1.92,
@@ -20997,6 +22304,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 380,
+   "tris_lod1": 380,
+   "tris_lod2": 380,
    "verts": 197,
    "centre": [
     5.818,
@@ -21029,6 +22338,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 172,
+   "tris_lod1": 172,
+   "tris_lod2": 172,
    "verts": 94,
    "centre": [
     -6.717,
@@ -21061,6 +22372,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 228,
+   "tris_lod1": 228,
+   "tris_lod2": 228,
    "verts": 117,
    "centre": [
     -1.572,
@@ -21093,6 +22406,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 320,
+   "tris_lod1": 320,
+   "tris_lod2": 320,
    "verts": 207,
    "centre": [
     -5.37,
@@ -21125,6 +22440,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 240,
+   "tris_lod1": 240,
+   "tris_lod2": 240,
    "verts": 127,
    "centre": [
     -8.191,
@@ -21157,6 +22474,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 226,
+   "tris_lod1": 226,
+   "tris_lod2": 226,
    "verts": 123,
    "centre": [
     -2.364,
@@ -21189,6 +22508,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 524,
+   "tris_lod1": 524,
+   "tris_lod2": 524,
    "verts": 276,
    "centre": [
     -0.036,
@@ -21219,21 +22540,23 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 23999,
-   "verts": 12217,
+   "tris_lod1": 10168,
+   "tris_lod2": 3360,
+   "verts": 102467,
    "centre": [
-    -0.363,
-    -1.03,
-    -0.885
+    0.078,
+    -1.288,
+    -1.104
    ],
    "min": [
-    -33.369,
-    -86.0,
-    -14.6
+    -33.347,
+    -85.974,
+    -14.602
    ],
    "max": [
-    33.363,
-    85.957,
-    14.607
+    33.347,
+    85.974,
+    14.602
    ],
    "lineage": [
     "human body"
@@ -21248,11 +22571,13 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4499,
-   "verts": 2263,
+   "tris_lod1": 1799,
+   "tris_lod2": 630,
+   "verts": 2526,
    "centre": [
-    0.98,
-    34.448,
-    -1.967
+    0.978,
+    34.462,
+    -1.959
    ],
    "min": [
     -1.19,
@@ -21280,6 +22605,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2396,
+   "tris_lod1": 1799,
+   "tris_lod2": 630,
    "verts": 1202,
    "centre": [
     4.684,
@@ -21309,22 +22636,24 @@
    "material": "context",
    "circuit": "systemic",
    "coronary": false,
-   "tris": 4499,
-   "verts": 2570,
+   "tris": 4500,
+   "tris_lod1": 1799,
+   "tris_lod2": 630,
+   "verts": 35527,
    "centre": [
-    0.086,
-    33.096,
-    -0.676
+    0.578,
+    33.241,
+    -0.329
    ],
    "min": [
-    -12.16,
-    20.433,
+    -12.151,
+    20.423,
     -10.456
    ],
    "max": [
-    12.159,
-    41.104,
-    7.479
+    12.168,
+    41.096,
+    7.485
    ],
    "lineage": [
     "human body",
@@ -21342,6 +22671,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 442,
+   "tris_lod1": 442,
+   "tris_lod2": 442,
    "verts": 223,
    "centre": [
     0.016,
@@ -21371,6 +22702,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2062,
+   "tris_lod1": 1799,
+   "tris_lod2": 630,
    "verts": 1125,
    "centre": [
     -5.364,
@@ -21401,6 +22734,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2982,
+   "tris_lod1": 1798,
+   "tris_lod2": 628,
    "verts": 1497,
    "centre": [
     -5.836,
@@ -21431,6 +22766,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1924,
+   "tris_lod1": 1924,
+   "tris_lod2": 628,
    "verts": 1132,
    "centre": [
     4.618,
@@ -21461,6 +22798,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2310,
+   "tris_lod1": 1799,
+   "tris_lod2": 629,
    "verts": 1163,
    "centre": [
     5.236,
@@ -21491,6 +22830,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 226,
+   "tris_lod1": 226,
+   "tris_lod2": 226,
    "verts": 127,
    "centre": [
     -0.288,
@@ -21521,6 +22862,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1050,
+   "tris_lod1": 1050,
+   "tris_lod2": 630,
    "verts": 606,
    "centre": [
     -1.051,
@@ -21555,6 +22898,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1030,
+   "tris_lod1": 1030,
+   "tris_lod2": 629,
    "verts": 599,
    "centre": [
     1.012,
@@ -21589,6 +22934,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2374,
+   "tris_lod1": 1800,
+   "tris_lod2": 630,
    "verts": 1282,
    "centre": [
     6.83,
@@ -21620,6 +22967,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2972,
+   "tris_lod1": 1799,
+   "tris_lod2": 630,
    "verts": 1682,
    "centre": [
     0.027,
@@ -21654,6 +23003,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3214,
+   "tris_lod1": 1799,
+   "tris_lod2": 628,
    "verts": 1875,
    "centre": [
     0.089,
@@ -21688,6 +23039,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3272,
+   "tris_lod1": 1800,
+   "tris_lod2": 629,
    "verts": 1849,
    "centre": [
     0.063,
@@ -21722,6 +23075,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3512,
+   "tris_lod1": 1800,
+   "tris_lod2": 629,
    "verts": 1968,
    "centre": [
     -0.083,
@@ -21756,6 +23111,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3892,
+   "tris_lod1": 1800,
+   "tris_lod2": 629,
    "verts": 2115,
    "centre": [
     0.077,
@@ -21790,6 +23147,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4646,
+   "tris_lod1": 1800,
+   "tris_lod2": 629,
    "verts": 3691,
    "centre": [
     -0.146,
@@ -21824,6 +23183,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1176,
+   "tris_lod1": 1176,
+   "tris_lod2": 630,
    "verts": 602,
    "centre": [
     -7.671,
@@ -21858,6 +23219,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3204,
+   "tris_lod1": 1800,
+   "tris_lod2": 630,
    "verts": 1623,
    "centre": [
     -9.2,
@@ -21889,6 +23252,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3844,
+   "tris_lod1": 1800,
+   "tris_lod2": 630,
    "verts": 2073,
    "centre": [
     -18.697,
@@ -21920,21 +23285,23 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4498,
-   "verts": 2251,
+   "tris_lod1": 1798,
+   "tris_lod2": 630,
+   "verts": 14068,
    "centre": [
-    -11.672,
-    51.826,
-    5.788
+    -11.919,
+    52.033,
+    5.518
    ],
    "min": [
-    -16.708,
+    -16.711,
     40.233,
-    -0.206
+    -0.208
    ],
    "max": [
     -5.771,
-    56.825,
-    10.586
+    56.824,
+    10.584
    ],
    "lineage": [
     "body proper",
@@ -21954,6 +23321,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 2332,
+   "tris_lod1": 1800,
+   "tris_lod2": 629,
    "verts": 1257,
    "centre": [
     -6.931,
@@ -21985,6 +23354,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 1146,
+   "tris_lod1": 1146,
+   "tris_lod2": 629,
    "verts": 583,
    "centre": [
     7.826,
@@ -22016,6 +23387,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3102,
+   "tris_lod1": 1798,
+   "tris_lod2": 628,
    "verts": 1574,
    "centre": [
     9.076,
@@ -22047,6 +23420,8 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 3784,
+   "tris_lod1": 1800,
+   "tris_lod2": 630,
    "verts": 2233,
    "centre": [
     18.352,
@@ -22078,21 +23453,23 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4499,
-   "verts": 2255,
+   "tris_lod1": 1799,
+   "tris_lod2": 629,
+   "verts": 13118,
    "centre": [
-    11.927,
-    52.124,
-    5.464
+    11.827,
+    52.092,
+    5.492
    ],
    "min": [
-    5.644,
-    40.23,
-    -0.208
+    5.641,
+    40.234,
+    -0.209
    ],
    "max": [
-    16.577,
-    56.827,
-    10.588
+    16.582,
+    56.824,
+    10.585
    ],
    "lineage": [
     "human body",
@@ -22109,21 +23486,23 @@
    "circuit": "systemic",
    "coronary": false,
    "tris": 4500,
-   "verts": 2346,
+   "tris_lod1": 1798,
+   "tris_lod2": 629,
+   "verts": 5293,
    "centre": [
-    -0.146,
-    8.874,
-    7.152
+    -0.036,
+    8.871,
+    7.161
    ],
    "min": [
-    -5.881,
-    0.12,
-    1.932
+    -5.885,
+    0.121,
+    1.937
    ],
    "max": [
-    5.902,
-    14.546,
-    10.799
+    5.894,
+    14.558,
+    10.802
    ],
    "lineage": [
     "human body",

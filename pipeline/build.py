@@ -1,10 +1,16 @@
 """Build the Godot datasets from BodyParts3D (PART-OF tree, 99% polygon reduction).
 
-Outputs (into the Godot project's data/ folder):
-  circulatory.glb  - heart, arteries, veins (one node per anatomical part)
-  context.glb      - decimated skin + major organs, used as a ghost silhouette
-  parts.json       - catalogue: name, FMA id, group, AABB, hierarchy, ...
-  tour.json        - a spline that follows the real blood path through the model
+Outputs (into the Godot project's data/ folder), for three detail levels:
+
+  circulatory.glb        full detail      (~813 k triangles)
+  circulatory_lod1.glb   ~45 % of that    (balanced)
+  circulatory_lod2.glb   ~18 % of that    (performance)
+  context.glb / _lod1 / _lod2            ghost organs, decimated harder
+  parts.json             catalogue: name, FMA id, group, AABB, hierarchy, …
+  tour.json              a spline that follows the real blood path
+
+All levels share one catalogue and one set of node names, so the app can swap
+levels at runtime without touching anything else.
 
 Run:  python3 build.py
 """
@@ -17,7 +23,7 @@ import re
 import numpy as np
 
 from bp3d_lib import (GLB, OBJ_DIR, Frame, centerline, load_obj, orient_chain,
-                      smooth_path, vertex_normals)  # noqa: E402
+                      smooth_path, vertex_normals)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.abspath(os.path.join(HERE, ".."))          # the Godot project root
@@ -33,6 +39,9 @@ MATERIALS = {
     "heart_blood":  ((0.55, 0.05, 0.09), 0.45, 0.02, 1.0),
     "context":      ((0.52, 0.60, 0.72), 0.85, 0.00, 0.16),
 }
+
+# suffix, vessel triangle ratio, context triangle scale
+DETAILS = [("", 1.00, 1.00), ("_lod1", 0.45, 0.40), ("_lod2", 0.18, 0.14)]
 
 # ---------------------------------------------------------------- classification
 SKIP = re.compile(
@@ -59,7 +68,7 @@ SYSTEMIC_ORGAN = re.compile(r"(hepatic|portal|renal|splenic|gastric|mesenteric|p
 
 
 def classify(name: str):
-    """-> (group, circuit, coronary) or None when the part is not circulatory."""
+    """-> (group, material, circuit, coronary) or None when not circulatory."""
     n = name.strip()
     if not n or SKIP.search(n):
         return None
@@ -131,14 +140,19 @@ def ancestors(cid, parent, name_of, limit=6):
     return list(reversed(out))
 
 
-def decimate(pos, faces, target_tris):
-    """Quadric-decimate until we are near the triangle budget."""
+def simplify(pos, faces, ratio: float, min_tris: int = 12):
+    """Quadric-decimate to `ratio` of the original triangle count."""
+    if ratio >= 1.0:
+        return pos, faces
     import fast_simplification
+    target = max(min_tris, int(len(faces) * ratio))
+    if len(faces) <= target:
+        return pos, faces
     v, f = pos.astype(np.float32), faces.astype(np.int32)
     for _ in range(6):
-        if len(f) <= target_tris * 1.1:
+        if len(f) <= target * 1.1:
             break
-        reduction = min(0.95, 1.0 - target_tris / float(len(f)))
+        reduction = min(0.95, 1.0 - target / float(len(f)))
         try:
             nv, nf = fast_simplification.simplify(v, f, reduction, agg=7)
         except Exception as exc:  # pragma: no cover
@@ -171,13 +185,23 @@ def main():
     frame = Frame(center_mm)
     print("body bbox mm", lo, hi, "height", round(hi[2] - lo[2], 1))
 
-    glb = GLB()
-    for key, (col, rough, metal, alpha) in MATERIALS.items():
-        glb.add_material(key, col, rough, metal, alpha)
+    # one glTF writer per detail level
+    glbs = {}
+    cglbs = {}
+    for suffix, _vr, _cr in DETAILS:
+        g = GLB()
+        for key, (col, rough, metal, alpha) in MATERIALS.items():
+            g.add_material(key, col, rough, metal, alpha)
+        glbs[suffix] = g
+        c = GLB()
+        col, rough, metal, alpha = MATERIALS["context"]
+        c.add_material("context", col, rough, metal, alpha)
+        cglbs[suffix] = c
 
     catalog = []
     seen_files = set()
     counts = {"artery": 0, "vein": 0, "heart": 0}
+    tris = {s: 0 for s, _, _ in DETAILS}
 
     for rec in sorted(index, key=lambda r: r["name"] or "zz"):
         cls = classify(rec.get("name") or "")
@@ -196,9 +220,19 @@ def main():
             print("  skip", fid, exc)
             continue
         pos = frame.apply(v_mm).astype(np.float32)
-        nrm = vertex_normals(pos.astype(np.float64), faces)
-        glb.add_part(fid, pos, nrm, faces, mat,
-                     extras={"fma": rec["concept"], "name": short_name(rec["name"]), "group": group})
+        nrm_full = vertex_normals(pos.astype(np.float64), faces)
+        level_tris = {}
+        for suffix, vratio, _cr in DETAILS:
+            if suffix == "":
+                p, f, n = pos, faces, nrm_full
+            else:
+                p, f = simplify(pos.astype(np.float64), faces, vratio)
+                p = p.astype(np.float32)
+                n = vertex_normals(p.astype(np.float64), f)
+            glbs[suffix].add_part(fid, p, n, f, mat, extras={
+                "fma": rec["concept"], "name": short_name(rec["name"]), "group": group})
+            level_tris[suffix] = int(len(f))
+            tris[suffix] += int(len(f))
         seen_files.add(fid)
         counts[group] += 1
         catalog.append({
@@ -209,7 +243,9 @@ def main():
             "material": mat,
             "circuit": circuit,
             "coronary": coronary,
-            "tris": int(len(faces)),
+            "tris": level_tris[""],
+            "tris_lod1": level_tris["_lod1"],
+            "tris_lod2": level_tris["_lod2"],
             "verts": int(len(pos)),
             "centre": [round(float(x), 3) for x in pos.mean(axis=0)],
             "min": [round(float(x), 3) for x in pos.min(axis=0)],
@@ -217,16 +253,15 @@ def main():
             "lineage": ancestors(rec["concept"], parent, name_of),
         })
 
-    size = glb.write(os.path.join(DATA, "circulatory.glb"))
-    print(f"circulatory.glb  parts={len(catalog)} tris={sum(c['tris'] for c in catalog)} "
-          f"size={size/1e6:.1f} MB  {counts}")
+    for suffix, _vr, _cr in DETAILS:
+        size = glbs[suffix].write(os.path.join(DATA, f"circulatory{suffix}.glb"))
+        print(f"circulatory{suffix}.glb  parts={len(catalog)} tris={tris[suffix]} "
+              f"size={size/1e6:.1f} MB")
 
     # ---------------------------------------------------------------- context
-    cglb = GLB()
-    col, rough, metal, alpha = MATERIALS["context"]
-    cglb.add_material("context", col, rough, metal, alpha)
     ctx = []
     used_names = set()
+    ctris = {s: 0 for s, _, _ in DETAILS}
     for rec in index:
         nm = rec.get("name") or ""
         if not any(re.match(p, nm.strip(), re.I) for p in CONTEXT_PATTERNS):
@@ -242,40 +277,52 @@ def main():
         except Exception as exc:
             print("  ctx skip", rec["fid"], exc)
             continue
-        target = CONTEXT_TARGET_TRIS["skin"] if key == "skin" else CONTEXT_TARGET_TRIS["default"]
-        v_mm, faces = decimate(v_mm, faces, target)
-        pos = frame.apply(v_mm).astype(np.float32)
-        nrm = vertex_normals(pos.astype(np.float64), faces)
-        cglb.add_part(rec["fid"], pos, nrm, faces, "context",
-                      extras={"fma": rec["concept"], "name": short_name(nm), "group": "context"})
+        base_target = CONTEXT_TARGET_TRIS["skin"] if key == "skin" else CONTEXT_TARGET_TRIS["default"]
+        pos_full = frame.apply(v_mm).astype(np.float32)
+        level_tris = {}
+        for suffix, _vr, cratio in DETAILS:
+            target = max(60, int(base_target * cratio))
+            p, f = simplify(pos_full.astype(np.float64), faces,
+                            target / max(1, len(faces)))
+            p = p.astype(np.float32)
+            n = vertex_normals(p.astype(np.float64), f)
+            cglbs[suffix].add_part(rec["fid"], p, n, f, "context", extras={
+                "fma": rec["concept"], "name": short_name(nm), "group": "context"})
+            level_tris[suffix] = int(len(f))
+            ctris[suffix] += int(len(f))
         used_names.add(key)
         ctx.append({
             "id": rec["fid"], "fma": rec["concept"], "name": short_name(nm),
             "group": "context", "material": "context", "circuit": "systemic",
-            "coronary": False, "tris": int(len(faces)), "verts": int(len(pos)),
-            "centre": [round(float(x), 3) for x in pos.mean(axis=0)],
-            "min": [round(float(x), 3) for x in pos.min(axis=0)],
-            "max": [round(float(x), 3) for x in pos.max(axis=0)],
+            "coronary": False,
+            "tris": level_tris[""], "tris_lod1": level_tris["_lod1"], "tris_lod2": level_tris["_lod2"],
+            "verts": int(len(pos_full)),
+            "centre": [round(float(x), 3) for x in pos_full.mean(axis=0)],
+            "min": [round(float(x), 3) for x in pos_full.min(axis=0)],
+            "max": [round(float(x), 3) for x in pos_full.max(axis=0)],
             "lineage": ancestors(rec["concept"], parent, name_of),
         })
-    size = cglb.write(os.path.join(DATA, "context.glb"))
-    print(f"context.glb  parts={len(ctx)} tris={sum(c['tris'] for c in ctx)} "
-          f"file={size/1e6:.1f} MB")
+
+    for suffix, _vr, _cr in DETAILS:
+        size = cglbs[suffix].write(os.path.join(DATA, f"context{suffix}.glb"))
+        print(f"context{suffix}.glb  parts={len(ctx)} tris={ctris[suffix]} file={size/1e6:.1f} MB")
 
     catalog.extend(ctx)
     json.dump({"centre_mm": [round(float(x), 2) for x in center_mm],
                "unit": "1 unit = 1 cm",
                "source": "BodyParts3D (DBCLS), PART-OF tree, 99% polygon reduction, CC BY-SA 2.1 JP",
+               "detail_levels": {"high": "", "balanced": "_lod1", "performance": "_lod2"},
                "parts": catalog},
               open(os.path.join(DATA, "parts.json"), "w"), indent=1)
-    print("parts.json written:", len(catalog))
+    print("parts.json written:", len(catalog), "total tris",
+          {k: v for k, v in tris.items()}, "context", ctris)
 
     build_tour(frame)
     write_attribution()
 
 
 # --------------------------------------------------------------------------- tour
-# (file id, station title, caption)  -- the caption is shown when the camera arrives
+# (file id, station title, caption) — shown when the camera arrives
 TOUR = [
     ("FJ3645", "Superior vena cava",
      "Deoxygenated blood from the head, neck and arms returns through the superior vena cava. "
@@ -361,7 +408,6 @@ def build_tour(frame: Frame):
     pts = np.asarray(pts)
     pts = smooth_path(pts, iters=3, alpha=0.35)
 
-    # cumulative length -> normalised t for each station
     seg = np.linalg.norm(np.diff(pts, axis=0), axis=1)
     cum = np.concatenate([[0.0], np.cumsum(seg)])
     total = cum[-1]
@@ -403,7 +449,8 @@ Nucleic Acids Res. 2008 Oct 3. PMID: 18835852
 Modifications made by this project: coordinate conversion from BodyParts3D
 (mm, X=left, Y=posterior, Z=superior) to Godot's Y-up space, unit scaled to
 centimetres, smooth vertex normals recomputed, meshes packed into glTF 2.0,
-context organs decimated for use as a translucent ghost.
+additional quadric-decimated levels of detail for the vessels and the ghost
+organs, and a medial-line spline derived from the vessel meshes for the tour.
 
 If you redistribute the models you must keep this attribution and share alike.
 """

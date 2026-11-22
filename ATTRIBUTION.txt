@@ -17,6 +17,7 @@ Nucleic Acids Res. 2008 Oct 3. PMID: 18835852
 Modifications made by this project: coordinate conversion from BodyParts3D
 (mm, X=left, Y=posterior, Z=superior) to Godot's Y-up space, unit scaled to
 centimetres, smooth vertex normals recomputed, meshes packed into glTF 2.0,
-context organs decimated for use as a translucent ghost.
+additional quadric-decimated levels of detail for the vessels and the ghost
+organs, and a medial-line spline derived from the vessel meshes for the tour.
 
 If you redistribute the models you must keep this attribution and share alike.

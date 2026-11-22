@@ -10,6 +10,7 @@ signal labels_toggled(on: bool)
 signal search_changed(text: String)
 signal part_picked(id: String)
 signal pause_toggled()
+signal quality_changed(quality: String)
 signal station_step(direction: int)
 
 const TEXT := Color(0.94, 0.95, 0.97)
@@ -46,6 +47,7 @@ var mode_buttons: Dictionary = {}
 var sliders: Dictionary = {}
 var context_check: CheckBox
 var labels_check: CheckBox
+var quality_option: OptionButton
 
 var _list_ids: Array = []
 var _mode := "free"
@@ -264,6 +266,24 @@ func _build_left_panel() -> void:
 	col.add_child(labels_check)
 
 	col.add_child(HSeparator.new())
+	col.add_child(_section("GRAPHICS"))
+	var qrow := HBoxContainer.new()
+	qrow.add_theme_constant_override("separation", 8)
+	qrow.add_child(_label("Detail", 12, TEXT))
+	qrow.add_child(_spacer())
+	quality_option = OptionButton.new()
+	quality_option.add_theme_font_size_override("font_size", 12)
+	quality_option.custom_minimum_size = Vector2(140, 28)
+	quality_option.focus_mode = Control.FOCUS_NONE
+	for item in [["Performance", "performance"], ["Balanced", "balanced"], ["High", "high"]]:
+		quality_option.add_item(item[0])
+		quality_option.set_item_metadata(quality_option.item_count - 1, item[1])
+	quality_option.item_selected.connect(func(i: int) -> void:
+		quality_changed.emit(String(quality_option.get_item_metadata(i))))
+	qrow.add_child(quality_option)
+	col.add_child(qrow)
+
+	col.add_child(HSeparator.new())
 	var help := _label("WASD fly  ·  Q/E down/up  ·  Shift boost  ·  wheel = speed\n" \
 			+ "Click to capture the mouse  ·  Esc releases  ·  right-click flies to a part\n" \
 			+ "1 / 2 / 3 modes  ·  Space pauses  ·  ←/→ stations  ·  Tab hides the UI",
@@ -420,6 +440,13 @@ func set_mode(mode: String) -> void:
 
 func current_mode() -> String:
 	return _mode
+
+
+func set_quality(quality: String) -> void:
+	for i in quality_option.item_count:
+		if String(quality_option.get_item_metadata(i)) == quality:
+			quality_option.select(i)
+			return
 
 
 func set_vignette(on: bool) -> void:

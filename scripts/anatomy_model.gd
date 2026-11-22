@@ -3,6 +3,9 @@ extends Node3D
 ## Loads the BodyParts3D glTF exports (one mesh per anatomical part), keeps the
 ## catalogue of metadata next to them and exposes per-group materials, opacity
 ## control, the fly-through cutaway and ray picking.
+##
+## Three detail levels share the same catalogue and node names, so the level can
+## be swapped at runtime (see reload()).
 
 signal hovered(part: Dictionary)
 signal selected(part: Dictionary)
@@ -10,6 +13,9 @@ signal selected(part: Dictionary)
 const DATA_DIR := "res://data/"
 const SHADER_OPAQUE := preload("res://shaders/vessel_opaque.gdshader")
 const SHADER_ALPHA := preload("res://shaders/vessel_alpha.gdshader")
+
+## 2 = full detail, 1 = balanced, 0 = performance
+const DETAIL_SUFFIX := {2: "", 1: "_lod1", 0: "_lod2"}
 
 # group key -> screen-space opacity bucket used by the UI
 const BUCKET := {
@@ -33,6 +39,7 @@ const SPEC := {
 var parts: Array = []                          # catalogue entries with .node filled in
 var by_id: Dictionary = {}
 var meta: Dictionary = {}
+var detail := 2
 var context_root: Node3D
 var circulatory_root: Node3D
 var highlighted: Node3D = null
@@ -41,39 +48,60 @@ var bounds := AABB()
 var _mats: Dictionary = {}                     # key -> [ShaderMaterial opaque, ShaderMaterial alpha]
 var _by_material: Dictionary = {}              # key -> Array[Dictionary]
 var _context_material: StandardMaterial3D
-var _started_with_context := false
 var _hl_material: StandardMaterial3D
 var _face_cache: Dictionary = {}
 var _face_cache_order: Array = []
 
 
-func load_anatomy() -> bool:
+func load_anatomy(detail_level: int = 2) -> bool:
 	meta = _read_json(DATA_DIR + "parts.json")
 	if meta.is_empty():
 		push_error("parts.json missing")
 		return false
+	_ensure_materials()
+	return _build(detail_level)
 
-	circulatory_root = _instance_gltf(DATA_DIR + "circulatory.glb")
+
+## Swap the level of detail without rebuilding anything else. Returns true when
+## the meshes were replaced.
+func reload(detail_level: int) -> bool:
+	if detail_level == detail and circulatory_root != null:
+		return true
+	_teardown()
+	return _build(detail_level)
+
+
+func _teardown() -> void:
+	highlighted = null
+	_face_cache.clear()
+	_face_cache_order.clear()
+	parts.clear()
+	by_id.clear()
+	_by_material.clear()
+	if circulatory_root != null:
+		circulatory_root.visible = false
+		circulatory_root.queue_free()
+		circulatory_root = null
+	if context_root != null:
+		context_root.visible = false
+		context_root.queue_free()
+		context_root = null
+
+
+func _build(detail_level: int) -> bool:
+	detail = detail_level
+	var suffix: String = DETAIL_SUFFIX.get(detail_level, "")
+	context_root = _instance_gltf(DATA_DIR + "context%s.glb" % suffix)
+	circulatory_root = _instance_gltf(DATA_DIR + "circulatory%s.glb" % suffix)
 	if circulatory_root == null:
 		return false
-	add_child(circulatory_root)
-
-	context_root = _instance_gltf(DATA_DIR + "context.glb")
-	if context_root != null:
-		add_child(context_root)
-
-	_build_materials()
-	_hl_material = StandardMaterial3D.new()
-	_hl_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	_hl_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	_hl_material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	_hl_material.albedo_color = Color(1.0, 0.84, 0.52, 0.26)
-	_hl_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 
 	# join the catalogue with the instantiated meshes
 	var meshes := _collect_meshes(circulatory_root)
-	if context_root:
+	if context_root != null:
+		add_child(context_root)
 		meshes.merge(_collect_meshes(context_root))
+	add_child(circulatory_root)
 
 	var first := true
 	for entry in meta.get("parts", []):
@@ -85,7 +113,7 @@ func load_anatomy() -> bool:
 		var hi := Vector3(entry["max"][0], entry["max"][1], entry["max"][2])
 		entry["aabb"] = AABB(lo, hi - lo)
 		if node != null:
-			node.set_surface_override_material(0, _material_for(key, 1.0))
+			node.set_surface_override_material(0, _material_for(key, _opacity.get(key, 1.0)))
 			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 		if not _by_material.has(key):
@@ -95,7 +123,7 @@ func load_anatomy() -> bool:
 		first = false
 		parts.append(entry)
 		by_id[id] = entry
-	set_context_visible(false)
+	set_context_visible(_context_on)
 	return true
 
 
@@ -141,12 +169,21 @@ func _collect_meshes(root: Node) -> Dictionary:
 
 
 # ------------------------------------------------------------------ materials
-func _build_materials() -> void:
+var _opacity: Dictionary = {                      # material key -> 0..1
+	"artery": 1.0, "vein": 1.0, "heart_muscle": 1.0,
+	"heart_valve": 1.0, "heart_blood": 1.0, "context": 0.35,
+}
+var _context_on := false
+var _mottle := 1.0
+
+
+func _ensure_materials() -> void:
+	if not _mats.is_empty():
+		return
 	for key in SPEC.keys():
 		var spec: Array = SPEC[key]
-		var opaque := _make_shader_material(SHADER_OPAQUE, spec, 1.0)
-		var alpha := _make_shader_material(SHADER_ALPHA, spec, 1.0)
-		_mats[key] = [opaque, alpha]
+		_mats[key] = [_make_shader_material(SHADER_OPAQUE, spec, 1.0),
+				_make_shader_material(SHADER_ALPHA, spec, 1.0)]
 
 	_context_material = StandardMaterial3D.new()
 	_context_material.albedo_color = Color(0.44, 0.58, 0.78, 0.16)
@@ -156,6 +193,14 @@ func _build_materials() -> void:
 	_context_material.rim_enabled = true
 	_context_material.rim = 0.85
 	_context_material.rim_tint = 0.35
+	_context_material.disable_receive_shadows = true
+
+	_hl_material = StandardMaterial3D.new()
+	_hl_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	_hl_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	_hl_material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+	_hl_material.albedo_color = Color(1.0, 0.84, 0.52, 0.26)
+	_hl_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 
 
 func _make_shader_material(shader: Shader, spec: Array, alpha: float) -> ShaderMaterial:
@@ -169,6 +214,7 @@ func _make_shader_material(shader: Shader, spec: Array, alpha: float) -> ShaderM
 	m.set_shader_parameter("emission_strength", spec[3])
 	m.set_shader_parameter("hole_center", Vector3.ZERO)
 	m.set_shader_parameter("hole_radius", 0.0)
+	m.set_shader_parameter("mottle", _mottle)
 	return m
 
 
@@ -188,12 +234,13 @@ func set_bucket_opacity(bucket: String, opacity: float) -> void:
 	for key in _mats.keys():
 		if BUCKET.get(key, "") != bucket:
 			continue
+		_opacity[key] = opacity
 		var mat := _material_for(key, opacity)
 		for entry in _by_material.get(key, []):
 			var node: MeshInstance3D = entry.get("node")
 			if node != null:
 				node.set_surface_override_material(0, mat)
-	if bucket == "context" and context_root:
+	if bucket == "context":
 		_context_material.albedo_color.a = clampf(opacity, 0.0, 1.0) * 0.30
 
 
@@ -212,7 +259,16 @@ func set_heart_emission(energy: float) -> void:
 			(mat as ShaderMaterial).set_shader_parameter("emission_strength", energy)
 
 
+## 0 disables the per-fragment mottling noise (cheapest, for low-end GPUs).
+func set_mottle(amount: float) -> void:
+	_mottle = clampf(amount, 0.0, 1.0)
+	for key in _mats.keys():
+		for mat in _mats[key]:
+			(mat as ShaderMaterial).set_shader_parameter("mottle", _mottle)
+
+
 func set_context_visible(on: bool) -> void:
+	_context_on = on
 	if context_root:
 		context_root.visible = on
 
@@ -223,6 +279,26 @@ func is_context_visible() -> bool:
 
 func is_circulatory(part: Dictionary) -> bool:
 	return String(part.get("group", "")) != "context"
+
+
+## Triangle count of a part at the current detail level.
+func tris_of(part: Dictionary) -> int:
+	match detail:
+		2:
+			return int(part.get("tris", 0))
+		1:
+			return int(part.get("tris_lod1", part.get("tris", 0)))
+		_:
+			return int(part.get("tris_lod2", part.get("tris", 0)))
+
+
+func total_tris(include_context := true) -> int:
+	var total := 0
+	for p in parts:
+		if not include_context and p["group"] == "context":
+			continue
+		total += tris_of(p)
+	return total
 
 
 # --------------------------------------------------------------------- picking
@@ -256,10 +332,10 @@ func _ray_hits_mesh(part: Dictionary, origin: Vector3, dir: Vector3) -> bool:
 		faces = node.mesh.get_faces()
 		_face_cache[id] = faces
 		_face_cache_order.append(id)
-		while _face_cache_order.size() > 48:
+		while _face_cache_order.size() > 24:
 			_face_cache.erase(_face_cache_order.pop_front())
 	var count := faces.size() / 3
-	var stride := maxi(1, int(ceil(count / 9000.0)))
+	var stride := maxi(1, int(ceil(count / 6000.0)))
 	var i := 0
 	while i < count:
 		if Geometry3D.ray_intersects_triangle(origin, dir,
@@ -275,7 +351,7 @@ func highlight(part: Dictionary) -> void:
 		node = part.get("node")
 	if node == highlighted:
 		return
-	if highlighted != null and highlighted is GeometryInstance3D:
+	if highlighted != null and is_instance_valid(highlighted) and highlighted is GeometryInstance3D:
 		(highlighted as GeometryInstance3D).material_overlay = null
 	highlighted = node
 	if highlighted != null and highlighted is GeometryInstance3D:

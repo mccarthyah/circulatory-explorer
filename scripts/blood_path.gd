@@ -21,6 +21,7 @@ var loop := false
 var _hold := 0.0
 var _next_station := 0
 var _flow: MultiMeshInstance3D
+var _visible := 420
 var _t: PackedFloat32Array = PackedFloat32Array()
 var _off: PackedVector3Array = PackedVector3Array()
 var _spd: PackedFloat32Array = PackedFloat32Array()
@@ -138,10 +139,15 @@ func advance(delta: float) -> void:
 			finished.emit()
 
 
+## Jump along the path. Announces the station you land on, so that stepping
+## with the arrow keys (and any seek) keeps the caption panel in sync.
 func seek_fraction(f: float) -> void:
 	progress = clampf(f, 0.0, 1.0) * length
-	_next_station = station_at(f) + 1
+	var here := station_at(f)
+	_next_station = here + 1
 	_hold = 0.0
+	if here >= 0:
+		station_reached.emit(here, stations[here])
 
 
 func next_station() -> void:
@@ -197,6 +203,15 @@ func _build_flow() -> void:
 		_spd.append(rng.randf_range(0.8, 1.35))
 
 
+## 0 = few cells (low-detail preset), 1 = normal, 2 = dense
+func set_flow_density(level: int) -> void:
+	if _flow == null:
+		return
+	var counts := [110, 240, 420]
+	_visible = clampi(int(counts[clampi(level, 0, 2)]), 0, _flow.multimesh.instance_count)
+	_flow.multimesh.visible_instance_count = _visible
+
+
 func flow_visible(on: bool) -> void:
 	if _flow:
 		_flow.visible = on
@@ -208,7 +223,7 @@ func _process(delta: float) -> void:
 	var mm := _flow.multimesh
 	var cam := get_viewport().get_camera_3d()
 	var cam_pos := cam.global_position if cam != null else Vector3(1e9, 1e9, 1e9)
-	for i in mm.instance_count:
+	for i in _visible:
 		var t: float = _t[i] + (_flow_speed * _spd[i] * delta) / length
 		if t > 1.0:
 			t -= 1.0

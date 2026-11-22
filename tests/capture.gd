@@ -22,6 +22,10 @@ func _run() -> void:
 	main = get_node("/root/Main")
 	await _wait(1.2)
 
+	# stills are documented at the "balanced" preset; the shipped default is
+	# "performance" and is captured separately at the end for comparison
+	main.apply_quality("balanced", true)
+	await _wait(1.0)
 	await _shot("01_hero")
 
 	main.cam.aim_from(Vector3(105, 55, -175), Vector3(0, 12, 0))
@@ -46,15 +50,20 @@ func _run() -> void:
 	await _shot("04_inspect")
 
 	main._on_mode_requested("tour")
-	await _wait(4.4)
+	await _wait(1.2)
+	main._fly = {}                      # skip the establishing fly-in
+	# station 1 is the SVC mouth; step into the right atrium / ventricle part of
+	# the tour where the heart itself fills the frame
+	main.path.seek_fraction(0.10)
+	await _wait(3.6)
 	await _shot("05_tour_heart")
 
 	main.path.seek_fraction(0.30)
-	await _wait(1.4)
+	await _wait(4.5)
 	await _shot("06_tour_aorta")
 
-	main.path.seek_fraction(0.62)
-	await _wait(1.4)
+	main.path.seek_fraction(0.72)
+	await _wait(5.0)
 	await _shot("07_tour_leg")
 
 	main._on_mode_requested("interior")
@@ -66,6 +75,21 @@ func _run() -> void:
 	main.path.seek_fraction(0.66)
 	await _wait(1.2)
 	await _shot("09_interior_leg")
+
+	# detail-level comparison from the same viewpoint
+	main._on_mode_requested("free")
+	var hcc: Vector3 = main.model.by_id["FJ2423"]["aabb"].get_center()
+	main.cam.aim_from(hcc + Vector3(13.0, 5.0, -17.0), hcc)
+	for item in [["performance", "10_perf"], ["high", "11_high"]]:
+		main.apply_quality(item[0], true)
+		await _wait(1.6)
+		await _shot(item[1])
+	main.apply_quality("balanced", true)
+	main._on_mode_requested("interior")
+	main.path.seek_fraction(0.30)
+	main.apply_quality("performance", true)
+	await _wait(1.6)
+	await _shot("12_perf_interior")
 
 
 func _wait(seconds: float) -> void:

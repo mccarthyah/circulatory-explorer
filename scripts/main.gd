@@ -24,6 +24,28 @@ const LABELS := [
 	["FJ2170", "Popliteal artery"],
 ]
 
+## Graphics presets. `detail` picks the mesh file set, the rest turns the
+## expensive render features on or off.
+const QUALITY := {
+	"performance": {
+		"detail": 0, "msaa": 0, "aa": 0, "scale": 0.75,
+		"glow": false, "fog": false, "adjust": false,
+		"ghost": false, "labels": false, "mottle": 0.0, "pick_interval": 0.16,
+	},
+	"balanced": {
+		"detail": 1, "msaa": 0, "aa": 1, "scale": 0.90,
+		"glow": true, "fog": true, "adjust": true,
+		"ghost": true, "labels": true, "mottle": 0.7, "pick_interval": 0.11,
+	},
+	"high": {
+		"detail": 2, "msaa": 2, "aa": 0, "scale": 1.0,
+		"glow": true, "fog": true, "adjust": true,
+		"ghost": true, "labels": true, "mottle": 1.0, "pick_interval": 0.09,
+	},
+}
+const QUALITY_NAMES := ["performance", "balanced", "high"]
+const SETTINGS := "user://settings.cfg"
+
 const TOUR_LIFT := 1.4          # cm the tour camera floats above the centreline
 const HOLE_TOUR := 6.5          # cm of geometry carved away around the camera
 const HOLE_TOUR_HEART := 11.5   # … and a wider bubble inside the heart
@@ -49,7 +71,9 @@ var mode := "free"
 var hover: Dictionary = {}
 var selected_part: Dictionary = {}
 var labels_visible := true
+var quality := "performance"
 
+var _pick_interval := 0.16
 var _pick_timer := 0.0
 var _status_timer := 0.0
 var _label_timer := 0.0
@@ -76,6 +100,7 @@ func _ready() -> void:
 	hud.labels_toggled.connect(_on_labels_toggled)
 	hud.search_changed.connect(_on_search)
 	hud.part_picked.connect(_on_part_picked)
+	hud.quality_changed.connect(_on_quality_changed)
 
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -107,10 +132,9 @@ func _ready() -> void:
 	_build_headlight()
 
 	_build_labels()
-	hud.set_subtitle("BodyParts3D  ·  %d anatomical parts  ·  fly through the human vasculature"
-			% model.parts.size())
 	hud.populate(model.parts_matching(""))
 	hud.set_loading("")
+	apply_quality(_load_quality(), false)
 	print("[explorer] anatomy parts: %d   path length: %.1f cm   stations: %d"
 			% [model.parts.size(), path.length, path.stations.size()])
 	_go_free(true)
@@ -227,6 +251,7 @@ func _go_free(first := false) -> void:
 	path.flow_visible(false)
 	path.stop()
 	_set_opacity_preset(false)
+	_sync_detail()
 	_set_atmosphere(false)
 	cam.enabled = true
 	cam.fov = 68.0
@@ -236,9 +261,9 @@ func _go_free(first := false) -> void:
 		model.set_context_visible(true)
 	_apply_context_opacity()
 	if not hover.is_empty():
-		hud.show_part(hover)
+		hud.show_part(_card(hover))
 	elif not selected_part.is_empty():
-		hud.show_part(selected_part)
+		hud.show_part(_card(selected_part))
 	else:
 		hud.show_info(false)
 
@@ -261,6 +286,7 @@ func _go_path(interior: bool) -> void:
 	path.flow_visible(interior)
 	_set_opacity_preset(not interior)
 	_set_atmosphere(interior)
+	_sync_detail()
 	cam.fov = 88.0 if interior else 72.0
 	headlight.visible = interior
 	_context_was_on = model.is_context_visible()
@@ -301,11 +327,15 @@ func _set_opacity_preset(xray: bool) -> void:
 
 
 func _set_atmosphere(interior: bool) -> void:
+	var preset: Dictionary = QUALITY.get(quality, QUALITY["performance"])
+	# depth fog is what makes the lumen read as a tunnel rather than a flat
+	# red wall, so it stays on inside the vessels even on the low preset
+	env.fog_enabled = interior or bool(preset["fog"])
 	if interior:
-		env.fog_density = 0.042
-		env.fog_light_color = Color(0.045, 0.006, 0.009)
+		env.fog_density = 0.05
+		env.fog_light_color = Color(0.075, 0.010, 0.014)
 		env.ambient_light_energy = 0.22
-		env.background_color = Color(0.035, 0.004, 0.007)
+		env.background_color = Color(0.085, 0.011, 0.015)
 		env.glow_intensity = 0.10
 		env.tonemap_exposure = 0.90
 	else:
@@ -315,6 +345,113 @@ func _set_atmosphere(interior: bool) -> void:
 		env.background_color = Color(0.012, 0.016, 0.028)
 		env.glow_intensity = 0.32
 		env.tonemap_exposure = 1.05
+
+
+# --------------------------------------------------------------------- quality
+func _load_quality() -> String:
+	var cf := ConfigFile.new()
+	if cf.load(SETTINGS) == OK:
+		var q := String(cf.get_value("graphics", "quality", "performance"))
+		if QUALITY.has(q):
+			return q
+	return "performance"
+
+
+func _save_quality(q: String) -> void:
+	var cf := ConfigFile.new()
+	cf.load(SETTINGS)
+	cf.set_value("graphics", "quality", q)
+	cf.save(SETTINGS)
+
+
+func _on_quality_changed(q: String) -> void:
+	apply_quality(q, true)
+
+
+func apply_quality(q: String, reload_meshes := true) -> void:
+	if not QUALITY.has(q):
+		q = "performance"
+	quality = q
+	var preset: Dictionary = QUALITY[q]
+
+	var vp := get_viewport()
+	if vp != null:
+		vp.msaa_3d = int(preset["msaa"])
+		vp.screen_space_aa = int(preset["aa"])
+		vp.scaling_3d_scale = float(preset["scale"])
+	if env != null:
+		env.glow_enabled = bool(preset["glow"])
+		env.fog_enabled = bool(preset["fog"])
+		env.adjustment_enabled = bool(preset["adjust"])
+		_set_atmosphere(mode == "interior")
+
+	_pick_interval = float(preset["pick_interval"])
+	if path != null:
+		path.set_flow_density(int(preset["detail"]))
+	labels_visible = bool(preset["labels"])
+	hud.labels_check.set_pressed_no_signal(labels_visible)
+
+	if model != null:
+		model.set_mottle(float(preset["mottle"]))
+		if reload_meshes:
+			hover = {}
+			selected_part = {}
+			model.highlight({})
+			hud.clear_part()
+			model.reload(_effective_detail())
+		var ghost: bool = bool(preset["ghost"])
+		model.set_context_visible(ghost)
+		hud.context_check.set_pressed_no_signal(ghost)
+		_context_was_on = ghost
+		if ghost:
+			_apply_context_opacity()
+		_update_subtitle()
+	hud.set_quality(q)
+	_save_quality(q)
+
+
+func _update_subtitle() -> void:
+	if model == null:
+		return
+	var ghost: bool = model.is_context_visible()
+	var label := String(QUALITY_NAMES[model.detail])
+	if model.detail != _quality_detail():
+		label += " (interior)"
+	hud.set_subtitle("BodyParts3D  ·  %d parts  ·  %s triangles  ·  %s detail"
+			% [model.parts.size(), _thousands(model.total_tris(ghost)), label])
+
+
+func _thousands(n: int) -> String:
+	var txt := str(n)
+	var out := ""
+	var count := 0
+	for i in range(txt.length() - 1, -1, -1):
+		out = txt[i] + out
+		count += 1
+		if count % 3 == 0 and i > 0:
+			out = "," + out
+	return out
+
+
+func _effective_detail() -> int:
+	var d := _quality_detail()
+	if mode == "interior":
+		d = maxi(d, 1)
+	return d
+
+
+func _sync_detail() -> void:
+	if model == null:
+		return
+	if model.detail != _effective_detail():
+		hover = {}
+		model.highlight({})
+		model.reload(_effective_detail())
+		_update_subtitle()
+
+
+func _quality_detail() -> int:
+	return int(QUALITY.get(quality, QUALITY["performance"])["detail"])
 
 
 # ------------------------------------------------------------------- HUD input
@@ -336,6 +473,7 @@ func _on_opacity(bucket: String, value: float) -> void:
 func _on_context_toggled(on: bool) -> void:
 	model.set_context_visible(on)
 	_context_was_on = on
+	_update_subtitle()
 	if on:
 		_apply_context_opacity()
 
@@ -360,7 +498,7 @@ func _on_part_picked(id: String) -> void:
 	if part.is_empty():
 		return
 	selected_part = part
-	hud.show_part(part)
+	hud.show_part(_card(part))
 	model.highlight(part)
 	if mode != "free":
 		_go_free(false)
@@ -371,6 +509,15 @@ func _on_part_picked(id: String) -> void:
 		"t": 0.0, "dur": clampf(0.5 + float(view["distance"]) * 0.012, 0.6, 2.6), "then": "",
 	}
 	cam.enabled = false
+
+
+## A copy of a catalogue entry with the triangle count of the current detail.
+func _card(part: Dictionary) -> Dictionary:
+	if part.is_empty():
+		return part
+	var copy := part.duplicate()
+	copy["tris"] = model.tris_of(part)
+	return copy
 
 
 # ---------------------------------------------------------------------- tour
@@ -500,7 +647,7 @@ func _update_hover(delta: float) -> void:
 	_pick_timer -= delta
 	if _pick_timer > 0.0:
 		return
-	_pick_timer = 0.09
+	_pick_timer = _pick_interval
 	var origin: Vector3 = cam.global_position
 	var dir: Vector3 = -cam.global_transform.basis.z
 	var hit: Dictionary = model.pick(origin, dir)
@@ -509,13 +656,13 @@ func _update_hover(delta: float) -> void:
 	hover = hit
 	if not hover.is_empty():
 		model.highlight(hover)
-		hud.show_part(hover)
+		hud.show_part(_card(hover))
 	else:
 		model.highlight(selected_part)
 		if selected_part.is_empty():
 			hud.show_info(false)
 		else:
-			hud.show_part(selected_part)
+			hud.show_part(_card(selected_part))
 
 
 func _update_fly(delta: float) -> void:
@@ -597,6 +744,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				_on_context_toggled(on)
 			KEY_R:
 				_go_free(true)
+			KEY_F9:
+				var i := QUALITY_NAMES.find(quality)
+				apply_quality(String(QUALITY_NAMES[(i + 1) % QUALITY_NAMES.size()]), true)
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT and mode == "free":

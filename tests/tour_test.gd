@@ -57,5 +57,18 @@ func _ready() -> void:
 			misses += 1
 			print("[test] pick miss for ", id, " (", part["name"], ")")
 	print("[test] pick misses: ", misses)
+
+	# --- detail levels: each preset loads its own mesh set
+	for q in ["high", "balanced", "performance"]:
+		main.apply_quality(q, true)
+		await get_tree().create_timer(0.2).timeout
+		var part: Dictionary = main.model.by_id["FJ3411"]
+		var c: Vector3 = part["aabb"].get_center()
+		var o: Vector3 = c + Vector3(0, 0, -30)
+		var hit: Dictionary = main.model.pick(o, (c - o).normalized())
+		print("[test] quality=%s detail=%d tris=%d arch_tris=%d pick=%s"
+				% [q, main.model.detail, main.model.total_tris(),
+					main.model.tris_of(part),
+					String(hit.get("name", "MISS"))])
 	print("[test] DONE")
 	get_tree().quit()
