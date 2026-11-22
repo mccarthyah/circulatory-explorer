@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check that every catalogued anatomy part exists at every detail level."""
 import json
+import re
 from pathlib import Path
 import struct
 
@@ -72,7 +73,7 @@ for region, entries in regions.items():
             eps = 0.0001
             if region == 'torso':
                 assert lo[1] >= 18-eps and hi[1] <= 56+eps and lo[0] >= -13.5-eps and hi[0] <= 13.5+eps
-                assert not __import__('re').search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous)\b', by_id[fid]['name'], __import__('re').I)
+                assert not re.search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous|subscapular)\b|^(acromial|deltoid) branch', by_id[fid]['name'], re.I)
             if region == 'lower': assert hi[1] <= 18+eps
             if region == 'head': assert lo[1] >= 56-eps
             if region == 'heart': assert by_id[fid]['group'] == 'heart' or by_id[fid]['coronary'] or fid in ('FJ2966','FJ3413')

@@ -135,7 +135,8 @@ func _ready() -> void:
 	path = PATH_SCRIPT.new()
 	path.name = "BloodPath"
 	add_child(path)
-	path.load_path()
+	if region == "all":
+		path.load_path()
 	path.station_reached.connect(_on_station)
 	path.finished.connect(_on_path_finished)
 

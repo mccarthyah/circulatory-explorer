@@ -97,7 +97,7 @@ def main():
                 norm = array(g, blob, prim['attributes']['NORMAL'])
                 faces = array(g, blob, prim['indices'])
                 for region in REGIONS:
-                    if region == 'torso' and re.search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous)\b', p['name'], re.I):
+                    if region == 'torso' and re.search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous|subscapular)\b|^(acromial|deltoid) branch', p['name'], re.I):
                         continue
                     if region == 'heart' and not (p['group'] == 'heart' or p.get('coronary') or fid in ('FJ2966', 'FJ3413')):
                         continue

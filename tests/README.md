@@ -65,3 +65,9 @@ compilation stutters. Capture console output with the OS, driver, hypervisor,
 VM 3D configuration and window resolution when comparing runs. Run several
 times and compare like-for-like; headless or software rendering is not a GPU
 benchmark.
+
+The headless suite also exercises the main menu, all five selections, return to
+the menu, region-only loading and optional regional vessels. `python3
+tests/validate_assets.py` verifies regional mesh membership, cuts and triangle
+counts. The Compatibility smoke test navigates the menu with controller events
+and renders both a focused view and the full model.

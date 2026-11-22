@@ -54,3 +54,21 @@ for supplemental parts, and surfaces may overlap or duplicate larger composite
 structures. Classification is name-based, not an exhaustive clinical ontology.
 The original source meshes and derived assets are under CC BY-SA 2.1 Japan; see
 `ATTRIBUTION.txt`.
+
+## Regional view assets
+
+After the base and supplemental builds, run `python3 pipeline/build_regions.py`
+from the project root. It partitions the shipped Performance GLBs into separate
+base and optional-extra GLBs for torso, lower body, head and heart, and writes
+`data/regions.json` with per-view bounds and triangle counts. `tests/validate_assets.py`
+checks these files. Regional builds currently only provide Performance detail,
+matching the app's lowest-only lock; rebuild additional detail levels and adapt
+the loader before lifting that lock for regional views.
+
+Coordinates are body-centred centimetres. Waist down is clipped at Y=18;
+head and neck at Y=56; torso is clipped between those heights and to X=±13.5,
+with named arm and shoulder vessels excluded. Cross-boundary triangles are
+clipped, not capped, and structures can occur in multiple regions. The cuts and
+name exclusions are approximate and can trim peripheral torso structures. The
+heart view contains heart parts, coronary vessels, pulmonary trunk and ascending
+aorta. Regional views omit context and the full-body tour data at runtime.

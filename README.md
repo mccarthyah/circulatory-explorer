@@ -37,9 +37,25 @@ in `scripts/main.gd` is enabled.
    the glTF files are parsed at runtime in that case).
 3. Press **F5**.
 
-The first launch loads 690 base and core meshes at Performance detail; you will
-see "Loading anatomy…" for a moment. The optional extra-vessel meshes are not
-loaded until requested.
+The app opens on a **main menu without loading the anatomy model**. Choose:
+
+- **Torso** — chest and abdomen, excluding the arms.
+- **Waist down** — pelvis and lower limbs.
+- **Head & neck** — vessels in the head and neck.
+- **Heart** — heart structures, coronary vessels, pulmonary trunk and ascending aorta.
+- **All anatomy** — the full-body model, with the guided tour and interior voyage.
+
+Regional choices load separate, smaller Performance meshes rather than loading
+and hiding the full model. The optional extra-vessel layer for the selected view
+loads only when enabled or when an extra search result is selected. Use **Main
+menu** at the top of the explorer to unload the view and choose another.
+
+The regional views are approximate spatial cuts of the source model, not exact
+anatomical dissections: vessels crossing a boundary are cut open and may appear
+in both adjoining views. Torso uses a shoulder-width crop and excludes named
+arm/shoulder vessels, so it can also trim peripheral chest branches. In these
+focused views, search and picking are limited to the selected region; body
+context, guided tour and interior voyage are available in **All anatomy** only.
 
 ## Low-end GPUs and virtual machines
 
@@ -105,7 +121,8 @@ the menu is active. Pressing A during the guided-tour fly-in skips it and pauses
 at the start. Keyboard and mouse remain available; switching to the controller
 releases the captured mouse.
 
-Left panel: search all 1,044 circulatory parts by name or FMA id and set the
+Left panel: search the selected region's circulatory parts (1,044 in All anatomy)
+by name or FMA id and set the
 opacity of arteries, veins, the heart and body context independently. Clicking
 a search result flies the camera to it. Results marked “extra” automatically
 load and show the optional extra-vessels layer when selected; the visibility

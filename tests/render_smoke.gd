@@ -19,14 +19,51 @@ func _run() -> void:
 	if cf.save(settings_path) != OK:
 		quit(1)
 		return
-	var main = load("res://scenes/main.tscn").instantiate()
-	root.add_child(main)
+	var menu = load("res://scenes/start.tscn").instantiate()
+	root.add_child(menu)
+	current_scene = menu
+	await process_frame
+	await process_frame
+	if menu.get_node_or_null("Anatomy") != null or root.gui_get_focus_owner() != menu.buttons["torso"]:
+		printerr("FAIL: menu startup or initial controller focus")
+		quit(1)
+		return
+	await _press_button(JOY_BUTTON_A)
 	for i in 900:
 		await process_frame
-		if main._intro_done:
+		if current_scene != menu and current_scene != null and current_scene.get("_intro_done"):
 			break
-	if not main._intro_done:
-		printerr("FAIL: scene startup")
+	var regional = current_scene
+	if regional == menu or regional == null or not regional.get("_intro_done") or regional.region != "torso":
+		printerr("FAIL: controller menu did not load torso")
+		quit(1)
+		return
+	if regional.model.context_root != null or not regional.hud.mode_buttons["tour"].disabled:
+		printerr("FAIL: regional view loaded full-body context or tour")
+		quit(1)
+		return
+	for i in 5:
+		await process_frame
+	await RenderingServer.frame_post_draw
+	if root.get_texture().get_image().is_empty():
+		printerr("FAIL: regional render")
+		quit(1)
+		return
+	regional._return_to_menu()
+	for i in 20:
+		await process_frame
+		if current_scene != regional and current_scene != null:
+			break
+	menu = current_scene
+	menu.buttons["all"].grab_focus()
+	await _press_button(JOY_BUTTON_A)
+	for i in 900:
+		await process_frame
+		if current_scene != menu and current_scene != null and current_scene.get("_intro_done"):
+			break
+	var main = current_scene
+	if main == menu or main == null or not main.get("_intro_done") or main.region != "all":
+		printerr("FAIL: controller menu did not load all anatomy")
 		quit(1)
 		return
 	# Exercise actual event dispatch into Godot's GUI, not just action matching.
