@@ -69,7 +69,7 @@ func _run() -> void:
 	motion.axis_value = 0.0
 	Input.parse_input_event(motion)
 	Input.flush_buffered_events()
-	for q in ["performance", "balanced"]:
+	for q in ["performance"]:
 		main.apply_quality(q, true)
 		for mode in ["free", "tour", "interior"]:
 			main._on_mode_requested(mode)

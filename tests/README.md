@@ -8,10 +8,10 @@ Install Godot **4.7.2**, then run from the repository root:
 GODOT=/path/to/godot ./tests/run.sh
 ```
 
-The runner imports the assets and checks startup at all three saved quality
-levels, quality and mode transitions, ghost visibility, mesh availability, and
-interior wrapping, controller input and synthetic ray-picking cases. It exits nonzero on a failed
-check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH`) so it
+The runner imports the assets and checks that each saved quality is ignored
+while the lowest-only lock is enabled. It also checks mode transitions, ghost
+visibility, mesh availability, interior wrapping, controller input and synthetic
+ray-picking cases. It exits nonzero on a failed check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH`) so it
 does not modify your saved settings. GitHub Actions runs the same suite with
 the official 4.7.2 Linux binary and verifies its SHA-256.
 CI also runs `render_smoke.gd` under Xvfb with Mesa software OpenGL to exercise
@@ -51,8 +51,9 @@ To compare Forward Plus on Windows, add `--rendering-method forward_plus`
 before `--script`. The same isolated settings file mechanism is used on both
 platforms.
 
-Use `balanced` or `high` in place of `performance` to compare presets.
-`BENCH_SCALE` accepts 0 (preset), 0.5, 0.65, 0.75, 0.9 or 1.0.
+For now only `performance` at 50% resolution can be benchmarked; other quality
+or resolution requests are rejected while the lowest-only lock is enabled.
+`BENCH_SCALE` may be 0 (preset) or 0.5.
 `BENCH_WARMUP` and `BENCH_DURATION` override the sample durations in seconds
 (the defaults are recommended for comparisons). The benchmark uses isolated
 settings, disables VSync, warms each fixed viewpoint for 5 seconds, and samples

@@ -120,6 +120,7 @@ pad_next={
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+scaling_3d/scale=0.5
 anti_aliasing/quality/msaa_3d=0
 environment/defaults/default_clear_color=Color(0.014, 0.018, 0.03, 1)
 anti_aliasing/quality/screen_space_aa=0

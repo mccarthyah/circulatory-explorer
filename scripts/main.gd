@@ -24,11 +24,14 @@ const LABELS := [
 	["FJ2170", "Popliteal artery"],
 ]
 
+## Temporarily keep every mode on the lowest settings for weak GPUs.
+const LOWEST_ONLY := true
+
 ## Graphics presets. `detail` picks the mesh file set, the rest turns the
 ## expensive render features on or off.
 const QUALITY := {
 	"performance": {
-		"detail": 0, "msaa": 0, "aa": 0, "scale": 0.75,
+		"detail": 0, "msaa": 0, "aa": 0, "scale": 0.5,
 		"glow": false, "fog": false, "adjust": false,
 		"ghost": false, "labels": false, "mottle": 0.0, "pick_interval": 0.16,
 	},
@@ -167,7 +170,7 @@ func _build_environment() -> void:
 	env.glow_strength = 1.0
 	env.glow_bloom = 0.05
 	env.glow_hdr_threshold = 0.80
-	env.fog_enabled = true
+	env.fog_enabled = not LOWEST_ONLY
 	env.fog_light_color = Color(0.015, 0.02, 0.035)
 	env.fog_density = 0.0012
 	env.adjustment_enabled = true
@@ -339,9 +342,9 @@ func _set_opacity_preset(xray: bool) -> void:
 
 func _set_atmosphere(interior: bool) -> void:
 	var preset: Dictionary = QUALITY.get(quality, QUALITY["performance"])
-	# depth fog is what makes the lumen read as a tunnel rather than a flat
-	# red wall, so it stays on inside the vessels even on the low preset
-	env.fog_enabled = interior or bool(preset["fog"])
+	# When unlocked, depth fog helps the lumen read as a tunnel. The temporary
+	# lowest-only lock disables it even inside the vessels.
+	env.fog_enabled = not LOWEST_ONLY and (interior or bool(preset["fog"]))
 	if interior:
 		env.fog_density = 0.05
 		env.fog_light_color = Color(0.075, 0.010, 0.014)
@@ -366,6 +369,8 @@ func _settings_path() -> String:
 
 
 func _load_quality() -> String:
+	if LOWEST_ONLY:
+		return "performance"
 	var cf := ConfigFile.new()
 	if cf.load(_settings_path()) == OK:
 		var q := String(cf.get_value("graphics", "quality", "performance"))
@@ -375,6 +380,8 @@ func _load_quality() -> String:
 
 
 func _load_render_scale() -> float:
+	if LOWEST_ONLY:
+		return 0.5
 	var cf := ConfigFile.new()
 	if cf.load(_settings_path()) == OK:
 		var saved := float(cf.get_value("graphics", "render_scale", 0.0))
@@ -385,6 +392,11 @@ func _load_render_scale() -> float:
 
 
 func _on_render_scale_changed(scale: float) -> void:
+	if LOWEST_ONLY:
+		render_scale = 0.5
+		_apply_render_scale()
+		hud.set_render_scale(render_scale)
+		return
 	if not RENDER_SCALES.has(scale):
 		return
 	render_scale = scale
@@ -397,6 +409,9 @@ func _on_render_scale_changed(scale: float) -> void:
 
 
 func _apply_render_scale() -> void:
+	if LOWEST_ONLY:
+		get_viewport().scaling_3d_scale = 0.5
+		return
 	var preset: Dictionary = QUALITY.get(quality, QUALITY["performance"])
 	get_viewport().scaling_3d_scale = render_scale if render_scale > 0.0 else float(preset["scale"])
 
@@ -414,7 +429,7 @@ func _on_quality_changed(q: String) -> void:
 
 func apply_quality(q: String, reload_meshes := true) -> void:
 	_has_pick_ray = false
-	if not QUALITY.has(q):
+	if LOWEST_ONLY or not QUALITY.has(q):
 		q = "performance"
 	quality = q
 	if model != null and mode == "tour":
@@ -455,7 +470,8 @@ func apply_quality(q: String, reload_meshes := true) -> void:
 		_update_subtitle()
 	hud.set_quality(q)
 	hud.set_render_scale(render_scale)
-	if reload_meshes:
+	hud.set_graphics_locked(LOWEST_ONLY)
+	if reload_meshes and not LOWEST_ONLY:
 		_save_quality(q)
 
 
@@ -484,7 +500,7 @@ func _thousands(n: int) -> String:
 
 func _effective_detail() -> int:
 	var d := _quality_detail()
-	if mode == "interior":
+	if mode == "interior" and not LOWEST_ONLY:
 		d = maxi(d, 1)
 	return d
 
@@ -893,8 +909,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_R:
 				_go_free(true)
 			KEY_F9:
-				var i := QUALITY_NAMES.find(quality)
-				apply_quality(String(QUALITY_NAMES[(i + 1) % QUALITY_NAMES.size()]), true)
+				if not LOWEST_ONLY:
+					var i := QUALITY_NAMES.find(quality)
+					apply_quality(String(QUALITY_NAMES[(i + 1) % QUALITY_NAMES.size()]), true)
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT and mode == "free":

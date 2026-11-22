@@ -12,40 +12,21 @@ sculpted stand-ins, no downloaded game assets. There are three ways to move:
 ![heart close-up](docs/screenshots/03-heart-closeup.jpg)
 ![inspecting](docs/screenshots/04-inspect.jpg)
 
-## Detail levels (this is the frame-rate dial)
+## Graphics: temporarily locked to the lowest settings
 
-The full BodyParts3D meshes are heavy (813 k triangles for the vessels alone),
-so the app ships **three decimated mesh sets** and starts on the light one:
+For low-end and virtual GPUs, the app always uses the **Performance** mesh set
+(145,588 vessel triangles), Compatibility rendering by default, 50% 3D resolution, opaque
+guided-tour vessels, and no glow, fog, anti-aliasing or tissue mottling. Labels
+and the translucent body outline start off; they can still be turned on for
+navigation. The Graphics selectors and F9 quality shortcut are disabled for
+now. Previously saved quality and resolution settings are ignored but not
+removed.
 
-| Detail | Vessels | + ghost body | What else changes | Loaded at startup |
-|---|---|---|---|---|
-| **Performance** *(default)* | 145,588 tris · 3.4 MB | 31,866 tris | no glow / SSAO / SSIL, no mottling, 75 % render scale, hover-picking at 6 Hz; opaque guided-tour surfaces, 110 blood cells, no labels, no ghost body | yes |
-| **Balanced** | 365,040 tris · 7.6 MB | 82,872 tris | glow bloom, FXAA, mottling, labels, ghost body, 90 % render scale | on demand |
-| **High** | 812,802 tris · 16.3 MB | 159,510 tris | full detail, 4× MSAA | on demand |
-
-Pick it under **GRAPHICS → Detail** in the left panel (or `F9` cycles it); the
-choice is remembered in `user://settings.cfg`, and the triangle count of the
-current set is printed in the header bar. Switching detail replaces the meshes
-without leaving the scene; the time required depends on the machine.
-
-![performance detail](docs/screenshots/09-detail-performance.jpg)
-![high detail](docs/screenshots/10-detail-high.jpg)
-*Same viewpoint: Performance (145 k tris, no glow/mottle/ghost) and High
-(813 k tris, MSAA, mottling, ghost body).*
-
-The interior voyage quietly raises the vessel detail to at least **Balanced**
-even when you are on Performance — at 145 k triangles the lumen of a thin artery
-loses its radius and the camera pops through the wall. Everything else on the
-Performance preset still applies, and the header shows
-`balanced (interior) detail` when this happens.
-
-On Performance, the guided tour uses opaque rather than translucent vessels to
-reduce overdraw; Balanced and High retain the translucent tour. Changing quality
-in the tour updates its opacity.
-
-Other things kept cheap by default: the ghost body starts **off**, depth fog is
-only enabled inside the vessels (it is what makes a lumen read as a tunnel),
-and pick-probing is throttled to 6 Hz.
+All modes, including the interior voyage, use the lowest-detail meshes. This
+means narrow vessel interiors may look faceted or the camera may pass through a
+wall; fog is also disabled. The Balanced and High datasets remain in the project
+for future use, but cannot be selected while the temporary `LOWEST_ONLY` lock
+in `scripts/main.gd` is enabled.
 
 ## Running it
 
@@ -62,14 +43,10 @@ glTF on the default Performance preset) and builds 687 meshes; you will see
 
 ## Low-end GPUs and virtual machines
 
-Start with **Performance**, keep the body outline and labels off, and use a
-smaller window if needed. Under **GRAPHICS → 3D resolution**, try 50% or 65%
-for a lower GPU pixel workload; this affects 3D rendering, not the interface.
-The setting is remembered independently of detail; choose **Preset default**
-to return to the preset scale. The interior voyage still uses Balanced vessel meshes
-to preserve the lumen. For a VM, enable its 3D acceleration and install the
-guest graphics drivers; some VM configurations provide only software rendering
-or do not support the required graphics API.
+The lowest settings are enforced automatically; use a smaller window if
+needed. For a VM, enable its 3D acceleration and install the guest graphics
+drivers. Some VM configurations provide only software rendering or do not
+support the required graphics API.
 
 The app defaults to the Compatibility (OpenGL) renderer. To compare it with
 Forward Plus on hardware that supports Vulkan, launch:
@@ -97,7 +74,7 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | `Space` | pause · `←` `→` jump between tour stations |
 | `B` | toggle the translucent body outline |
 | `L` | toggle labels |
-| `F9` | cycle detail: Performance → Balanced → High |
+| `F9` | quality cycling disabled while lowest settings are locked |
 | `Tab` | hide the whole interface |
 | `R` | reset the camera |
 
@@ -207,10 +184,9 @@ python3 build.py              # writes ../data/*
   (420 / 240 / 110 instances for High / Balanced / Performance), and only the
   visible instances are animated. Their scale is proportional to their distance
   from the lens so they neither fill the screen nor disappear.
-- **Money for the frame budget.** The expensive post-processing (glow bloom,
-  SSAO, SSIL, adjustment) is switched off as a block by the preset; fog is a
-  per-mode decision rather than always-on; and the whole model can be rebuilt at
-  a different detail without reloading the scene.
+- **Money for the frame budget.** The temporary lowest-only policy disables glow,
+  SSAO, SSIL, adjustment and fog, keeps every mode on the smallest mesh set and
+  renders 3D at 50% resolution.
 - **Parallel-transported up vector** for the tour camera, so the 40 cm drop down
   the femoral artery never flips the view.
 

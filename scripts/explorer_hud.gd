@@ -50,6 +50,7 @@ var context_check: CheckBox
 var labels_check: CheckBox
 var quality_option: OptionButton
 var scale_option: OptionButton
+var graphics_lock_label: Label
 
 var _list_ids: Array = []
 var _mode := "free"
@@ -303,6 +304,9 @@ func _build_left_panel() -> void:
 		render_scale_changed.emit(float(scale_option.get_item_metadata(i))))
 	srow.add_child(scale_option)
 	col.add_child(srow)
+	graphics_lock_label = _label("Lowest graphics locked for now", 10, DIM)
+	graphics_lock_label.visible = false
+	col.add_child(graphics_lock_label)
 
 	col.add_child(HSeparator.new())
 	var help := _label("WASD fly  ·  Q/E down/up  ·  Shift boost  ·  wheel = speed\n" \
@@ -472,6 +476,12 @@ func set_quality(quality: String) -> void:
 		if String(quality_option.get_item_metadata(i)) == quality:
 			quality_option.select(i)
 			return
+
+
+func set_graphics_locked(locked: bool) -> void:
+	quality_option.disabled = locked
+	scale_option.disabled = locked
+	graphics_lock_label.visible = locked
 
 
 func set_render_scale(scale: float) -> void:
