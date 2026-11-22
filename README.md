@@ -19,7 +19,7 @@ so the app ships **three decimated mesh sets** and starts on the light one:
 
 | Detail | Vessels | + ghost body | What else changes | Loaded at startup |
 |---|---|---|---|---|
-| **Performance** *(default)* | 145,588 tris · 3.4 MB | 31,866 tris | no glow / SSAO / SSIL, no mottling, flat-shaded walls, 75 % render scale, hover-picking at 6 Hz; opaque guided-tour surfaces, 110 blood cells, no labels, no ghost body | yes |
+| **Performance** *(default)* | 145,588 tris · 3.4 MB | 31,866 tris | no glow / SSAO / SSIL, no mottling, 75 % render scale, hover-picking at 6 Hz; opaque guided-tour surfaces, 110 blood cells, no labels, no ghost body | yes |
 | **Balanced** | 365,040 tris · 7.6 MB | 82,872 tris | glow bloom, FXAA, mottling, labels, ghost body, 90 % render scale | on demand |
 | **High** | 812,802 tris · 16.3 MB | 159,510 tris | full detail, 4× MSAA | on demand |
 
