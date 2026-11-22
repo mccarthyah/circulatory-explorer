@@ -19,14 +19,14 @@ so the app ships **three decimated mesh sets** and starts on the light one:
 
 | Detail | Vessels | + ghost body | What else changes | Loaded at startup |
 |---|---|---|---|---|
-| **Performance** *(default)* | 145,588 tris · 3.4 MB | 31,866 tris | no glow / SSAO / SSIL, no mottling, flat-shaded walls, 75 % render scale, no hover-picking while you fly (6 Hz), 110 blood cells, no labels, no ghost body | yes |
+| **Performance** *(default)* | 145,588 tris · 3.4 MB | 31,866 tris | no glow / SSAO / SSIL, no mottling, flat-shaded walls, 75 % render scale, hover-picking at 6 Hz; opaque guided-tour surfaces, 110 blood cells, no labels, no ghost body | yes |
 | **Balanced** | 365,040 tris · 7.6 MB | 82,872 tris | glow bloom, FXAA, mottling, labels, ghost body, 90 % render scale | on demand |
 | **High** | 812,802 tris · 16.3 MB | 159,510 tris | full detail, 4× MSAA | on demand |
 
 Pick it under **GRAPHICS → Detail** in the left panel (or `F9` cycles it); the
-choice is remembered in `user://settings.cfg`, the triangle count of the
-current set is printed in the header bar, and the meshes are re-parsed and swapped in well under a
-second without leaving the scene.
+choice is remembered in `user://settings.cfg`, and the triangle count of the
+current set is printed in the header bar. Switching detail replaces the meshes
+without leaving the scene; the time required depends on the machine.
 
 ![performance detail](docs/screenshots/09-detail-performance.jpg)
 ![high detail](docs/screenshots/10-detail-high.jpg)
@@ -39,15 +39,17 @@ loses its radius and the camera pops through the wall. Everything else on the
 Performance preset still applies, and the header shows
 `balanced (interior) detail` when this happens.
 
+On Performance, the guided tour uses opaque rather than translucent vessels to
+reduce overdraw; Balanced and High retain the translucent tour. Changing quality
+in the tour updates its opacity.
+
 Other things kept cheap by default: the ghost body starts **off**, depth fog is
 only enabled inside the vessels (it is what makes a lumen read as a tunnel),
 and pick-probing is throttled to 6 Hz.
 
 ## Running it
 
-## Running it
-
-1. Install **Godot 4.3 or newer** (developed and tested against 4.7.2; the
+1. Install **Godot 4.7.2** (the project declares 4.7 features; the
    standard build is fine, no C# needed).
 2. Open `project.godot` in the project manager, or from a terminal:
    `godot --path .` (the app also starts without the editor's import cache —
@@ -57,6 +59,24 @@ and pick-probing is throttled to 6 Hz.
 The first launch loads the mesh set for the current detail level (3.4 MB of
 glTF on the default Performance preset) and builds 687 meshes; you will see
 "Loading anatomy…" for a moment.
+
+## Low-end GPUs and virtual machines
+
+Start with **Performance**, keep the body outline and labels off, and use a
+smaller window if needed. The interior voyage still uses Balanced vessel meshes
+to preserve the lumen. For a VM, enable its 3D acceleration and install the
+guest graphics drivers; some VM configurations provide only software rendering
+or do not support the required graphics API.
+
+If Forward Plus fails or is slow, try the Compatibility (OpenGL) renderer:
+
+```bash
+godot --path . --rendering-method gl_compatibility
+```
+
+This is an alternative to test on your hardware, not a guaranteed speedup or
+fallback for unsupported virtual GPUs. Appearance and supported effects may
+differ. See `tests/README.md` for repeatable benchmarks and headless tests.
 
 ## Controls
 

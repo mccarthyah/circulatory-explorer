@@ -1,22 +1,40 @@
-Development helpers, not needed to run the app.
+# Testing and benchmarking
 
-`tour_test.gd` — headless smoke test: plays the guided tour to the end,
-checks that the interior voyage wraps around without errors, verifies that ray
-picking hits the expected structures, and reloads all three detail levels
-(printing triangle counts and an arch-of-aorta pick for each).
+## Automated smoke tests
 
-`capture.gd` — drives every mode and writes screenshots to `tests/out/`
-(used to produce `docs/screenshots`); it shoots the nine documentation stills at
-the *Balanced* preset and then the same heart viewpoint at Performance and High
-for the detail comparison.
+Install Godot **4.7.2**, then run from the repository root:
 
-Both are autoloads. To use one, add to `project.godot`:
-
-```ini
-[autoload]
-
-QaTest="*res://tests/tour_test.gd"
+```sh
+GODOT=/path/to/godot ./tests/run.sh
 ```
 
-then run `godot --headless --path .` (test) or `godot --path .` (capture), and
-remove the autoload line afterwards.
+The runner imports the assets and checks startup at all three saved quality
+levels, quality and mode transitions, ghost visibility, mesh availability, and
+interior wrapping. It exits nonzero on a failed check and uses a temporary XDG
+data directory so it does not modify your saved settings. GitHub Actions runs
+the same suite with the official 4.7.2 Linux binary and verifies its SHA-256.
+Headless tests do not validate rendered images or GPU performance.
+
+`tour_test.gd` is an older manual, print-only smoke helper. `capture.gd` is a
+manual screenshot helper. Both can be run as autoloads; see their comments.
+
+## Graphics benchmark
+
+First import the project in the editor (or run `godot --headless --editor --path
+. --import`). On the target machine with a real graphical display, run:
+
+```sh
+GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720
+GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720 --rendering-method gl_compatibility
+```
+
+Use `balanced` or `high` in place of `performance` to compare presets. The
+benchmark uses isolated settings, disables VSync, warms each fixed viewpoint
+for 5 seconds, and samples for 10 seconds. It reports the renderer and adapter,
+average FPS, frame-time percentiles, draw calls and primitives at the end of
+each sample. Hover picking and interior particles remain active. Fixed views
+make comparisons repeatable, but do not represent all movement or shader
+compilation stutters. Capture console output with the OS, driver, hypervisor,
+VM 3D configuration and window resolution when comparing runs. Run several
+times and compare like-for-like; headless or software rendering is not a GPU
+benchmark.
