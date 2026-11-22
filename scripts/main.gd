@@ -75,6 +75,9 @@ var quality := "performance"
 
 var _pick_interval := 0.16
 var _pick_timer := 0.0
+var _has_pick_ray := false
+var _last_pick_origin := Vector3.ZERO
+var _last_pick_dir := Vector3.ZERO
 var _status_timer := 0.0
 var _label_timer := 0.0
 var _beat := 0.0
@@ -243,6 +246,7 @@ func _on_mode_requested(m: String) -> void:
 
 
 func _go_free(first := false) -> void:
+	_has_pick_ray = false
 	mode = "free"
 	hud.set_mode("free")
 	path.flow_visible(false)
@@ -367,6 +371,7 @@ func _on_quality_changed(q: String) -> void:
 
 
 func apply_quality(q: String, reload_meshes := true) -> void:
+	_has_pick_ray = false
 	if not QUALITY.has(q):
 		q = "performance"
 	quality = q
@@ -457,6 +462,7 @@ func _quality_detail() -> int:
 
 # ------------------------------------------------------------------- HUD input
 func _on_opacity(bucket: String, value: float) -> void:
+	_has_pick_ray = false
 	match bucket:
 		"arteries":
 			model.set_bucket_opacity("arteries", value)
@@ -651,6 +657,11 @@ func _update_hover(delta: float) -> void:
 	_pick_timer = _pick_interval
 	var origin: Vector3 = cam.global_position
 	var dir: Vector3 = -cam.global_transform.basis.z
+	if _has_pick_ray and origin.is_equal_approx(_last_pick_origin) and dir.is_equal_approx(_last_pick_dir):
+		return
+	_has_pick_ray = true
+	_last_pick_origin = origin
+	_last_pick_dir = dir
 	var hit: Dictionary = model.pick(origin, dir)
 	if String(hit.get("id", "")) == String(hover.get("id", "")):
 		return

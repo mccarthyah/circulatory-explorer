@@ -63,9 +63,44 @@ func _run() -> void:
 	check(main.model.detail == 0, "free flight restores performance detail")
 	check(not main.model.is_context_visible(), "free flight restores hidden body")
 
+	_test_picking()
+
 	if failures.is_empty():
 		print("PASS: startup=", startup)
 		quit(0)
 	else:
 		printerr("FAILED: ", failures.size(), " checks")
 		quit(1)
+
+
+func _test_picking() -> void:
+	var model = preload("res://scripts/anatomy_model.gd").new()
+	root.add_child(model)
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	surface.add_vertex(Vector3(-1, -1, 0))
+	surface.add_vertex(Vector3(1, -1, 0))
+	surface.add_vertex(Vector3(0, 1, 0))
+	var mesh := surface.commit()
+	var far := MeshInstance3D.new()
+	far.mesh = mesh
+	far.position = Vector3(0, 0, -8)
+	model.add_child(far)
+	var near := MeshInstance3D.new()
+	near.mesh = mesh
+	near.position = Vector3(0, 0, -3)
+	model.add_child(near)
+	var a := {"id": "far", "group": "artery", "material": "artery", "node": far,
+		"aabb": AABB(Vector3(-2, -2, -9), Vector3(4, 4, 9))}
+	var b := {"id": "near", "group": "vein", "material": "vein", "node": near,
+		"aabb": AABB(Vector3(-1, -1, -4), Vector3(2, 2, 2))}
+	model.parts = [a, b]
+	var hit: Dictionary = model.pick(Vector3.ZERO, Vector3.FORWARD)
+	check(hit.get("id", "") == "near", "pick nearest triangle, not nearest bounds")
+	model._opacity["vein"] = 0.0
+	hit = model.pick(Vector3.ZERO, Vector3.FORWARD)
+	check(hit.get("id", "") == "far", "pick ignores invisible opacity bucket")
+	far.position.x = 4.0
+	hit = model.pick(Vector3.ZERO, Vector3.FORWARD)
+	check(hit.is_empty(), "pick does not fall back to bounding boxes")
+	model.queue_free()

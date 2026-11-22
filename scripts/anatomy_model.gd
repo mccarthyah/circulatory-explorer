@@ -51,6 +51,8 @@ var _context_material: StandardMaterial3D
 var _hl_material: StandardMaterial3D
 var _face_cache: Dictionary = {}
 var _face_cache_order: Array = []
+var _hole_center := Vector3.ZERO
+var _hole_radius := 0.0
 
 
 func load_anatomy(detail_level: int = 2) -> bool:
@@ -248,6 +250,10 @@ func set_bucket_opacity(bucket: String, opacity: float) -> void:
 ## The cutaway sphere: geometry closer to the camera than `radius` is discarded,
 ## so a flying camera always has room around it.
 func set_hole(centre: Vector3, radius: float) -> void:
+	if is_equal_approx(radius, _hole_radius) and (radius <= 0.0 or centre.is_equal_approx(_hole_center)):
+		return
+	_hole_center = centre
+	_hole_radius = radius
 	for key in _mats.keys():
 		for mat in _mats[key]:
 			(mat as ShaderMaterial).set_shader_parameter("hole_center", centre)
@@ -304,46 +310,60 @@ func total_tris(include_context := true) -> int:
 
 # --------------------------------------------------------------------- picking
 func pick(origin: Vector3, dir: Vector3) -> Dictionary:
+	# Catalogue bounds are in model space; triangle vertices are in mesh space.
+	# A bounding-box intersection is only a broad phase, never a pick by itself.
+	var local_origin := to_local(origin)
+	var local_dir := global_transform.basis.inverse() * dir
 	var cands: Array = []
 	for p in parts:
-		if not is_circulatory(p):
-			continue                                     # the ghost body never blocks picking
-		var hit = (p["aabb"] as AABB).intersects_ray(origin, dir)
+		if not is_circulatory(p) or float(_opacity.get(p.get("material", ""), 1.0)) <= 0.001:
+			continue
+		var node: MeshInstance3D = p.get("node")
+		if node == null or not node.is_visible_in_tree():
+			continue
+		var box: AABB = p["aabb"]
+		var hit = box.intersects_ray(local_origin, local_dir)
 		if hit != null:
-			cands.append({"p": p, "d": origin.distance_to(hit)})
-	if cands.is_empty():
-		return {}
+			# An origin inside a box has a lower bound of zero, not the exit distance.
+			var distance := 0.0 if box.has_point(local_origin) else origin.distance_to(to_global(hit))
+			cands.append({"p": p, "d": distance})
 	cands.sort_custom(func(a, b): return a["d"] < b["d"])
-	for i in mini(cands.size(), 5):
-		var p: Dictionary = cands[i]["p"]
-		if _ray_hits_mesh(p, origin, dir):
-			return p
-	return cands[0]["p"]
+	var best := {}
+	var best_distance := INF
+	for cand in cands:
+		if float(cand["d"]) > best_distance:
+			break
+		var distance := _ray_mesh_distance(cand["p"], origin, dir)
+		if distance < best_distance:
+			best_distance = distance
+			best = cand["p"]
+	return best
 
 
-func _ray_hits_mesh(part: Dictionary, origin: Vector3, dir: Vector3) -> bool:
+## Return the closest world-space hit distance, or INF for a miss.
+func _ray_mesh_distance(part: Dictionary, origin: Vector3, dir: Vector3) -> float:
 	var id: String = part["id"]
+	var node: MeshInstance3D = part.get("node")
+	if node == null or node.mesh == null:
+		return INF
 	var faces: PackedVector3Array
 	if _face_cache.has(id):
 		faces = _face_cache[id]
 	else:
-		var node: MeshInstance3D = part.get("node")
-		if node == null:
-			return false
 		faces = node.mesh.get_faces()
 		_face_cache[id] = faces
 		_face_cache_order.append(id)
 		while _face_cache_order.size() > 24:
 			_face_cache.erase(_face_cache_order.pop_front())
-	var count := faces.size() / 3
-	var stride := maxi(1, int(ceil(count / 6000.0)))
-	var i := 0
-	while i < count:
-		if Geometry3D.ray_intersects_triangle(origin, dir,
-				faces[i * 3], faces[i * 3 + 1], faces[i * 3 + 2]) != null:
-			return true
-		i += stride
-	return false
+	var local_origin := node.to_local(origin)
+	var local_dir := node.global_transform.basis.inverse() * dir
+	var closest := INF
+	for i in range(0, faces.size(), 3):
+		var hit = Geometry3D.ray_intersects_triangle(local_origin, local_dir,
+				faces[i], faces[i + 1], faces[i + 2])
+		if hit != null:
+			closest = minf(closest, origin.distance_to(node.to_global(hit)))
+	return closest
 
 
 func highlight(part: Dictionary) -> void:

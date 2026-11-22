@@ -10,7 +10,7 @@ GODOT=/path/to/godot ./tests/run.sh
 
 The runner imports the assets and checks startup at all three saved quality
 levels, quality and mode transitions, ghost visibility, mesh availability, and
-interior wrapping. It exits nonzero on a failed check and uses a temporary XDG
+interior wrapping, and synthetic ray-picking cases. It exits nonzero on a failed check and uses a temporary XDG
 data directory so it does not modify your saved settings. GitHub Actions runs
 the same suite with the official 4.7.2 Linux binary and verifies its SHA-256.
 Headless tests do not validate rendered images or GPU performance.

@@ -170,8 +170,8 @@ python3 build.py              # writes ../data/*
 - **Interior surfaces are darkened** in the shader when `FRONT_FACING` is false,
   so a lumen reads as a tunnel instead of a light box.
 - **Picking** is AABB-prefiltered, then exact Möller–Trumbore against the mesh
-  triangles (cached, subsampled for huge meshes). Ghost organs never block a
-  pick.
+  triangles (cached), choosing the nearest hit. Ghost organs and fully
+  transparent buckets never block a pick; stationary views reuse the last result.
 - **Blood cells** are a `MultiMesh` of ellipsoids that follow the same spline
   (420 / 240 / 110 instances for High / Balanced / Performance), and only the
   visible instances are animated. Their scale is proportional to their distance
