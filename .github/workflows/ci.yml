@@ -1,0 +1,25 @@
+name: Godot tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  headless:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download and verify Godot 4.7.2
+        shell: bash
+        run: |
+          set -euo pipefail
+          base=https://github.com/godotengine/godot/releases/download/4.7.2-stable
+          archive=Godot_v4.7.2-stable_linux.x86_64.zip
+          curl -fL --retry 3 "$base/$archive" -o "$archive"
+          echo "cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4  $archive" | sha256sum -c -
+          unzip -q "$archive" -d "$RUNNER_TEMP/godot"
+      - name: Import and run headless tests
+        env:
+          GODOT: ${{ runner.temp }}/godot/Godot_v4.7.2-stable_linux.x86_64
+        run: ./tests/run.sh
