@@ -29,6 +29,28 @@ func _run() -> void:
 		printerr("FAIL: scene startup")
 		quit(1)
 		return
+	# Exercise actual event dispatch into Godot's GUI, not just action matching.
+	await _press_button(JOY_BUTTON_START)
+	if not main._controller_menu or root.gui_get_focus_owner() != main.hud.mode_buttons["free"]:
+		printerr("FAIL: controller did not focus menu")
+		quit(1)
+		return
+	await _press_button(JOY_BUTTON_DPAD_RIGHT)
+	if root.gui_get_focus_owner() != main.hud.mode_buttons["tour"]:
+		printerr("FAIL: controller could not navigate to tour button")
+		quit(1)
+		return
+	await _press_button(JOY_BUTTON_A)
+	if main.mode != "tour" or not main._controller_menu:
+		printerr("FAIL: controller could not activate tour button")
+		quit(1)
+		return
+	await _press_button(JOY_BUTTON_START)
+	if main._controller_menu or root.gui_get_focus_owner() != null:
+		printerr("FAIL: controller could not close menu")
+		quit(1)
+		return
+	main._on_mode_requested("free")
 	for q in ["performance", "balanced"]:
 		main.apply_quality(q, true)
 		for mode in ["free", "tour", "interior"]:
@@ -48,3 +70,18 @@ func _run() -> void:
 			print("render smoke: ", q, " ", mode, " ", image.get_size())
 	print("PASS: Compatibility render smoke (", RenderingServer.get_video_adapter_name(), ")")
 	quit(0)
+
+
+func _press_button(index: JoyButton) -> void:
+	var event := InputEventJoypadButton.new()
+	event.device = 0
+	event.button_index = index
+	event.pressed = true
+	Input.parse_input_event(event)
+	await process_frame
+	var release := InputEventJoypadButton.new()
+	release.device = 0
+	release.button_index = index
+	release.pressed = false
+	Input.parse_input_event(release)
+	await process_frame
