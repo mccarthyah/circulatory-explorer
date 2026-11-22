@@ -10,7 +10,7 @@ GODOT=/path/to/godot ./tests/run.sh
 
 The runner imports the assets and checks startup at all three saved quality
 levels, quality and mode transitions, ghost visibility, mesh availability, and
-interior wrapping and synthetic ray-picking cases. It exits nonzero on a failed
+interior wrapping, controller input and synthetic ray-picking cases. It exits nonzero on a failed
 check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH`) so it
 does not modify your saved settings. GitHub Actions runs the same suite with
 the official 4.7.2 Linux binary and verifies its SHA-256.

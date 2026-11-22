@@ -91,6 +91,8 @@ var _fade_guard := 0.0
 var _context_was_on := true
 var _context_scale := 0.30        # ghost strength: stronger when outside the body
 var _intro_done := false
+var _controller_menu := false
+var _controller_active := false
 
 
 func _ready() -> void:
@@ -250,6 +252,7 @@ func _on_mode_requested(m: String) -> void:
 
 
 func _go_free(first := false) -> void:
+	_fly = {}
 	_has_pick_ray = false
 	mode = "free"
 	hud.set_mode("free")
@@ -280,11 +283,12 @@ func _go_free(first := false) -> void:
 	else:
 		cam.sync_angles()
 	_intro_done = true
-	if not cam.captured and not first and not hud.mouse_over_ui():
+	if not cam.captured and not first and not _controller_active and not _controller_menu and not hud.mouse_over_ui():
 		cam.capture_mouse(true)
 
 
 func _go_path(interior: bool) -> void:
+	_fly = {}
 	mode = "interior" if interior else "tour"
 	hud.set_mode(mode)
 	cam.enabled = false
@@ -732,7 +736,7 @@ func _update_fly(delta: float) -> void:
 		else:
 			cam.enabled = true
 			cam.sync_angles()
-			if mode == "free" and not hud.mouse_over_ui():
+			if mode == "free" and not _controller_active and not _controller_menu and not hud.mouse_over_ui():
 				cam.capture_mouse(true)
 
 
@@ -757,6 +761,86 @@ func _update_status() -> void:
 			bits.append("%d%%" % int(path.fraction() * 100.0))
 	bits.append("%d fps" % Engine.get_frames_per_second())
 	hud.set_status("   ·   ".join(bits))
+
+
+# ----------------------------------------------------------------- controller
+func _set_controller_menu(on: bool) -> void:
+	_controller_menu = on
+	cam.set_gamepad_enabled(not on)
+	if on:
+		if cam.captured:
+			cam.capture_mouse(false)
+		hud.focus_controller_menu()
+	else:
+		hud.release_controller_menu()
+
+
+func _input(event: InputEvent) -> void:
+	if not _intro_done:
+		return
+	if event is InputEventJoypadButton:
+		var button := event as InputEventJoypadButton
+		if button.pressed:
+			_controller_active = true
+			if cam.captured:
+				cam.capture_mouse(false)
+			if event.is_action_pressed("pad_menu"):
+				_set_controller_menu(not _controller_menu)
+				get_viewport().set_input_as_handled()
+				return
+			if not _controller_menu:
+				_handle_controller_button(event)
+		if not _controller_menu:
+			get_viewport().set_input_as_handled()
+	elif event is InputEventJoypadMotion:
+		var motion := event as InputEventJoypadMotion
+		if absf(motion.axis_value) > 0.2:
+			_controller_active = true
+			if cam.captured:
+				cam.capture_mouse(false)
+		if not _controller_menu:
+			get_viewport().set_input_as_handled()
+	elif event is InputEventMouseButton or event is InputEventKey:
+		_controller_active = false
+
+
+func _handle_controller_button(event: InputEvent) -> void:
+	if event.is_action_pressed("pad_cycle_mode"):
+		var modes := ["free", "tour", "interior"]
+		_on_mode_requested(modes[(modes.find(mode) + 1) % modes.size()])
+	elif event.is_action_pressed("pad_back"):
+		if mode != "free" or not _fly.is_empty():
+			_go_free(false)
+	elif event.is_action_pressed("pad_select"):
+		if mode == "free":
+			if not hover.is_empty() and _fly.is_empty():
+				_on_part_picked(String(hover["id"]))
+		elif not _fly.is_empty():
+			# Skip the tour fly-in and start paused at its first station.
+			_fly = {}
+			path.start(0.0)
+			path.playing = false
+		else:
+			path.playing = not path.playing
+	elif event.is_action_pressed("pad_prev"):
+		if mode == "free":
+			cam.base_speed = clampf(cam.base_speed / 1.18, 1.0, 400.0)
+		else:
+			path.prev_station()
+	elif event.is_action_pressed("pad_next"):
+		if mode == "free":
+			cam.base_speed = clampf(cam.base_speed * 1.18, 1.0, 400.0)
+		else:
+			path.next_station()
+	elif event.is_action_pressed("pad_ghost"):
+		var on: bool = not model.is_context_visible()
+		hud.context_check.set_pressed_no_signal(on)
+		_on_context_toggled(on)
+	elif event.is_action_pressed("pad_labels"):
+		_on_labels_toggled(not labels_visible)
+		hud.labels_check.set_pressed_no_signal(labels_visible)
+	elif event.is_action_pressed("pad_toggle_panels"):
+		hud.toggle_panels()
 
 
 # -------------------------------------------------------------------- keyboard
@@ -784,6 +868,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				if mode != "free":
 					path.prev_station()
 			KEY_TAB:
+				if _controller_menu:
+					_set_controller_menu(false)
 				hud.toggle_panels()
 			KEY_L:
 				_on_labels_toggled(not labels_visible)

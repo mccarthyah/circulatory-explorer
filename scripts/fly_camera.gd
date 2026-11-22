@@ -18,9 +18,11 @@ signal capture_changed(captured: bool)
 @export var boost_factor := 3.5
 @export var slow_factor := 0.30
 @export var smoothing := 9.0
+@export var gamepad_look_speed := 2.2  # radians per second at full stick tilt
 
 var enabled := true
 var captured := false
+var gamepad_enabled := true
 
 var _yaw := 0.0
 var _pitch := 0.0
@@ -73,6 +75,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	if not enabled:
 		return
+	if gamepad_enabled:
+		var look := Input.get_vector("pad_look_left", "pad_look_right", "pad_look_up", "pad_look_down")
+		_yaw -= look.x * gamepad_look_speed * delta
+		_pitch = clampf(_pitch - look.y * gamepad_look_speed * delta, -1.55, 1.55)
 	rotation = Vector3(_pitch, _yaw, 0.0)
 
 	var input := Vector3.ZERO
@@ -88,6 +94,9 @@ func _process(delta: float) -> void:
 		input.y += 1.0
 	if _key(KEY_Q) or _key(KEY_CTRL):
 		input.y -= 1.0
+	if gamepad_enabled:
+		var stick := Input.get_vector("pad_move_left", "pad_move_right", "pad_move_forward", "pad_move_back")
+		input += Vector3(stick.x, Input.get_axis("pad_down", "pad_up"), stick.y)
 	if input.length() > 1.0:
 		input = input.normalized()
 
@@ -96,10 +105,19 @@ func _process(delta: float) -> void:
 		speed *= boost_factor
 	if _key(KEY_ALT):
 		speed *= slow_factor
+	if gamepad_enabled:
+		speed *= lerpf(1.0, boost_factor, Input.get_action_strength("pad_boost"))
+		speed *= lerpf(1.0, slow_factor, Input.get_action_strength("pad_slow"))
 
 	var target := basis * input * speed
 	_velocity = _velocity.lerp(target, 1.0 - exp(-smoothing * delta))
 	position += _velocity * delta
+
+
+func set_gamepad_enabled(on: bool) -> void:
+	gamepad_enabled = on
+	if not on:
+		_velocity = Vector3.ZERO
 
 
 func _key(code: int) -> bool:

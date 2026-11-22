@@ -101,6 +101,33 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | `Tab` | hide the whole interface |
 | `R` | reset the camera |
 
+### Gamepad
+
+Standard Xbox-style controllers (and mapped equivalents) can be used alongside
+keyboard and mouse. Button names describe the Xbox layout; on PlayStation, A/B/Y
+correspond to Cross/Circle/Triangle. Stick deadzones are set to 20% and the look
+rate is frame-rate independent.
+
+| Control | Action |
+|---|---|
+| Left stick | Fly forward/back and strafe |
+| Right stick | Look around |
+| LB / RB | Fly down / up |
+| LT / RT | Slow down / boost (analog) |
+| A | Inspect the part under the crosshair; in a tour, pause/resume |
+| B | Return to free flight or cancel an automatic flight |
+| Y | Cycle free flight → guided tour → interior voyage |
+| D-pad left / right | Decrease/increase flight speed; in a tour, previous/next station |
+| D-pad up / down | Toggle body outline / labels |
+| View / Back | Hide or show the interface |
+| Menu / Start | Enter or leave interface navigation |
+
+In interface navigation, use the D-pad and A to move between and operate
+controls; press Start again to resume flight. Flight controls are disabled while
+the menu is active. Pressing A during the guided-tour fly-in skips it and pauses
+at the start. Keyboard and mouse remain available; switching to the controller
+releases the captured mouse.
+
 Left panel: search all 636 circulatory parts by name or FMA id, set the opacity
 of arteries, veins, the heart and the body context independently, and pick the
 detail level.

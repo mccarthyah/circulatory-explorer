@@ -77,6 +77,7 @@ func _run() -> void:
 	check(main.model.detail == 0, "free flight restores performance detail")
 	check(not main.model.is_context_visible(), "free flight restores hidden body")
 
+	_test_controller(main)
 	_test_picking()
 
 	if failures.is_empty():
@@ -118,3 +119,67 @@ func _test_picking() -> void:
 	hit = model.pick(Vector3.ZERO, Vector3.FORWARD)
 	check(hit.is_empty(), "pick does not fall back to bounding boxes")
 	model.queue_free()
+
+
+func _pad_button(main, index: JoyButton) -> void:
+	var event := InputEventJoypadButton.new()
+	event.button_index = index
+	event.pressed = true
+	main._input(event)
+
+
+func _test_controller(main) -> void:
+	var axis := InputEventJoypadMotion.new()
+	axis.axis = JOY_AXIS_LEFT_Y
+	axis.axis_value = -1.0
+	check(axis.is_action_pressed("pad_move_forward"), "left stick forward mapping")
+	axis.axis = JOY_AXIS_RIGHT_X
+	axis.axis_value = 1.0
+	check(axis.is_action_pressed("pad_look_right"), "right stick look mapping")
+	var button := InputEventJoypadButton.new()
+	button.button_index = JOY_BUTTON_START
+	button.pressed = true
+	check(button.is_action_pressed("pad_menu"), "controller menu mapping")
+
+	main.cam.aim_from(Vector3.ZERO, Vector3.FORWARD)
+	Input.action_press("pad_move_forward", 1.0)
+	main.cam._process(0.2)
+	check(main.cam.position.z < -0.1, "controller moves camera forward")
+	Input.action_release("pad_move_forward")
+	var yaw: float = main.cam.rotation.y
+	Input.action_press("pad_look_right", 1.0)
+	main.cam._process(0.2)
+	check(main.cam.rotation.y < yaw, "controller turns camera right")
+	Input.action_release("pad_look_right")
+
+	_pad_button(main, JOY_BUTTON_START)
+	check(main._controller_menu and not main.cam.gamepad_enabled, "controller menu disables flight")
+	check(root.gui_get_focus_owner() != null, "controller menu focuses a control")
+	var before: Vector3 = main.cam.position
+	Input.action_press("pad_move_forward", 1.0)
+	main.cam._process(0.2)
+	check(main.cam.position.is_equal_approx(before), "controller menu blocks movement")
+	Input.action_release("pad_move_forward")
+	_pad_button(main, JOY_BUTTON_Y)
+	check(main.mode == "free", "menu input does not change flight mode")
+	_pad_button(main, JOY_BUTTON_START)
+	check(not main._controller_menu and main.cam.gamepad_enabled, "controller menu closes")
+	check(root.gui_get_focus_owner() == null, "controller menu releases focus")
+
+	_pad_button(main, JOY_BUTTON_Y)
+	check(main.mode == "tour", "controller cycles to tour")
+	check(not main._fly.is_empty(), "tour fly-in started")
+	_pad_button(main, JOY_BUTTON_A)
+	check(main._fly.is_empty() and not main.path.playing, "controller skips fly-in and pauses")
+	_pad_button(main, JOY_BUTTON_A)
+	check(main.path.playing, "controller resumes tour")
+	_pad_button(main, JOY_BUTTON_Y)
+	check(main.mode == "interior" and main._fly.is_empty(), "controller cycles to interior")
+	_pad_button(main, JOY_BUTTON_B)
+	check(main.mode == "free" and not main.cam.captured, "controller returns to free without capturing mouse")
+	var speed: float = main.cam.base_speed
+	_pad_button(main, JOY_BUTTON_DPAD_RIGHT)
+	check(main.cam.base_speed > speed, "controller adjusts free-flight speed")
+	var ghost: bool = main.model.is_context_visible()
+	_pad_button(main, JOY_BUTTON_DPAD_UP)
+	check(main.model.is_context_visible() != ghost, "controller toggles body")

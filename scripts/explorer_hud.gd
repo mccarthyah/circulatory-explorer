@@ -133,7 +133,7 @@ func _mode_button(text: String, mode: String) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.toggle_mode = true
-	b.focus_mode = Control.FOCUS_NONE
+	b.focus_mode = Control.FOCUS_ALL
 	b.add_theme_font_size_override("font_size", 13)
 	b.custom_minimum_size = Vector2(0, 34)
 	var sb := StyleBoxFlat.new()
@@ -150,7 +150,11 @@ func _mode_button(text: String, mode: String) -> Button:
 	sb_on.bg_color = Color(0.86, 0.34, 0.32, 0.95)
 	sb_on.border_color = Color(1, 1, 1, 0.18)
 	b.add_theme_stylebox_override("pressed", sb_on)
-	b.add_theme_stylebox_override("focus", sb.duplicate())
+	var sb_focus: StyleBoxFlat = sb.duplicate()
+	sb_focus.bg_color = Color(0, 0, 0, 0)
+	sb_focus.border_color = Color(0.95, 0.82, 0.53)
+	sb_focus.set_border_width_all(2)
+	b.add_theme_stylebox_override("focus", sb_focus)
 	b.pressed.connect(func() -> void:
 		set_mode(mode)
 		mode_requested.emit(mode))
@@ -276,7 +280,7 @@ func _build_left_panel() -> void:
 	quality_option = OptionButton.new()
 	quality_option.add_theme_font_size_override("font_size", 12)
 	quality_option.custom_minimum_size = Vector2(140, 28)
-	quality_option.focus_mode = Control.FOCUS_NONE
+	quality_option.focus_mode = Control.FOCUS_ALL
 	for item in [["Performance", "performance"], ["Balanced", "balanced"], ["High", "high"]]:
 		quality_option.add_item(item[0])
 		quality_option.set_item_metadata(quality_option.item_count - 1, item[1])
@@ -291,7 +295,7 @@ func _build_left_panel() -> void:
 	scale_option = OptionButton.new()
 	scale_option.add_theme_font_size_override("font_size", 12)
 	scale_option.custom_minimum_size = Vector2(140, 28)
-	scale_option.focus_mode = Control.FOCUS_NONE
+	scale_option.focus_mode = Control.FOCUS_ALL
 	for item in [["Preset default", 0.0], ["50%", 0.5], ["65%", 0.65], ["75%", 0.75], ["90%", 0.9], ["100%", 1.0]]:
 		scale_option.add_item(item[0])
 		scale_option.set_item_metadata(scale_option.item_count - 1, item[1])
@@ -308,6 +312,10 @@ func _build_left_panel() -> void:
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	help.custom_minimum_size = Vector2(262, 0)
 	col.add_child(help)
+	var pad_help := _label("Controller: Start = menu  ·  Y = mode  ·  A = inspect/pause", 10, Color(0.52, 0.57, 0.66))
+	pad_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	pad_help.custom_minimum_size = Vector2(262, 0)
+	col.add_child(pad_help)
 
 
 func _add_slider(parent: Control, bucket: String, caption: String, tint: Color, value: float) -> void:
@@ -566,6 +574,18 @@ func toggle_panels() -> void:
 	top_bar.visible = panel_visible
 	caption_panel.visible = panel_visible and _mode != "free"
 	crosshair.visible = panel_visible and _mode == "free"
+
+
+func focus_controller_menu() -> void:
+	if not panel_visible:
+		toggle_panels()
+	(mode_buttons[_mode] as Button).grab_focus()
+
+
+func release_controller_menu() -> void:
+	quality_option.get_popup().hide()
+	scale_option.get_popup().hide()
+	root.get_viewport().gui_release_focus()
 
 
 func mouse_over_ui() -> bool:
