@@ -22,6 +22,14 @@ func _run() -> void:
 	Engine.max_fps = 0
 	var settings := ConfigFile.new()
 	settings.set_value("graphics", "quality", quality)
+	var scale_text := OS.get_environment("BENCH_SCALE")
+	if not scale_text.is_empty():
+		var scale := scale_text.to_float()
+		if scale not in [0.0, 0.5, 0.65, 0.75, 0.9, 1.0]:
+			printerr("BENCH_SCALE must be 0, 0.5, 0.65, 0.75, 0.9 or 1.0")
+			quit(1)
+			return
+		settings.set_value("graphics", "render_scale", scale)
 	if settings.save("user://settings.cfg") != OK:
 		printerr("Could not write isolated benchmark settings")
 		quit(1)

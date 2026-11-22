@@ -63,7 +63,10 @@ glTF on the default Performance preset) and builds 687 meshes; you will see
 ## Low-end GPUs and virtual machines
 
 Start with **Performance**, keep the body outline and labels off, and use a
-smaller window if needed. The interior voyage still uses Balanced vessel meshes
+smaller window if needed. Under **GRAPHICS → 3D resolution**, try 50% or 65%
+for a lower GPU pixel workload; this affects 3D rendering, not the interface.
+The setting is remembered independently of detail; choose **Preset default**
+to return to the preset scale. The interior voyage still uses Balanced vessel meshes
 to preserve the lumen. For a VM, enable its 3D acceleration and install the
 guest graphics drivers; some VM configurations provide only software rendering
 or do not support the required graphics API.

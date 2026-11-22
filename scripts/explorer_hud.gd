@@ -11,6 +11,7 @@ signal search_changed(text: String)
 signal part_picked(id: String)
 signal pause_toggled()
 signal quality_changed(quality: String)
+signal render_scale_changed(scale: float)
 signal station_step(direction: int)
 
 const TEXT := Color(0.94, 0.95, 0.97)
@@ -48,6 +49,7 @@ var sliders: Dictionary = {}
 var context_check: CheckBox
 var labels_check: CheckBox
 var quality_option: OptionButton
+var scale_option: OptionButton
 
 var _list_ids: Array = []
 var _mode := "free"
@@ -282,6 +284,21 @@ func _build_left_panel() -> void:
 		quality_changed.emit(String(quality_option.get_item_metadata(i))))
 	qrow.add_child(quality_option)
 	col.add_child(qrow)
+	var srow := HBoxContainer.new()
+	srow.add_theme_constant_override("separation", 8)
+	srow.add_child(_label("3D resolution", 12, TEXT))
+	srow.add_child(_spacer())
+	scale_option = OptionButton.new()
+	scale_option.add_theme_font_size_override("font_size", 12)
+	scale_option.custom_minimum_size = Vector2(140, 28)
+	scale_option.focus_mode = Control.FOCUS_NONE
+	for item in [["Preset default", 0.0], ["50%", 0.5], ["65%", 0.65], ["75%", 0.75], ["90%", 0.9], ["100%", 1.0]]:
+		scale_option.add_item(item[0])
+		scale_option.set_item_metadata(scale_option.item_count - 1, item[1])
+	scale_option.item_selected.connect(func(i: int) -> void:
+		render_scale_changed.emit(float(scale_option.get_item_metadata(i))))
+	srow.add_child(scale_option)
+	col.add_child(srow)
 
 	col.add_child(HSeparator.new())
 	var help := _label("WASD fly  ·  Q/E down/up  ·  Shift boost  ·  wheel = speed\n" \
@@ -446,6 +463,13 @@ func set_quality(quality: String) -> void:
 	for i in quality_option.item_count:
 		if String(quality_option.get_item_metadata(i)) == quality:
 			quality_option.select(i)
+			return
+
+
+func set_render_scale(scale: float) -> void:
+	for i in scale_option.item_count:
+		if is_equal_approx(float(scale_option.get_item_metadata(i)), scale):
+			scale_option.select(i)
 			return
 
 

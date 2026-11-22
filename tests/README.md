@@ -25,10 +25,12 @@ First import the project in the editor (or run `godot --headless --editor --path
 
 ```sh
 GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720
+GODOT=/path/to/godot BENCH_SCALE=0.5 ./tests/benchmark.sh performance --resolution 1280x720
 GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720 --rendering-method gl_compatibility
 ```
 
-Use `balanced` or `high` in place of `performance` to compare presets. The
+Use `balanced` or `high` in place of `performance` to compare presets.
+`BENCH_SCALE` accepts 0 (preset), 0.5, 0.65, 0.75, 0.9 or 1.0. The
 benchmark uses isolated settings, disables VSync, warms each fixed viewpoint
 for 5 seconds, and samples for 10 seconds. It reports the renderer and adapter,
 average FPS, frame-time percentiles, draw calls and primitives at the end of

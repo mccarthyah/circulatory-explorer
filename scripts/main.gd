@@ -44,6 +44,7 @@ const QUALITY := {
 	},
 }
 const QUALITY_NAMES := ["performance", "balanced", "high"]
+const RENDER_SCALES := [0.0, 0.5, 0.65, 0.75, 0.9, 1.0]
 const SETTINGS := "user://settings.cfg"
 
 const TOUR_LIFT := 1.4          # cm the tour camera floats above the centreline
@@ -72,6 +73,7 @@ var hover: Dictionary = {}
 var selected_part: Dictionary = {}
 var labels_visible := true
 var quality := "performance"
+var render_scale := 0.0  # 0 = follow quality preset
 
 var _pick_interval := 0.16
 var _pick_timer := 0.0
@@ -104,6 +106,7 @@ func _ready() -> void:
 	hud.search_changed.connect(_on_search)
 	hud.part_picked.connect(_on_part_picked)
 	hud.quality_changed.connect(_on_quality_changed)
+	hud.render_scale_changed.connect(_on_render_scale_changed)
 
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -115,6 +118,7 @@ func _ready() -> void:
 	model.name = "Anatomy"
 	add_child(model)
 	var startup_quality := _load_quality()
+	render_scale = _load_render_scale()
 	if not model.load_anatomy(int(QUALITY[startup_quality]["detail"])):
 		hud.set_loading("Could not load the anatomy data.\nCheck data/circulatory.glb")
 		return
@@ -359,6 +363,33 @@ func _load_quality() -> String:
 	return "performance"
 
 
+func _load_render_scale() -> float:
+	var cf := ConfigFile.new()
+	if cf.load(SETTINGS) == OK:
+		var saved := float(cf.get_value("graphics", "render_scale", 0.0))
+		for scale in RENDER_SCALES:
+			if is_equal_approx(saved, float(scale)):
+				return float(scale)
+	return 0.0
+
+
+func _on_render_scale_changed(scale: float) -> void:
+	if not RENDER_SCALES.has(scale):
+		return
+	render_scale = scale
+	_apply_render_scale()
+	hud.set_render_scale(scale)
+	var cf := ConfigFile.new()
+	cf.load(SETTINGS)
+	cf.set_value("graphics", "render_scale", scale)
+	cf.save(SETTINGS)
+
+
+func _apply_render_scale() -> void:
+	var preset: Dictionary = QUALITY.get(quality, QUALITY["performance"])
+	get_viewport().scaling_3d_scale = render_scale if render_scale > 0.0 else float(preset["scale"])
+
+
 func _save_quality(q: String) -> void:
 	var cf := ConfigFile.new()
 	cf.load(SETTINGS)
@@ -383,7 +414,7 @@ func apply_quality(q: String, reload_meshes := true) -> void:
 	if vp != null:
 		vp.msaa_3d = int(preset["msaa"])
 		vp.screen_space_aa = int(preset["aa"])
-		vp.scaling_3d_scale = float(preset["scale"])
+		_apply_render_scale()
 	if env != null:
 		env.glow_enabled = bool(preset["glow"])
 		env.fog_enabled = bool(preset["fog"])
@@ -412,6 +443,7 @@ func apply_quality(q: String, reload_meshes := true) -> void:
 			_apply_context_opacity()
 		_update_subtitle()
 	hud.set_quality(q)
+	hud.set_render_scale(render_scale)
 	if reload_meshes:
 		_save_quality(q)
 
