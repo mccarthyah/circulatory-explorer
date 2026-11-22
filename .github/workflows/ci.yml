@@ -31,12 +31,13 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y -qq xvfb libgl1-mesa-dri
-          export XDG_DATA_HOME="$(mktemp -d)"
+          export XDG_DATA_HOME="$(mktemp -d)" LIBGL_ALWAYS_SOFTWARE=1
           set +e
-          xvfb-run -a "$GODOT" --path . --resolution 1280x720 --rendering-method gl_compatibility --script res://tests/render_smoke.gd 2>&1 | tee "$RUNNER_TEMP/render.log"
+          xvfb-run -a "$GODOT" --verbose --audio-driver Dummy --disable-vsync --path . --resolution 1280x720 --rendering-method gl_compatibility --script res://tests/render_smoke.gd 2>&1 | tee "$RUNNER_TEMP/render.log"
           result=${PIPESTATUS[0]}
           set -e
           if [ "$result" -ne 0 ] || grep -qE '(SCRIPT ERROR|ERROR:|SHADER ERROR|FAIL:)' "$RUNNER_TEMP/render.log"; then
+            echo "::error::Renderer smoke exited with code $result"
             while IFS= read -r line; do echo "::error::$line"; done < <(tail -n 30 "$RUNNER_TEMP/render.log")
             exit 1
           fi
