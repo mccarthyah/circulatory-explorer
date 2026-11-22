@@ -1,8 +1,10 @@
 extends SceneTree
 ## Run with tests/benchmark.sh on a real display, not with --headless.
 
-const WARMUP_SECONDS := 5.0
-const SAMPLE_SECONDS := 10.0
+const DEFAULT_WARMUP_SECONDS := 5.0
+const DEFAULT_SAMPLE_SECONDS := 10.0
+var warmup_seconds := DEFAULT_WARMUP_SECONDS
+var sample_seconds := DEFAULT_SAMPLE_SECONDS
 
 func _initialize() -> void:
 	call_deferred("_run")
@@ -18,6 +20,20 @@ func _run() -> void:
 		printerr("Expected performance, balanced or high")
 		quit(1)
 		return
+	var warmup_text := OS.get_environment("BENCH_WARMUP")
+	var sample_text := OS.get_environment("BENCH_DURATION")
+	if not warmup_text.is_empty():
+		if not warmup_text.is_valid_float() or warmup_text.to_float() < 0.0:
+			printerr("BENCH_WARMUP must be a nonnegative number")
+			quit(1)
+			return
+		warmup_seconds = warmup_text.to_float()
+	if not sample_text.is_empty():
+		if not sample_text.is_valid_float() or sample_text.to_float() <= 0.0:
+			printerr("BENCH_DURATION must be a positive number")
+			quit(1)
+			return
+		sample_seconds = sample_text.to_float()
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Engine.max_fps = 0
 	var settings := ConfigFile.new()
@@ -25,7 +41,7 @@ func _run() -> void:
 	var scale_text := OS.get_environment("BENCH_SCALE")
 	if not scale_text.is_empty():
 		var scale := scale_text.to_float()
-		if scale not in [0.0, 0.5, 0.65, 0.75, 0.9, 1.0]:
+		if not scale_text.is_valid_float() or scale not in [0.0, 0.5, 0.65, 0.75, 0.9, 1.0]:
 			printerr("BENCH_SCALE must be 0, 0.5, 0.65, 0.75, 0.9 or 1.0")
 			quit(1)
 			return
@@ -67,12 +83,12 @@ func _run() -> void:
 
 func _measure(main, label: String) -> void:
 	var start := Time.get_ticks_usec()
-	while (Time.get_ticks_usec() - start) < WARMUP_SECONDS * 1000000.0:
+	while (Time.get_ticks_usec() - start) < warmup_seconds * 1000000.0:
 		await process_frame
 	var samples: Array[float] = []
 	start = Time.get_ticks_usec()
 	var previous := start
-	while (Time.get_ticks_usec() - start) < SAMPLE_SECONDS * 1000000.0:
+	while (Time.get_ticks_usec() - start) < sample_seconds * 1000000.0:
 		await process_frame
 		var now := Time.get_ticks_usec()
 		samples.append((now - previous) / 1000.0)

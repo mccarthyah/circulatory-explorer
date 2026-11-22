@@ -32,7 +32,9 @@ GODOT=/path/to/godot ./tests/benchmark.sh performance --resolution 1280x720 --re
 ```
 
 Use `balanced` or `high` in place of `performance` to compare presets.
-`BENCH_SCALE` accepts 0 (preset), 0.5, 0.65, 0.75, 0.9 or 1.0. The
+`BENCH_SCALE` accepts 0 (preset), 0.5, 0.65, 0.75, 0.9 or 1.0.
+`BENCH_WARMUP` and `BENCH_DURATION` override the sample durations in seconds
+(the defaults are recommended for comparisons). The
 benchmark uses isolated settings, disables VSync, warms each fixed viewpoint
 for 5 seconds, and samples for 10 seconds. It reports the renderer and adapter,
 average FPS, frame-time percentiles, draw calls and primitives at the end of
