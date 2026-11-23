@@ -86,6 +86,11 @@ func _run() -> void:
 		return
 	# Exercise real mouse event dispatch: click captures, Escape releases, and
 	# subsequent mouse motion must not rotate until the user clicks again.
+	main.hud.search_box.grab_focus()
+	if root.gui_get_focus_owner() != main.hud.search_box:
+		printerr("FAIL: search could not receive focus")
+		quit(1)
+		return
 	var click := InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
@@ -93,8 +98,8 @@ func _run() -> void:
 	click.global_position = click.position
 	Input.parse_input_event(click)
 	await process_frame
-	if not main.cam.captured:
-		printerr("FAIL: scene click did not capture mouse")
+	if not main.cam.captured or root.gui_get_focus_owner() != null:
+		printerr("FAIL: scene click did not capture mouse and release text focus")
 		quit(1)
 		return
 	click.pressed = false

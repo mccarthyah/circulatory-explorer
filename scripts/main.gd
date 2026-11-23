@@ -1079,6 +1079,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		var mb := event as InputEventMouseButton
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT and mode == "free":
 			if not cam.captured and not hud.mouse_over_ui():
+				# Text fields must not keep consuming flight shortcuts after recapture.
+				get_viewport().gui_release_focus()
 				cam.capture_mouse(true)
 		elif mb.pressed and mb.button_index == MOUSE_BUTTON_RIGHT and mode == "free":
 			if not hover.is_empty():
