@@ -9,6 +9,8 @@ signal opacity_changed(bucket: String, value: float)
 signal context_toggled(on: bool)
 signal labels_toggled(on: bool)
 signal extended_toggled(on: bool)
+signal part_visibility_requested(id: String)
+signal show_all_requested()
 signal search_changed(text: String)
 signal part_picked(id: String)
 signal pause_toggled()
@@ -40,6 +42,8 @@ var name_label: Label
 var meta_label: Label
 var lineage_label: Label
 var fly_button: Button
+var visibility_button: Button
+var show_all_button: Button
 var search_box: LineEdit
 var list: ItemList
 var caption_title: Label
@@ -229,16 +233,22 @@ func _build_top_bar() -> void:
 
 func _build_left_panel() -> void:
 	left_panel = _panel()
-	left_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	left_panel.set_anchors_and_offsets_preset(Control.PRESET_LEFT_WIDE)
 	left_panel.offset_left = 16
+	left_panel.offset_right = 306
 	left_panel.offset_top = 92
+	left_panel.offset_bottom = -16
 	left_panel.custom_minimum_size = Vector2(290, 0)
 	left_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	root.add_child(left_panel)
 
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	left_panel.add_child(scroll)
 	var col := VBoxContainer.new()
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	col.add_theme_constant_override("separation", 8)
-	left_panel.add_child(col)
+	scroll.add_child(col)
 
 	col.add_child(_section("FIND A STRUCTURE"))
 	search_box = LineEdit.new()
@@ -287,6 +297,13 @@ func _build_left_panel() -> void:
 	labels_check.add_theme_color_override("font_color", TEXT)
 	labels_check.toggled.connect(func(on: bool) -> void: labels_toggled.emit(on))
 	col.add_child(labels_check)
+
+	show_all_button = Button.new()
+	show_all_button.text = "Restore hidden structures"
+	show_all_button.tooltip_text = "Restores individually hidden structures; layer visibility and opacity are unchanged."
+	show_all_button.add_theme_font_size_override("font_size", 12)
+	show_all_button.pressed.connect(func() -> void: show_all_requested.emit())
+	col.add_child(show_all_button)
 
 	col.add_child(HSeparator.new())
 	col.add_child(_section("GRAPHICS"))
@@ -403,6 +420,13 @@ func _build_info_panel() -> void:
 		if _current_id != "":
 			part_picked.emit(_current_id))
 	col.add_child(fly_button)
+	visibility_button = Button.new()
+	visibility_button.add_theme_font_size_override("font_size", 12)
+	visibility_button.custom_minimum_size = Vector2(0, 30)
+	visibility_button.pressed.connect(func() -> void:
+		if _current_id != "":
+			part_visibility_requested.emit(_current_id))
+	col.add_child(visibility_button)
 
 
 func _build_caption() -> void:
@@ -533,6 +557,8 @@ func populate(matches: Array) -> void:
 		var name := String(p["name"])
 		if bool(p.get("extended", false)):
 			name += "  ·  extra"
+		if bool(p.get("hidden", false)):
+			name += "  ·  hidden"
 		var idx := list.add_item(name)
 		list.set_item_tooltip(idx, "%s  ·  %s" % [String(p["fma"]), String(p["group"])])
 		var colour := ACCENT_A
@@ -554,6 +580,7 @@ func show_part(part: Dictionary) -> void:
 		clear_part()
 		return
 	_current_id = String(part["id"])
+	visibility_button.text = "Show this structure" if bool(part.get("hidden", false)) else "Hide this structure"
 	show_info(true)
 	name_label.text = String(part["name"])
 	var colour := ACCENT_A

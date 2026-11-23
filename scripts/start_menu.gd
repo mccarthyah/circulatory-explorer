@@ -6,6 +6,7 @@ const CHOICES := [
 	["lower", "Waist down", "Pelvis and lower limbs"],
 	["head", "Head & neck", "Cerebral and neck vessels"],
 	["heart", "Heart", "Heart structures and coronary vessels"],
+	["cardiac", "Cardiac", "Heart, coronary and pulmonary vessels"],
 	["all", "All anatomy", "Full model, guided tour and interior voyage"],
 ]
 var buttons: Dictionary = {}
@@ -63,7 +64,7 @@ func _ready() -> void:
 		button.pressed.connect(_choose.bind(String(item[0])))
 		buttons[item[0]] = button
 		col.add_child(button)
-	note = _label("Lowest graphics enabled · Extra vessels can be loaded from the explorer", 12, Color(0.51, 0.58, 0.68))
+	note = _label("Starts in Performance · Graphics can be changed in the explorer", 12, Color(0.51, 0.58, 0.68))
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(note)
 	buttons["torso"].grab_focus.call_deferred()

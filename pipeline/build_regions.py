@@ -13,13 +13,12 @@ from bp3d_lib import GLB
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'data'
-REGIONS = ('torso', 'lower', 'head', 'heart')
-# Regional views use Performance only, matching the current graphics lock.
-DETAILS = (('_lod2', 'tris_lod2'),)
+REGIONS = ('torso', 'lower', 'head', 'heart', 'cardiac')
+DETAILS = (('', 'tris'), ('_lod1', 'tris_lod1'), ('_lod2', 'tris_lod2'))
 # Coordinate units are cm, in the body-centred frame. Clip cut faces are open,
 # and clipping x on the torso is an intentionally approximate shoulder boundary.
 PLANES = {'torso': [(1, 18., 1), (1, 56., -1), (0, -13.5, 1), (0, 13.5, -1)],
-          'lower': [(1, 18., -1)], 'head': [(1, 56., 1)], 'heart': []}
+          'lower': [(1, 18., -1)], 'head': [(1, 56., 1)], 'heart': [], 'cardiac': []}
 
 
 def read_glb(path):
@@ -101,6 +100,10 @@ def main():
                         continue
                     if region == 'heart' and not (p['group'] == 'heart' or p.get('coronary') or fid in ('FJ2966', 'FJ3413')):
                         continue
+                    if region == 'cardiac' and not (p['group'] == 'heart' or p.get('coronary')
+                            or p.get('circuit') == 'pulmonary'
+                            or re.search(r'^(ascending aorta|arch of aorta|inferior vena cava|superior vena cava|(left|right) brachiocephalic vein)$', p['name'], re.I)):
+                        continue
                     clipped = clip(pos, norm, faces, PLANES[region])
                     if clipped is not None:
                         meshes[region][suffix][fid] = clipped
@@ -119,9 +122,10 @@ def main():
                     out.add_part(fid, pos, norm, faces, p['material'])
                     rec = result[region].setdefault(fid, {})
                     rec[count_key] = len(faces)
-                    if suffix == '_lod2':
-                        rec['min'] = [round(float(x) - 0.002, 4) for x in pos.min(axis=0)]
-                        rec['max'] = [round(float(x) + 0.002, 4) for x in pos.max(axis=0)]
+                    lo = [round(float(x) - 0.002, 4) for x in pos.min(axis=0)]
+                    hi = [round(float(x) + 0.002, 4) for x in pos.max(axis=0)]
+                    rec['min'] = [min(a, b) for a, b in zip(rec.get('min', lo), lo)]
+                    rec['max'] = [max(a, b) for a, b in zip(rec.get('max', hi), hi)]
                 out.write(str(DATA / f'region_{region}{"_extended" if extra else ""}{suffix}.glb'))
         print(region, len(ids), 'base', sum(not parts[x].get('extended',False) for x in ids),
               'extra', sum(bool(parts[x].get('extended',False)) for x in ids))

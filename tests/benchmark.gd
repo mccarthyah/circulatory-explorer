@@ -66,12 +66,12 @@ func _run() -> void:
 		printerr("Main scene failed to load")
 		quit(1)
 		return
+	# Startup intentionally ignores saved graphics; benchmarks explicitly choose them.
+	main.apply_quality(quality, true)
+	if not scale_text.is_empty():
+		main._on_render_scale_changed(scale_text.to_float())
 	if main.quality != quality:
-		printerr("Requested quality is unavailable while lowest graphics are locked")
-		quit(1)
-		return
-	if not scale_text.is_empty() and scale_text.to_float() > 0.0 and not is_equal_approx(root.scaling_3d_scale, scale_text.to_float()):
-		printerr("Requested scale is unavailable while lowest graphics are locked")
+		printerr("Failed to apply requested benchmark quality")
 		quit(1)
 		return
 	print("BENCHMARK Godot=", Engine.get_version_info().string,

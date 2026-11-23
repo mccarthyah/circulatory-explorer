@@ -47,6 +47,7 @@ var circulatory_root: Node3D
 var supplemental_root: Node3D
 var extended_root: Node3D
 var _extended_on := false
+var _hidden_ids: Dictionary = {}
 var highlighted: Node3D = null
 var bounds := AABB()
 
@@ -61,7 +62,7 @@ var _hole_radius := 0.0
 
 
 func load_anatomy(detail_level: int = 2, selected_region: String = "all") -> bool:
-	if selected_region not in ["all", "torso", "lower", "head", "heart"]:
+	if selected_region not in ["all", "torso", "lower", "head", "heart", "cardiac"]:
 		push_error("Unknown anatomy region: " + selected_region)
 		return false
 	region = selected_region
@@ -82,8 +83,6 @@ func load_anatomy(detail_level: int = 2, selected_region: String = "all") -> boo
 ## Swap the level of detail without rebuilding anything else. Returns true when
 ## the meshes were replaced.
 func reload(detail_level: int) -> bool:
-	if region != "all":
-		detail_level = 0
 	if detail_level == detail and circulatory_root != null:
 		return true
 	_teardown()
@@ -116,7 +115,7 @@ func _teardown() -> void:
 
 
 func _build(detail_level: int) -> bool:
-	detail = 0 if region != "all" else detail_level
+	detail = detail_level
 	var suffix: String = DETAIL_SUFFIX.get(detail, "")
 	if region == "all":
 		context_root = _instance_gltf(DATA_DIR + "context%s.glb" % suffix)
@@ -155,6 +154,7 @@ func _build(detail_level: int) -> bool:
 		var key: String = entry["material"]
 		var node: MeshInstance3D = meshes.get(id)
 		entry["node"] = node
+		entry["hidden"] = _hidden_ids.has(id)
 		var lo := Vector3(entry["min"][0], entry["min"][1], entry["min"][2])
 		var hi := Vector3(entry["max"][0], entry["max"][1], entry["max"][2])
 		entry["aabb"] = AABB(lo, hi - lo)
@@ -175,6 +175,7 @@ func _build(detail_level: int) -> bool:
 
 func _prepare_part_node(entry: Dictionary, node: MeshInstance3D) -> void:
 	var key: String = entry["material"]
+	node.visible = not bool(entry.get("hidden", false))
 	node.set_surface_override_material(0, _material_for(key, _opacity.get(key, 1.0)))
 	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
@@ -215,6 +216,26 @@ func set_extended_visible(on: bool) -> bool:
 
 func is_extended_visible() -> bool:
 	return _extended_on and extended_root != null and extended_root.visible
+
+
+## Individual visibility is independent of group opacity and the extra layer.
+func set_part_hidden(id: String, hidden: bool) -> void:
+	if not by_id.has(id):
+		return
+	if hidden:
+		_hidden_ids[id] = true
+	else:
+		_hidden_ids.erase(id)
+	var part: Dictionary = by_id[id]
+	part["hidden"] = hidden
+	var node: MeshInstance3D = part.get("node")
+	if node != null:
+		node.visible = not hidden
+
+
+func show_all_parts() -> void:
+	for id in _hidden_ids.keys():
+		set_part_hidden(String(id), false)
 
 
 func _read_json(path: String) -> Dictionary:
@@ -393,6 +414,8 @@ func total_tris(include_context := true) -> int:
 		if not include_context and p["group"] == "context":
 			continue
 		if bool(p.get("extended", false)) and not _extended_on:
+			continue
+		if bool(p.get("hidden", false)):
 			continue
 		total += tris_of(p)
 	return total

@@ -27,9 +27,9 @@ func _run() -> void:
 		quit(1)
 		return
 	await process_frame
-	check(menu.buttons.size() == 5, "five main menu choices")
+	check(menu.buttons.size() == 6, "six main menu choices")
 	check(menu.get_node_or_null("Anatomy") == null, "menu does not instantiate a model")
-	for choice in ["torso", "lower", "head", "heart", "all"]:
+	for choice in ["torso", "lower", "head", "heart", "cardiac", "all"]:
 		menu.buttons[choice].pressed.emit()
 		for i in 900:
 			await process_frame
@@ -41,10 +41,13 @@ func _run() -> void:
 			quit(1)
 			return
 		check(main.region == choice and main.model.region == choice, "correct selection " + choice)
-		check(main.model.detail == 0 and is_equal_approx(root.scaling_3d_scale, 0.5), "regional graphics lock " + choice)
+		check(main.model.detail == 0 and is_equal_approx(root.scaling_3d_scale, 0.5), "performance startup " + choice)
 		if choice != "all":
 			check(main.model.context_root == null and main.model.supplemental_root == null, "region does not load full-body assets " + choice)
-			check(main.model.extended_root == null, "extra vessels start unloaded " + choice)
+			if choice == "cardiac":
+				check(main.model.is_extended_visible() and main.hud.extended_check.button_pressed, "cardiac extras start visible")
+			else:
+				check(main.model.extended_root == null, "extra vessels start unloaded " + choice)
 			check(main.hud.mode_buttons["tour"].disabled and main.hud.mode_buttons["interior"].disabled, "full-body routes disabled " + choice)
 			check(main.hud.context_check.disabled, "full-body context disabled " + choice)
 			main._on_mode_requested("tour")
@@ -59,6 +62,18 @@ func _run() -> void:
 				main._on_part_picked(extra)
 				check(main.model.is_extended_visible() and main.model.by_id[extra]["node"] != null, "regional extra loads on selection " + choice)
 				check(main.model.extended_root.get_child_count() < 410, "uses regional extra file " + choice)
+			if choice == "cardiac":
+				for id in ["FJ2655", "FJ2428", "FJ2966", "FJ2924", "FJ2925", "FJ3645", "FJ3441", "FJ2725"]:
+					check(main.model.by_id.has(id) and main.model.by_id[id]["node"] != null, "cardiac structure loaded " + id)
+				check(not main.model.by_id.has("FJ2143"), "cardiac excludes femoral artery")
+			if choice in ["cardiac", "torso"]:
+				main._on_part_visibility_requested(extra)
+				for q in ["balanced", "high", "performance"]:
+					main.apply_quality(q, true)
+					check(main.model.detail == main.QUALITY[q]["detail"], "regional quality " + choice + " " + q)
+					check(main.model.by_id[extra]["hidden"] and not main.model.by_id[extra]["node"].visible, "hidden extra survives regional reload " + choice + " " + q)
+				main._on_show_all_requested()
+				check(main.model.by_id[extra]["node"].visible, "regional restore works " + choice)
 			if choice == "torso": check(not main.model.by_id.has("FJ2271"), "torso excludes brachial artery")
 			if choice == "heart": check(main.model.by_id.has("FJ2655") and not main.model.by_id.has("FJ2143"), "heart includes coronary sinus, excludes femoral artery")
 			if choice == "lower": check(main.model.by_id.has("FJ2143") and not main.model.by_id.has("FJ2655"), "lower includes femoral artery, excludes coronary sinus")

@@ -24,8 +24,7 @@ const LABELS := [
 	["FJ2170", "Popliteal artery"],
 ]
 
-## Temporarily keep every mode on the lowest settings for weak GPUs.
-const LOWEST_ONLY := true
+## Start at Performance, but let users raise detail and resolution.
 
 ## Graphics presets. `detail` picks the mesh file set, the rest turns the
 ## expensive render features on or off.
@@ -116,6 +115,8 @@ func _ready() -> void:
 	hud.opacity_changed.connect(_on_opacity)
 	hud.context_toggled.connect(_on_context_toggled)
 	hud.extended_toggled.connect(_on_extended_toggled)
+	hud.part_visibility_requested.connect(_on_part_visibility_requested)
+	hud.show_all_requested.connect(_on_show_all_requested)
 	hud.labels_toggled.connect(_on_labels_toggled)
 	hud.search_changed.connect(_on_search)
 	hud.part_picked.connect(_on_part_picked)
@@ -159,6 +160,9 @@ func _ready() -> void:
 	hud.populate(model.parts_matching(""))
 	hud.set_loading("")
 	apply_quality(startup_quality, false)
+	if region == "cardiac":
+		# Cardiac includes all available related coronary vessels by default.
+		_on_extended_toggled(true)
 	print("[explorer] anatomy parts: %d   path length: %.1f cm   stations: %d"
 			% [model.parts.size(), path.length, path.stations.size()])
 	_go_free(true)
@@ -180,7 +184,7 @@ func _build_environment() -> void:
 	env.glow_strength = 1.0
 	env.glow_bloom = 0.05
 	env.glow_hdr_threshold = 0.80
-	env.fog_enabled = not LOWEST_ONLY
+	env.fog_enabled = false
 	env.fog_light_color = Color(0.015, 0.02, 0.035)
 	env.fog_density = 0.0012
 	env.adjustment_enabled = true
@@ -242,6 +246,7 @@ func _build_labels() -> void:
 		var box: AABB = part["aabb"]
 		var label := Label3D.new()
 		label.text = String(entry[1])
+		label.set_meta("part_id", String(entry[0]))
 		label.font_size = 40
 		label.pixel_size = 0.032
 		label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -365,9 +370,8 @@ func _set_opacity_preset(xray: bool) -> void:
 
 func _set_atmosphere(interior: bool) -> void:
 	var preset: Dictionary = QUALITY.get(quality, QUALITY["performance"])
-	# When unlocked, depth fog helps the lumen read as a tunnel. The temporary
-	# lowest-only lock disables it even inside the vessels.
-	env.fog_enabled = not LOWEST_ONLY and (interior or bool(preset["fog"]))
+	# Performance stays cheap; higher presets can use depth fog, including inside.
+	env.fog_enabled = bool(preset["fog"])
 	if interior:
 		env.fog_density = 0.05
 		env.fog_light_color = Color(0.075, 0.010, 0.014)
@@ -392,34 +396,15 @@ func _settings_path() -> String:
 
 
 func _load_quality() -> String:
-	if LOWEST_ONLY:
-		return "performance"
-	var cf := ConfigFile.new()
-	if cf.load(_settings_path()) == OK:
-		var q := String(cf.get_value("graphics", "quality", "performance"))
-		if QUALITY.has(q):
-			return q
+	# Always start safely even if a previous session saved a higher setting.
 	return "performance"
 
 
 func _load_render_scale() -> float:
-	if LOWEST_ONLY:
-		return 0.5
-	var cf := ConfigFile.new()
-	if cf.load(_settings_path()) == OK:
-		var saved := float(cf.get_value("graphics", "render_scale", 0.0))
-		for scale in RENDER_SCALES:
-			if is_equal_approx(saved, float(scale)):
-				return float(scale)
-	return 0.0
+	return 0.0 # follow the Performance preset on startup
 
 
 func _on_render_scale_changed(scale: float) -> void:
-	if LOWEST_ONLY:
-		render_scale = 0.5
-		_apply_render_scale()
-		hud.set_render_scale(render_scale)
-		return
 	if not RENDER_SCALES.has(scale):
 		return
 	render_scale = scale
@@ -432,9 +417,6 @@ func _on_render_scale_changed(scale: float) -> void:
 
 
 func _apply_render_scale() -> void:
-	if LOWEST_ONLY:
-		get_viewport().scaling_3d_scale = 0.5
-		return
 	var preset: Dictionary = QUALITY.get(quality, QUALITY["performance"])
 	get_viewport().scaling_3d_scale = render_scale if render_scale > 0.0 else float(preset["scale"])
 
@@ -452,7 +434,7 @@ func _on_quality_changed(q: String) -> void:
 
 func apply_quality(q: String, reload_meshes := true) -> void:
 	_has_pick_ray = false
-	if LOWEST_ONLY or not QUALITY.has(q):
+	if not QUALITY.has(q):
 		q = "performance"
 	quality = q
 	if model != null and mode == "tour":
@@ -484,7 +466,7 @@ func apply_quality(q: String, reload_meshes := true) -> void:
 			model.highlight({})
 			hud.clear_part()
 			model.reload(_effective_detail())
-		var ghost: bool = bool(preset["ghost"])
+		var ghost: bool = region == "all" and bool(preset["ghost"])
 		model.set_context_visible(ghost)
 		hud.context_check.set_pressed_no_signal(ghost)
 		_context_was_on = ghost
@@ -493,8 +475,8 @@ func apply_quality(q: String, reload_meshes := true) -> void:
 		_update_subtitle()
 	hud.set_quality(q)
 	hud.set_render_scale(render_scale)
-	hud.set_graphics_locked(LOWEST_ONLY)
-	if reload_meshes and not LOWEST_ONLY:
+	hud.set_graphics_locked(false)
+	if reload_meshes:
 		_save_quality(q)
 
 
@@ -522,10 +504,7 @@ func _thousands(n: int) -> String:
 
 
 func _effective_detail() -> int:
-	var d := _quality_detail()
-	if mode == "interior" and not LOWEST_ONLY:
-		d = maxi(d, 1)
-	return d
+	return _quality_detail()
 
 
 func _sync_detail() -> void:
@@ -596,6 +575,34 @@ func _on_extended_toggled(on: bool) -> void:
 func _apply_context_opacity() -> void:
 	var v := maxf(0.05, float(hud.sliders["context"].value))
 	model.set_bucket_opacity("context", v * _context_scale)
+
+
+func _on_part_visibility_requested(id: String) -> void:
+	var part: Dictionary = model.by_id.get(id, {})
+	if part.is_empty():
+		return
+	var hidden := not bool(part.get("hidden", false))
+	model.set_part_hidden(id, hidden)
+	selected_part = part
+	hover = {}
+	model.highlight({} if hidden else part)
+	if hidden and not _fly.is_empty():
+		_fly = {}
+		cam.enabled = true
+		cam.sync_angles()
+	_has_pick_ray = false
+	hud.show_part(_card(part))
+	hud.populate(model.parts_matching(hud.search_box.text))
+	_update_subtitle()
+
+
+func _on_show_all_requested() -> void:
+	model.show_all_parts()
+	_has_pick_ray = false
+	hud.populate(model.parts_matching(hud.search_box.text))
+	if not selected_part.is_empty():
+		hud.show_part(_card(selected_part))
+	_update_subtitle()
 
 
 func _on_labels_toggled(on: bool) -> void:
@@ -715,6 +722,10 @@ func _update_labels(delta: float) -> void:
 	var ranked: Array = []
 	for child in labels_root.get_children():
 		var l := child as Label3D
+		var labelled_part: Dictionary = model.by_id.get(String(l.get_meta("part_id", "")), {})
+		if labelled_part.is_empty() or bool(labelled_part.get("hidden", false)):
+			l.visible = false
+			continue
 		ranked.append([cam.global_position.distance_to(l.global_position), l])
 	ranked.sort_custom(func(a, b): return a[0] < b[0])
 	for i in ranked.size():
@@ -763,6 +774,9 @@ func _look_at_smooth(target: Vector3, delta: float) -> void:
 
 
 func _update_hover(delta: float) -> void:
+	# Keep the inspected card stable while interacting with its buttons.
+	if _controller_menu or (not cam.captured and hud.mouse_over_ui()):
+		return
 	_pick_timer -= delta
 	if _pick_timer > 0.0:
 		return
@@ -964,9 +978,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_R:
 				_go_free(true)
 			KEY_F9:
-				if not LOWEST_ONLY:
-					var i := QUALITY_NAMES.find(quality)
-					apply_quality(String(QUALITY_NAMES[(i + 1) % QUALITY_NAMES.size()]), true)
+				var i := QUALITY_NAMES.find(quality)
+				apply_quality(String(QUALITY_NAMES[(i + 1) % QUALITY_NAMES.size()]), true)
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT and mode == "free":

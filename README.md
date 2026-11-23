@@ -12,21 +12,17 @@ sculpted stand-ins, no downloaded game assets. There are three ways to move:
 ![heart close-up](docs/screenshots/03-heart-closeup.jpg)
 ![inspecting](docs/screenshots/04-inspect.jpg)
 
-## Graphics: temporarily locked to the lowest settings
+## Graphics: starts on Performance
 
-For low-end and virtual GPUs, the app always uses the **Performance** mesh set
-(152,672 circulatory triangles with extra vessels hidden), Compatibility rendering by default, 50% 3D resolution, opaque
-guided-tour vessels, and no glow, fog, anti-aliasing or tissue mottling. Labels
-and the translucent body outline start off; they can still be turned on for
-navigation. The Graphics selectors and F9 quality shortcut are disabled for
-now. Previously saved quality and resolution settings are ignored but not
-removed.
+Each view starts on the **Performance** preset (50% 3D resolution, the smallest
+meshes and effects disabled), with Compatibility rendering by default. Use the
+Graphics controls to select **Balanced** or **High**, choose a 3D resolution, or
+press **F9** to cycle presets. All views have separate meshes for all three
+detail levels. Higher settings can be substantially slower on weak GPUs.
 
-All modes, including the interior voyage, use the lowest-detail meshes. This
-means narrow vessel interiors may look faceted or the camera may pass through a
-wall; fog is also disabled. The Balanced and High datasets remain in the project
-for future use, but cannot be selected while the temporary `LOWEST_ONLY` lock
-in `scripts/main.gd` is enabled.
+Quality and resolution changes apply for the current view. For a safe startup,
+the next view starts on Performance regardless of previously saved choices.
+Performance's low-detail interiors can look faceted or intersect the camera.
 
 ## Running it
 
@@ -44,10 +40,13 @@ The app opens on a **main menu without loading the anatomy model**. Choose:
 - **Waist down** — pelvis and lower limbs.
 - **Head & neck** — vessels in the head and neck.
 - **Heart** — heart structures, coronary vessels, pulmonary trunk and ascending aorta.
+- **Cardiac** — heart, available coronary and pulmonary vessels, the ascending
+  aorta, aortic arch, venae cavae and brachiocephalic veins. Cardiac's related
+  extra vessels load automatically.
 - **All anatomy** — the full-body model, with the guided tour and interior voyage.
 
-Regional choices load separate, smaller Performance meshes rather than loading
-and hiding the full model. The optional extra-vessel layer for the selected view
+Regional choices load separate meshes rather than loading and hiding the full
+model. Except in Cardiac, the optional extra-vessel layer for the selected view
 loads only when enabled or when an extra search result is selected. Use **Main
 menu** at the top of the explorer to unload the view and choose another.
 
@@ -60,8 +59,8 @@ context, guided tour and interior voyage are available in **All anatomy** only.
 
 ## Low-end GPUs and virtual machines
 
-The lowest settings are enforced automatically; use a smaller window if
-needed. For a VM, enable its 3D acceleration and install the guest graphics
+The Performance preset is used at startup; return to it or use a smaller
+window if needed. For a VM, enable its 3D acceleration and install the guest graphics
 drivers. Some VM configurations provide only software rendering or do not
 support the required graphics API.
 
@@ -91,7 +90,7 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | `Space` | pause · `←` `→` jump between tour stations |
 | `B` | toggle the translucent body outline |
 | `L` | toggle labels |
-| `F9` | quality cycling disabled while lowest settings are locked |
+| `F9` | Cycle Performance, Balanced and High graphics |
 | `Tab` | hide the whole interface |
 | `R` | reset the camera |
 
@@ -129,8 +128,15 @@ a search result flies the camera to it. Results marked “extra” automatically
 load and show the optional extra-vessels layer when selected; the visibility
 checkbox also lets you show or hide it. Loading it can take time and use more
 memory and GPU resources. Hiding it removes it from view and picking, but keeps
-the loaded meshes in memory until the model is reloaded. Graphics remain locked
-to the lowest settings.
+the loaded meshes in memory until the model is reloaded.
+
+To hide an individual structure, inspect it using search or the crosshair, then
+click **Hide this structure** in the inspecting card. Hidden structures are
+marked in search and can be selected there and shown again; **Restore hidden
+structures** restores all individually hidden parts. Hidden choices survive
+quality changes within a view but reset when you return to the main menu.
+Restoring individual structures does not enable an optional layer or change its
+opacity.
 
 ## What is in the scene
 
@@ -214,9 +220,9 @@ python3 build.py              # writes ../data/*
   (420 / 240 / 110 instances for High / Balanced / Performance), and only the
   visible instances are animated. Their scale is proportional to their distance
   from the lens so they neither fill the screen nor disappear.
-- **Money for the frame budget.** The temporary lowest-only policy disables glow,
-  SSAO, SSIL, adjustment and fog, keeps every mode on the smallest mesh set and
-  renders 3D at 50% resolution.
+- **Money for the frame budget.** Performance disables glow, adjustment and fog,
+  uses the smallest mesh set and renders 3D at 50% resolution. Higher presets
+  trade additional rendering cost for detail and effects.
 - **Parallel-transported up vector** for the tour camera, so the 40 cm drop down
   the femoral artery never flips the view.
 

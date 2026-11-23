@@ -42,6 +42,11 @@ func _run() -> void:
 		printerr("FAIL: regional view loaded full-body context or tour")
 		quit(1)
 		return
+	regional.apply_quality("balanced", true)
+	if regional.model.detail != 1:
+		printerr("FAIL: focused view could not switch to balanced")
+		quit(1)
+		return
 	for i in 5:
 		await process_frame
 	await RenderingServer.frame_post_draw
@@ -106,6 +111,14 @@ func _run() -> void:
 	motion.axis_value = 0.0
 	Input.parse_input_event(motion)
 	Input.flush_buffered_events()
+	# Switch the full model to high once on the real Compatibility renderer.
+	main.apply_quality("high", true)
+	if main.model.detail != 2:
+		printerr("FAIL: full view could not switch to high")
+		quit(1)
+		return
+	await process_frame
+	await RenderingServer.frame_post_draw
 	for q in ["performance"]:
 		main.apply_quality(q, true)
 		for mode in ["free", "tour", "interior"]:
