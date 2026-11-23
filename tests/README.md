@@ -11,7 +11,7 @@ GODOT=/path/to/godot ./tests/run.sh
 The runner imports the assets and checks Performance startup even with a saved
 higher setting, quality and resolution changes, individual hide/show across
 mesh reloads, mode transitions, ghost visibility, mesh availability, interior
-wrapping, controller input, mouse capture/release, the H shortcut, persistent per-view hidden-structure saves and synthetic ray-picking cases. It exits nonzero on a failed check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH` and `EXPLORER_VISIBILITY_PATH`) so it
+wrapping, controller input, mouse capture/release, the H shortcut, persistent per-view hidden-structure saves, box-selection/undo and synthetic ray-picking cases. It exits nonzero on a failed check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH` and `EXPLORER_VISIBILITY_PATH`) so it
 does not modify your saved settings. GitHub Actions runs the same suite with
 the official 4.7.2 Linux binary and verifies its SHA-256.
 CI also runs `render_smoke.gd` under Xvfb with Mesa software OpenGL to exercise

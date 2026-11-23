@@ -57,6 +57,7 @@ const HOLE_INTERIOR := 1.6
 # preload instead of relying on the global class cache, so the project also runs
 # from a plain `godot --path` (i.e. before the editor has ever opened it)
 const CREDITS_DIALOG := preload("res://scripts/credits_dialog.gd")
+const BOX_SELECTION := preload("res://scripts/box_selection.gd")
 const PRESETS_SCRIPT := preload("res://scripts/visibility_presets.gd")
 const MODEL_SCRIPT := preload("res://scripts/anatomy_model.gd")
 const HUD_SCRIPT := preload("res://scripts/explorer_hud.gd")
@@ -65,6 +66,13 @@ const PATH_SCRIPT := preload("res://scripts/blood_path.gd")
 
 var model
 var visibility_presets = PRESETS_SCRIPT.new()
+var box_selection = BOX_SELECTION.new()
+var _box_dragging := false
+var _box_start := Vector2.ZERO
+var _box_end := Vector2.ZERO
+var _box_cam_enabled := false
+var _last_box_ids: Array = []
+var _box_notice_timer := 0.0
 var hud
 var cam
 var path
@@ -123,6 +131,7 @@ func _ready() -> void:
 	hud.extended_toggled.connect(_on_extended_toggled)
 	hud.part_visibility_requested.connect(_on_part_visibility_requested)
 	hud.show_all_requested.connect(_on_show_all_requested)
+	hud.undo_box_requested.connect(_undo_box_hide)
 	hud.preset_save_requested.connect(_on_preset_save)
 	hud.preset_load_requested.connect(_on_preset_load)
 	hud.preset_delete_requested.connect(_on_preset_delete)
@@ -605,6 +614,7 @@ func _apply_context_opacity() -> void:
 
 
 func _on_part_visibility_requested(id: String) -> void:
+	_clear_box_undo()
 	var part: Dictionary = model.by_id.get(id, {})
 	if part.is_empty():
 		return
@@ -624,6 +634,7 @@ func _on_part_visibility_requested(id: String) -> void:
 
 
 func _on_show_all_requested() -> void:
+	_clear_box_undo()
 	model.show_all_parts()
 	_has_pick_ray = false
 	hud.populate(model.parts_matching(hud.search_box.text))
@@ -657,6 +668,7 @@ func _on_preset_load(name: String) -> void:
 		_refresh_presets()
 		hud.set_preset_message(result.error)
 		return
+	_clear_box_undo()
 	model.show_all_parts()
 	var missing := 0
 	for id in result.state.hidden:
@@ -763,6 +775,10 @@ func _process(delta: float) -> void:
 	if model == null or cam == null:
 		return
 
+	if _box_notice_timer > 0.0:
+		_box_notice_timer -= delta
+		if _box_notice_timer <= 0.0:
+			hud.set_box_notice("")
 	_heartbeat(delta)
 	_update_fade(delta)
 	_update_labels(delta)
@@ -779,7 +795,8 @@ func _process(delta: float) -> void:
 	if _fly.size() > 0:
 		_update_fly(delta)
 	elif mode == "free":
-		_update_hover(delta)
+		if not _box_dragging:
+			_update_hover(delta)
 	else:
 		_update_path_camera(delta)
 
@@ -956,6 +973,32 @@ func _set_controller_menu(on: bool) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if _box_dragging:
+		if event is InputEventMouseMotion:
+			var motion := event as InputEventMouseMotion
+			if cam.captured:
+				_box_end += motion.relative
+			else:
+				_box_end = motion.position
+			var size := get_viewport().get_visible_rect().size
+			_box_end = _box_end.clamp(Vector2.ZERO, size)
+			hud.set_box_drag(true, Rect2(_box_start, _box_end - _box_start).abs())
+			get_viewport().set_input_as_handled()
+			return
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+			_end_box_drag(true)
+			get_viewport().set_input_as_handled()
+			return
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			_end_box_drag(false)
+			get_viewport().set_input_as_handled()
+			return
+		if event is InputEventJoypadButton or event is InputEventJoypadMotion:
+			_end_box_drag(false)
+			return
+		# Avoid changing modes, camera speed or UI controls while dragging.
+		get_viewport().set_input_as_handled()
+		return
 	if credits_dialog != null and credits_dialog.visible:
 		return
 	if not _intro_done:
@@ -1057,6 +1100,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				if _controller_menu:
 					_set_controller_menu(false)
 				hud.toggle_panels()
+			KEY_Z:
+				var focus := get_viewport().gui_get_focus_owner()
+				if event.ctrl_pressed and not event.alt_pressed and not (focus is LineEdit or focus is TextEdit):
+					_undo_box_hide()
 			KEY_H:
 				var focus := get_viewport().gui_get_focus_owner()
 				if mode == "free" and cam.captured and not _controller_menu and _fly.is_empty() and not (focus is LineEdit or focus is TextEdit):
@@ -1078,10 +1125,85 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT and mode == "free":
-			if not cam.captured and not hud.mouse_over_ui():
+			if mb.shift_pressed and not _controller_menu and _fly.is_empty() and (cam.captured or not hud.mouse_over_ui()):
+				_begin_box_drag(mb.position)
+				get_viewport().set_input_as_handled()
+			elif not cam.captured and not hud.mouse_over_ui():
 				# Text fields must not keep consuming flight shortcuts after recapture.
 				get_viewport().gui_release_focus()
 				cam.capture_mouse(true)
 		elif mb.pressed and mb.button_index == MOUSE_BUTTON_RIGHT and mode == "free":
 			if not hover.is_empty():
 				_on_part_picked(String(hover["id"]))
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and _box_dragging:
+		_end_box_drag(false)
+
+
+func _begin_box_drag(pointer: Vector2) -> void:
+	_box_dragging = true
+	_box_start = get_viewport().get_visible_rect().size * 0.5 if cam.captured else pointer
+	_box_end = _box_start
+	_box_cam_enabled = cam.enabled
+	cam.enabled = false
+	hud.set_box_drag(true)
+	_box_notice("Box hide: release to hide through all depths · Esc cancels")
+
+
+func _end_box_drag(apply: bool) -> void:
+	if not _box_dragging:
+		return
+	_box_dragging = false
+	cam.enabled = _box_cam_enabled
+	hud.set_box_drag(false)
+	var rect := Rect2(_box_start, _box_end - _box_start).abs()
+	if not apply:
+		_box_notice("Box hide cancelled")
+		return
+	if rect.size.x < 6.0 or rect.size.y < 6.0:
+		_box_notice("Drag a larger box to hide structures")
+		return
+	var ids: Array = box_selection.parts_in_rect(model, cam, rect)
+	if ids.is_empty():
+		_box_notice("No structures in box")
+		return
+	_last_box_ids = ids
+	for id in ids:
+		model.set_part_hidden(id, true)
+	hud.undo_box_button.disabled = false
+	hover = {}
+	model.highlight({})
+	_has_pick_ray = false
+	if not selected_part.is_empty():
+		hud.show_part(_card(selected_part))
+	hud.populate(model.parts_matching(hud.search_box.text))
+	_update_subtitle()
+	_box_notice("Hidden %d structures · Ctrl+Z undoes last box" % ids.size())
+
+
+func _clear_box_undo() -> void:
+	_last_box_ids.clear()
+	if hud != null and hud.undo_box_button != null:
+		hud.undo_box_button.disabled = true
+
+
+func _undo_box_hide() -> void:
+	if _last_box_ids.is_empty():
+		return
+	var count := _last_box_ids.size()
+	for id in _last_box_ids:
+		model.set_part_hidden(id, false)
+	_clear_box_undo()
+	_has_pick_ray = false
+	hud.populate(model.parts_matching(hud.search_box.text))
+	if not selected_part.is_empty():
+		hud.show_part(_card(selected_part))
+	_update_subtitle()
+	_box_notice("Restored %d structures from last box" % count)
+
+
+func _box_notice(text: String) -> void:
+	hud.set_box_notice(text)
+	_box_notice_timer = 4.0

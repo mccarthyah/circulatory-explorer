@@ -12,6 +12,7 @@ signal labels_toggled(on: bool)
 signal extended_toggled(on: bool)
 signal part_visibility_requested(id: String)
 signal show_all_requested()
+signal undo_box_requested()
 signal preset_save_requested(name: String, overwrite: bool)
 signal preset_load_requested(name: String)
 signal preset_delete_requested(name: String)
@@ -49,6 +50,9 @@ var lineage_label: Label
 var fly_button: Button
 var visibility_button: Button
 var show_all_button: Button
+var undo_box_button: Button
+var box_overlay: BoxOverlay
+var box_notice: Label
 var preset_name: LineEdit
 var preset_option: OptionButton
 var preset_message: Label
@@ -96,6 +100,19 @@ func _ready() -> void:
 	root.add_child(crosshair)
 	crosshair.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	_centre(crosshair, 28)
+	box_overlay = BoxOverlay.new()
+	box_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(box_overlay)
+	box_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	box_notice = _label("", 16, TEXT)
+	box_notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	box_notice.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	box_notice.offset_left = -300
+	box_notice.offset_right = 300
+	box_notice.offset_top = 100
+	box_notice.offset_bottom = 130
+	box_notice.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(box_notice)
 
 	set_caption_visible(false)
 	show_info(false)
@@ -320,6 +337,14 @@ func _build_left_panel() -> void:
 	show_all_button.add_theme_font_size_override("font_size", 12)
 	show_all_button.pressed.connect(func() -> void: show_all_requested.emit())
 	col.add_child(show_all_button)
+	undo_box_button = Button.new()
+	undo_box_button.text = "Undo last box hide   Ctrl+Z"
+	undo_box_button.disabled = true
+	undo_box_button.pressed.connect(func() -> void: undo_box_requested.emit())
+	col.add_child(undo_box_button)
+	var box_help := _label("Shift + drag: hide all intersecting vessels, including behind others. Esc cancels.", 10, DIM)
+	box_help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	col.add_child(box_help)
 
 	col.add_child(_label("Hidden structure saves · this view", 12, TEXT))
 	preset_name = LineEdit.new()
@@ -400,7 +425,7 @@ func _build_left_panel() -> void:
 
 	col.add_child(HSeparator.new())
 	var help := _label("WASD fly  ·  Q/E down/up  ·  Shift boost  ·  wheel = speed\n" \
-			+ "Click to capture  ·  Esc releases  ·  H hides targeted part  ·  right-click flies\n" \
+			+ "Click to capture  ·  H hides  ·  Shift + drag box-hides  ·  Esc cancels/releases\n" \
 			+ "1 / 2 / 3 modes  ·  Space pauses  ·  ←/→ stations  ·  Tab hides the UI",
 			10, Color(0.52, 0.57, 0.66))
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -777,3 +802,23 @@ func set_preset_names(names: Array, selected: String = "") -> void:
 
 func set_preset_message(message: String) -> void:
 	preset_message.text = message
+
+
+class BoxOverlay extends Control:
+	var box := Rect2()
+	var active := false
+
+	func _draw() -> void:
+		if active:
+			draw_rect(box, Color(0.38, 0.72, 1.0, 0.16), true)
+			draw_rect(box, Color(0.65, 0.85, 1.0, 0.95), false, 2.0)
+
+
+func set_box_drag(active: bool, box: Rect2 = Rect2()) -> void:
+	box_overlay.active = active
+	box_overlay.box = box
+	box_overlay.queue_redraw()
+
+
+func set_box_notice(text: String) -> void:
+	box_notice.text = text

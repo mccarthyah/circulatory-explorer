@@ -87,6 +87,8 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | hover | highlights the structure under the crosshair and shows its card |
 | right-click | fly to the highlighted structure |
 | `H` | hide the structure under the crosshair while the mouse is captured (free flight) |
+| `Shift` + left drag | box-hide multiple structures in free flight; `Esc` cancels the drag |
+| `Ctrl` + `Z` | undo the most recent box hide |
 | `1` `2` `3` | free flight / guided tour / interior voyage |
 | `Space` | pause · `←` `→` jump between tour stations |
 | `B` | toggle the translucent body outline |
@@ -94,6 +96,15 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | `F9` | Cycle Performance, Balanced and High graphics |
 | `Tab` | hide the whole interface |
 | `R` | reset the camera |
+
+Box hiding selects each whole circulatory structure whose projected geometry
+intersects the rectangle, **including structures behind others**; it does not
+cut the mesh or select the body outline, hidden layers or fully transparent
+structures. While the mouse is captured, the box starts at the crosshair and
+mouse look resumes on release. With the mouse released, start the box anywhere
+outside the interface. The on-screen message shows the number hidden. Undo the
+latest box with `Ctrl` + `Z` or the Visibility panel button; changing individual
+visibility, restoring all, or loading a save clears that undo.
 
 In the Visibility panel, name and save the individually hidden structures for
 the current view. Select a save to load or delete it; replacing or deleting a

@@ -133,6 +133,8 @@ func _run() -> void:
 	_test_mouse_capture(main)
 	_test_controller(main)
 	_test_picking()
+	_test_box_selection()
+	_test_box_drag(main)
 
 	if failures.is_empty():
 		print("PASS: startup=", startup)
@@ -387,4 +389,76 @@ func _test_hide_shortcut(main) -> void:
 	main.cam.capture_mouse(false)
 	main._unhandled_input(event)
 	check(not part.hidden, "H does not hide while mouse released")
+	model.parts = original
+
+
+func _test_box_selection() -> void:
+	var model = preload("res://scripts/anatomy_model.gd").new()
+	root.add_child(model)
+	var camera := Camera3D.new()
+	camera.near = 0.1
+	camera.far = 20.0
+	root.add_child(camera)
+	camera.current = true
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for vertex in [Vector3(-1, -1, 0), Vector3(1, -1, 0), Vector3(0, 1, 0)]:
+		surface.add_vertex(vertex)
+	var mesh := surface.commit()
+	for data in [["near", Vector3(0, 0, -3), "artery"], ["far", Vector3(0, 0, -8), "vein"], ["side", Vector3(4, 0, -3), "artery"], ["behind", Vector3(0, 0, 3), "artery"], ["context", Vector3(0, 0, -3), "context"]]:
+		var node := MeshInstance3D.new()
+		node.mesh = mesh
+		node.position = data[1]
+		model.add_child(node)
+		model.parts.append({"id": data[0], "group": data[2], "material": data[2], "node": node})
+	var center := camera.unproject_position(Vector3(0, 0, -3))
+	var selector = preload("res://scripts/box_selection.gd").new()
+	var rect := Rect2(center - Vector2(10, 10), Vector2(20, 20))
+	var ids: Array = selector.parts_in_rect(model, camera, rect)
+	check(ids.has("near") and ids.has("far") and ids.size() == 2, "box intersects real triangles through depth, excluding off-box, behind-camera and context")
+	model._opacity["vein"] = 0.0
+	ids = selector.parts_in_rect(model, camera, rect)
+	check(ids == ["near"], "box ignores transparent structures")
+	model.parts[0].node.visible = false
+	check(selector.parts_in_rect(model, camera, rect).is_empty(), "box ignores hidden nodes")
+	model.queue_free()
+	camera.queue_free()
+
+
+func _test_box_drag(main) -> void:
+	var model = main.model
+	var part: Dictionary = model.by_id["FJ3411"]
+	var original: Array = model.parts
+	model.parts = [part]
+	model.set_part_hidden("FJ3411", false)
+	var node: MeshInstance3D = part.node
+	var faces := node.mesh.get_faces()
+	var a: Vector3 = node.to_global(faces[0])
+	var b: Vector3 = node.to_global(faces[1])
+	var c: Vector3 = node.to_global(faces[2])
+	var centre := (a + b + c) / 3.0
+	var normal := (b - a).cross(c - a).normalized()
+	main._fly = {}
+	main.cam.global_position = centre + normal * 1.0
+	main.cam.look_at(centre, Vector3.RIGHT if abs(normal.dot(Vector3.UP)) > 0.99 else Vector3.UP)
+	main.cam.capture_mouse(true)
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.pressed = true
+	press.shift_pressed = true
+	main._unhandled_input(press)
+	check(main._box_dragging and not main.cam.enabled and main.cam.captured, "shift drag freezes camera while preserving capture")
+	main._box_start = Vector2.ZERO
+	main._box_end = root.get_visible_rect().size
+	var release := InputEventMouseButton.new()
+	release.button_index = MOUSE_BUTTON_LEFT
+	release.pressed = false
+	main._input(release)
+	check(part.hidden and main.cam.enabled and main.cam.captured and not main._box_dragging, "box hides and resumes captured camera")
+	main._undo_box_hide()
+	check(not part.hidden and main.hud.undo_box_button.disabled, "undo restores box-hidden structures")
+	main._begin_box_drag(Vector2.ZERO)
+	main._end_box_drag(false)
+	check(not part.hidden and main.cam.captured and main.cam.enabled, "cancel box leaves visibility and capture unchanged")
+	main.cam.capture_mouse(false)
 	model.parts = original
