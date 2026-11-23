@@ -128,6 +128,7 @@ func _run() -> void:
 	main._on_extended_toggled(false)
 	main._go_free(true)
 
+	_test_mouse_capture(main)
 	_test_controller(main)
 	_test_picking()
 
@@ -137,6 +138,50 @@ func _run() -> void:
 	else:
 		printerr("FAILED: ", failures.size(), " checks")
 		quit(1)
+
+
+func _test_mouse_capture(main) -> void:
+	var cam = main.cam
+	cam.enabled = true
+	cam.set_gamepad_enabled(true)
+	cam.capture_mouse(false)
+	var button := InputEventMouseButton.new()
+	button.button_index = MOUSE_BUTTON_LEFT
+	button.pressed = true
+	var motion := InputEventMouseMotion.new()
+	motion.relative = Vector2(20, 10)
+	# Regression: a press before capture and release during capture used to
+	# leave a stale dragging flag that turned mouse-look back on after Escape.
+	cam._unhandled_input(button)
+	var yaw: float = cam._yaw
+	cam._unhandled_input(motion)
+	check(is_equal_approx(cam._yaw, yaw), "released mouse does not rotate on drag")
+	cam.capture_mouse(true)
+	cam._unhandled_input(motion)
+	check(not is_equal_approx(cam._yaw, yaw), "captured mouse rotates")
+	button.pressed = false
+	cam._unhandled_input(button)
+	cam.capture_mouse(false)
+	yaw = cam._yaw
+	var pitch: float = cam._pitch
+	cam._unhandled_input(motion)
+	check(is_equal_approx(cam._yaw, yaw) and is_equal_approx(cam._pitch, pitch), "mouse stays still after release")
+	main._go_free(false)
+	check(not cam.captured, "switching to free flight does not recapture mouse")
+	main._fly = {"from": cam.position, "to": cam.position, "from_look": Vector3.FORWARD,
+		"to_look": Vector3.FORWARD, "t": 0.0, "dur": 1.0, "then": ""}
+	main._update_fly(1.0)
+	check(not cam.captured, "finishing automatic flight does not recapture mouse")
+	cam.capture_mouse(true)
+	cam.notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
+	check(not cam.captured, "focus loss releases mouse")
+	yaw = cam._yaw
+	cam._unhandled_input(motion)
+	check(is_equal_approx(cam._yaw, yaw), "mouse stays released after focus loss")
+	cam.capture_mouse(true)
+	cam._unhandled_input(motion)
+	check(not is_equal_approx(cam._yaw, yaw), "mouse look resumes after recapture")
+	cam.capture_mouse(false)
 
 
 func _test_real_extra_pick(model) -> void:

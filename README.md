@@ -82,7 +82,7 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | `W` `A` `S` `D` | fly forward / strafe (the camera moves toward the crosshair) |
 | `Q` / `E` (or `Ctrl` / `Space`) | down / up |
 | `Shift` | boost ×3.5 · `Alt` slows down ×0.3 |
-| mouse | look — click the window to capture the pointer, `Esc` releases it |
+| mouse | look while captured — click the scene to capture; `Esc` releases it and stops mouse look |
 | mouse wheel | change cruise speed (1–400 cm/s) |
 | hover | highlights the structure under the crosshair and shows its card |
 | right-click | fly to the highlighted structure |

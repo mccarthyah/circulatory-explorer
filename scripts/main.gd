@@ -338,8 +338,6 @@ func _go_free(first := false) -> void:
 	else:
 		cam.sync_angles()
 	_intro_done = true
-	if not cam.captured and not first and not _controller_active and not _controller_menu and not hud.mouse_over_ui():
-		cam.capture_mouse(true)
 
 
 func _go_path(interior: bool) -> void:
@@ -845,8 +843,6 @@ func _update_fly(delta: float) -> void:
 		else:
 			cam.enabled = true
 			cam.sync_angles()
-			if mode == "free" and not _controller_active and not _controller_menu and not hud.mouse_over_ui():
-				cam.capture_mouse(true)
 
 
 func _update_fade(delta: float) -> void:

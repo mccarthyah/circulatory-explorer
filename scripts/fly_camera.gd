@@ -27,7 +27,6 @@ var gamepad_enabled := true
 var _yaw := 0.0
 var _pitch := 0.0
 var _velocity := Vector3.ZERO
-var _dragging := false
 
 
 func _ready() -> void:
@@ -54,19 +53,23 @@ func capture_mouse(on: bool) -> void:
 	capture_changed.emit(on)
 
 
+func _notification(what: int) -> void:
+	# The OS can release the pointer when the application loses focus. Do not
+	# keep a stale capture state or resume mouse look unexpectedly on return.
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and captured:
+		capture_mouse(false)
+
+
 func _unhandled_input(event: InputEvent) -> void:
-	if not enabled:
+	if not enabled or not captured:
 		return
 	if event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
-		if mb.button_index == MOUSE_BUTTON_LEFT and not captured:
-			_dragging = mb.pressed
-		elif mb.pressed and captured:
-			if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
-				base_speed = clampf(base_speed * 1.18, 1.0, 400.0)
-			elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				base_speed = clampf(base_speed / 1.18, 1.0, 400.0)
-	elif event is InputEventMouseMotion and (captured or _dragging):
+		if mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_UP:
+			base_speed = clampf(base_speed * 1.18, 1.0, 400.0)
+		elif mb.pressed and mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			base_speed = clampf(base_speed / 1.18, 1.0, 400.0)
+	elif event is InputEventMouseMotion:
 		var mm := event as InputEventMouseMotion
 		_yaw -= mm.relative.x * look_sensitivity
 		_pitch = clampf(_pitch - mm.relative.y * look_sensitivity, -1.55, 1.55)

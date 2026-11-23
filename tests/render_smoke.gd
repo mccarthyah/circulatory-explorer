@@ -84,6 +84,49 @@ func _run() -> void:
 		printerr("FAIL: controller menu did not load all anatomy")
 		quit(1)
 		return
+	# Exercise real mouse event dispatch: click captures, Escape releases, and
+	# subsequent mouse motion must not rotate until the user clicks again.
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	click.position = Vector2(640, 360)
+	click.global_position = click.position
+	Input.parse_input_event(click)
+	await process_frame
+	if not main.cam.captured:
+		printerr("FAIL: scene click did not capture mouse")
+		quit(1)
+		return
+	click.pressed = false
+	Input.parse_input_event(click)
+	await process_frame
+	var yaw: float = main.cam._yaw
+	var movement := InputEventMouseMotion.new()
+	movement.position = Vector2(640, 360)
+	movement.global_position = movement.position
+	movement.relative = Vector2(28, 0)
+	Input.parse_input_event(movement)
+	await process_frame
+	if is_equal_approx(main.cam._yaw, yaw):
+		printerr("FAIL: captured mouse motion did not rotate camera")
+		quit(1)
+		return
+	var escape := InputEventKey.new()
+	escape.keycode = KEY_ESCAPE
+	escape.pressed = true
+	Input.parse_input_event(escape)
+	await process_frame
+	if main.cam.captured:
+		printerr("FAIL: Escape did not release mouse")
+		quit(1)
+		return
+	yaw = main.cam._yaw
+	Input.parse_input_event(movement)
+	await process_frame
+	if not is_equal_approx(main.cam._yaw, yaw):
+		printerr("FAIL: released mouse still rotates camera")
+		quit(1)
+		return
 	# Exercise actual event dispatch into Godot's GUI, not just action matching.
 	await _press_button(JOY_BUTTON_START)
 	if not main._controller_menu or root.gui_get_focus_owner() != main.hud.mode_buttons["free"]:

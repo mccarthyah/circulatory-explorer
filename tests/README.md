@@ -11,7 +11,7 @@ GODOT=/path/to/godot ./tests/run.sh
 The runner imports the assets and checks Performance startup even with a saved
 higher setting, quality and resolution changes, individual hide/show across
 mesh reloads, mode transitions, ghost visibility, mesh availability, interior
-wrapping, controller input and synthetic ray-picking cases. It exits nonzero on a failed check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH`) so it
+wrapping, controller input, mouse capture/release and synthetic ray-picking cases. It exits nonzero on a failed check and uses an isolated settings file (via `EXPLORER_SETTINGS_PATH`) so it
 does not modify your saved settings. GitHub Actions runs the same suite with
 the official 4.7.2 Linux binary and verifies its SHA-256.
 CI also runs `render_smoke.gd` under Xvfb with Mesa software OpenGL to exercise
@@ -69,7 +69,8 @@ The headless suite also exercises the main menu, all six selections, return to
 the menu, region-only loading and optional regional vessels. `python3
 tests/validate_assets.py` verifies regional mesh membership, cuts and triangle
 counts. The Compatibility smoke test navigates the menu with controller events
-and renders both a focused view and the full model.
+renders both a focused view and the full model, and dispatches mouse capture,
+release and motion events through Godot's input system.
 
 Attribution: `python3 pipeline/sync_credits.py --check` verifies that the
 in-app notice matches `ATTRIBUTION.txt`. The UI tests check both menu and
