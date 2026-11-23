@@ -48,7 +48,10 @@ func _read() -> Dictionary:
 		return _error("Could not read visibility saves (error %d)." % FileAccess.get_open_error())
 	if file.get_length() > MAX_BYTES:
 		return _error("Visibility saves file is too large; it was not changed.")
-	var parsed = JSON.parse_string(file.get_as_text())
+	var json := JSON.new()
+	if json.parse(file.get_as_text()) != OK:
+		return _error("Visibility saves file is invalid; it was not changed.")
+	var parsed = json.data
 	if not parsed is Dictionary or parsed.get("version") != VERSION or not parsed.get("regions") is Dictionary:
 		return _error("Visibility saves file is invalid or from a newer version; it was not changed.")
 	for region in parsed["regions"]:
