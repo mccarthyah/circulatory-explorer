@@ -5,6 +5,7 @@ extends CanvasLayer
 
 signal mode_requested(mode: String)
 signal menu_requested()
+signal credits_requested()
 signal opacity_changed(bucket: String, value: float)
 signal context_toggled(on: bool)
 signal labels_toggled(on: bool)
@@ -28,6 +29,7 @@ const PANEL_BORDER := Color(1, 1, 1, 0.075)
 
 var root: Control
 var top_bar: PanelContainer
+var credits_button: Button
 var left_panel: PanelContainer
 var info_panel: PanelContainer
 var caption_panel: PanelContainer
@@ -216,6 +218,11 @@ func _build_top_bar() -> void:
 	menu_button.tooltip_text = "Unload this view and choose another region"
 	menu_button.pressed.connect(func() -> void: menu_requested.emit())
 	row.add_child(menu_button)
+	credits_button = Button.new()
+	credits_button.text = "Credits"
+	credits_button.tooltip_text = "Data attribution and license notices"
+	credits_button.pressed.connect(func() -> void: credits_requested.emit())
+	row.add_child(credits_button)
 	row.add_child(_spacer())
 
 	var modes := HBoxContainer.new()

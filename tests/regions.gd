@@ -29,6 +29,11 @@ func _run() -> void:
 	await process_frame
 	check(menu.buttons.size() == 6, "six main menu choices")
 	check(menu.get_node_or_null("Anatomy") == null, "menu does not instantiate a model")
+	menu.credits_button.pressed.emit()
+	check(menu.credits_dialog != null and menu.credits_dialog.visible, "menu credits open")
+	check(menu.credits_dialog.notice.text == preload("res://scripts/credits_text.gd").NOTICE, "menu displays complete embedded notice")
+	check(menu.get_node_or_null("Anatomy") == null, "credits do not load model")
+	menu.credits_dialog.hide()
 	for choice in ["torso", "lower", "head", "heart", "cardiac", "all"]:
 		menu.buttons[choice].pressed.emit()
 		for i in 900:
@@ -41,6 +46,14 @@ func _run() -> void:
 			quit(1)
 			return
 		check(main.region == choice and main.model.region == choice, "correct selection " + choice)
+		if choice == "torso":
+			var was_enabled: bool = main.cam.enabled
+			main.hud.credits_button.pressed.emit()
+			check(main.credits_dialog != null and main.credits_dialog.visible, "explorer credits open")
+			check(main.credits_dialog.notice.text == preload("res://scripts/credits_text.gd").NOTICE, "explorer displays complete notice")
+			check(not main.cam.enabled, "credits suspend camera controls")
+			main.credits_dialog.hide()
+			check(main.cam.enabled == was_enabled, "closing credits restores camera")
 		check(main.model.detail == 0 and is_equal_approx(root.scaling_3d_scale, 0.5), "performance startup " + choice)
 		if choice != "all":
 			check(main.model.context_root == null and main.model.supplemental_root == null, "region does not load full-body assets " + choice)

@@ -28,6 +28,19 @@ func _run() -> void:
 		printerr("FAIL: menu startup or initial controller focus")
 		quit(1)
 		return
+	menu.credits_button.pressed.emit()
+	await process_frame
+	if menu.credits_dialog == null or not menu.credits_dialog.visible:
+		printerr("FAIL: menu credits did not open")
+		quit(1)
+		return
+	await RenderingServer.frame_post_draw
+	if root.get_texture().get_image().is_empty():
+		printerr("FAIL: credits dialog did not render")
+		quit(1)
+		return
+	menu.credits_dialog.hide()
+	menu.buttons["torso"].grab_focus()
 	await _press_button(JOY_BUTTON_A)
 	for i in 900:
 		await process_frame

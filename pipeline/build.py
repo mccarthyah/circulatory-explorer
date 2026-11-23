@@ -319,7 +319,7 @@ def main():
     catalog.extend(ctx)
     json.dump({"centre_mm": [round(float(x), 2) for x in center_mm],
                "unit": "1 unit = 1 cm",
-               "source": "BodyParts3D (DBCLS), PART-OF tree, 99% polygon reduction, CC BY-SA 2.1 JP",
+               "source": "BodyParts3D (DBCLS), PART-OF tree, 99% polygon reduction; see ATTRIBUTION.txt for license notices",
                "detail_levels": {"high": "", "balanced": "_lod1", "performance": "_lod2"},
                "parts": catalog},
               open(os.path.join(DATA, "parts.json"), "w"), indent=1)
@@ -327,7 +327,6 @@ def main():
           {k: v for k, v in tris.items()}, "context", ctris)
 
     build_tour(frame)
-    write_attribution()
 
 
 # --------------------------------------------------------------------------- tour
@@ -437,36 +436,6 @@ def build_tour(frame: Frame):
     json.dump(tour, open(os.path.join(DATA, "tour.json"), "w"), indent=1)
     print(f"tour.json  points={len(pts)} length={total:.1f} cm stations={len(out_stations)}")
 
-
-def write_attribution():
-    txt = """BodyParts3D data attribution
-============================
-
-The 3D anatomy in this project is derived from BodyParts3D:
-
-  BodyParts3D, (c) The Database Center for Life Science
-  licensed under CC Attribution-Share Alike 2.1 Japan
-  https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
-
-Source files: partof_BP3D_4.0_obj_99.zip (PART-OF tree, 99 % polygon reduction)
-and isa_BP3D_4.0_obj_99 (IS-A tree, 99 % polygon reduction). The additional
-IS-A meshes were obtained from the pinned GitHub mirror recorded in
-pipeline/additional_parts.json; source-file checksums are recorded there.
-Database DOI: 10.18908/lsdba.nbdc00837-000
-
-Reference: Mitsuhashi N, Fujieda K, Tamura T, Kawamoto S, Takagi T, Okubo K.
-BodyParts3D: 3D structure database for anatomical concepts.
-Nucleic Acids Res. 2008 Oct 3. PMID: 18835852
-
-Modifications made by this project: coordinate conversion from BodyParts3D
-(mm, X=left, Y=posterior, Z=superior) to Godot's Y-up space, unit scaled to
-centimetres, smooth vertex normals recomputed, meshes packed into glTF 2.0,
-additional quadric-decimated levels of detail for the vessels and the ghost
-organs, and a medial-line spline derived from the vessel meshes for the tour.
-
-If you redistribute the models you must keep this attribution and share alike.
-"""
-    open(os.path.join(PROJ, "ATTRIBUTION.txt"), "w").write(txt)
 
 
 if __name__ == "__main__":

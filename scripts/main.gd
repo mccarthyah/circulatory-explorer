@@ -56,6 +56,7 @@ const HOLE_INTERIOR := 1.6
 
 # preload instead of relying on the global class cache, so the project also runs
 # from a plain `godot --path` (i.e. before the editor has ever opened it)
+const CREDITS_DIALOG := preload("res://scripts/credits_dialog.gd")
 const MODEL_SCRIPT := preload("res://scripts/anatomy_model.gd")
 const HUD_SCRIPT := preload("res://scripts/explorer_hud.gd")
 const CAMERA_SCRIPT := preload("res://scripts/fly_camera.gd")
@@ -65,6 +66,8 @@ var model
 var hud
 var cam
 var path
+var credits_dialog
+var _credits_cam_was_enabled := false
 var environment: WorldEnvironment
 var labels_root: Node3D
 var headlight: SpotLight3D
@@ -112,6 +115,7 @@ func _ready() -> void:
 
 	hud.mode_requested.connect(_on_mode_requested)
 	hud.menu_requested.connect(_return_to_menu)
+	hud.credits_requested.connect(_show_credits)
 	hud.opacity_changed.connect(_on_opacity)
 	hud.context_toggled.connect(_on_context_toggled)
 	hud.extended_toggled.connect(_on_extended_toggled)
@@ -260,6 +264,23 @@ func _build_labels() -> void:
 
 
 # ---------------------------------------------------------------------- modes
+func _show_credits() -> void:
+	if cam != null and cam.captured:
+		cam.capture_mouse(false)
+	if credits_dialog == null:
+		credits_dialog = CREDITS_DIALOG.new()
+		hud.add_child(credits_dialog)
+		credits_dialog.visibility_changed.connect(_on_credits_visibility_changed)
+	_credits_cam_was_enabled = cam.enabled
+	cam.enabled = false
+	credits_dialog.popup_centered(Vector2i(760, 580))
+
+
+func _on_credits_visibility_changed() -> void:
+	if credits_dialog != null and not credits_dialog.visible and cam != null:
+		cam.enabled = _credits_cam_was_enabled
+
+
 func _return_to_menu() -> void:
 	if cam != null and cam.captured:
 		cam.capture_mouse(false)
@@ -673,6 +694,8 @@ func _path_camera_target(offset_cm: float) -> Vector3:
 
 # ------------------------------------------------------------------- per frame
 func _process(delta: float) -> void:
+	if credits_dialog != null and credits_dialog.visible:
+		return
 	if model == null or cam == null:
 		return
 
@@ -871,6 +894,8 @@ func _set_controller_menu(on: bool) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if credits_dialog != null and credits_dialog.visible:
+		return
 	if not _intro_done:
 		return
 	if event is InputEventJoypadButton:
@@ -940,6 +965,8 @@ func _handle_controller_button(event: InputEvent) -> void:
 
 # -------------------------------------------------------------------- keyboard
 func _unhandled_input(event: InputEvent) -> void:
+	if credits_dialog != null and credits_dialog.visible:
+		return
 	if not _intro_done:
 		return
 	if event is InputEventKey and event.pressed and not event.echo:

@@ -1,6 +1,7 @@
 extends Control
 ## Lightweight entry screen. It does not create an AnatomyModel or load any GLBs.
 
+const CREDITS_DIALOG := preload("res://scripts/credits_dialog.gd")
 const CHOICES := [
 	["torso", "Torso", "Chest and abdomen · no arms"],
 	["lower", "Waist down", "Pelvis and lower limbs"],
@@ -12,6 +13,8 @@ const CHOICES := [
 var buttons: Dictionary = {}
 var _loading := false
 var note: Label
+var credits_button: Button
+var credits_dialog
 
 
 func _ready() -> void:
@@ -51,6 +54,11 @@ func _ready() -> void:
 	var desc := _label("Choose an area to explore. Anatomy loads only after you choose.", 15, Color(0.68, 0.73, 0.81))
 	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(desc)
+	credits_button = Button.new()
+	credits_button.text = "Credits and data licenses"
+	credits_button.focus_mode = Control.FOCUS_ALL
+	credits_button.pressed.connect(_show_credits)
+	col.add_child(credits_button)
 	col.add_child(HSeparator.new())
 	for item in CHOICES:
 		var button := Button.new()
@@ -68,6 +76,13 @@ func _ready() -> void:
 	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	col.add_child(note)
 	buttons["torso"].grab_focus.call_deferred()
+
+
+func _show_credits() -> void:
+	if credits_dialog == null:
+		credits_dialog = CREDITS_DIALOG.new()
+		add_child(credits_dialog)
+	credits_dialog.popup_centered(Vector2i(760, 580))
 
 
 func _label(text: String, font_size: int, color: Color) -> Label:

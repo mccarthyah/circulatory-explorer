@@ -70,3 +70,7 @@ the menu, region-only loading and optional regional vessels. `python3
 tests/validate_assets.py` verifies regional mesh membership, cuts and triangle
 counts. The Compatibility smoke test navigates the menu with controller events
 and renders both a focused view and the full model.
+
+Attribution: `python3 pipeline/sync_credits.py --check` verifies that the
+in-app notice matches `ATTRIBUTION.txt`. The UI tests check both menu and
+explorer credits and CI checks a Godot-exported pack in isolation.

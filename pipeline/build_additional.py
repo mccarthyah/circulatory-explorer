@@ -93,7 +93,7 @@ def build(source: Path) -> None:
 
     data["parts"] = base + added
     data["supplemental_source"] = (
-        "BodyParts3D 4.0 IS-A 99% polygon reduction, CC BY-SA 2.1 JP; "
+        "BodyParts3D 4.0 IS-A 99% polygon reduction; see ATTRIBUTION.txt; "
         "manifest pipeline/additional_parts.json"
     )
     with tempfile.TemporaryDirectory(prefix="anatomy-extra-", dir=data_path) as tmp:

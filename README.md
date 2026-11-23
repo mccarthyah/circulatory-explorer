@@ -238,12 +238,17 @@ python3 build.py              # writes ../data/*
 - Some structures exist twice (a mirrored `…M` file for the left side). Both are
   kept so the model stays symmetric; they appear twice in the search list.
 
-## Attribution
+## Attribution and data licenses
 
-The anatomy is from BodyParts3D, © The Database Center for Life Science,
-licensed under **CC Attribution-Share Alike 2.1 Japan**.
-See `ATTRIBUTION.txt`; the licence requires attribution and share-alike if you
-redistribute the models. Reference: Mitsuhashi N. *et al.*, *BodyParts3D: 3D
-structure database for anatomical concepts*, Nucleic Acids Res. 2008.
+The anatomy is derived from **BodyParts3D**, © The Database Center for Life
+Science. The official license page now specifies CC BY 4.0, while the older
+supplemental OBJ headers and their mirror specify CC BY-SA 2.1 Japan. This
+project conservatively retains the legacy notice for its adapted anatomy data;
+the applicability of the newer terms to every historic or mirrored file has
+not been independently resolved. See `ATTRIBUTION.txt` for both statements,
+direct license links, provenance, modifications and the scientific citation.
 
-The code in this repository is yours to use freely.
+Use **Credits and data licenses** in the main menu or **Credits** in the
+explorer to view the full notice. The notice is embedded into the application
+for exports, and `ATTRIBUTION.txt` should also accompany distributed builds and
+standalone model files. This is not a blanket license for the application code.

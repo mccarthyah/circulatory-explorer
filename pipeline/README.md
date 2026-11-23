@@ -10,7 +10,7 @@ cd <this folder>
 python3 -m pip install numpy trimesh fast_simplification
 python3 index_parts.py      # -> index.json (OBJ headers: FMA id, name, bounds)
 python3 build.py            # -> ../data/{circulatory,context}[_lod1,_lod2].glb,
-                            #    parts.json, tour.json, ATTRIBUTION.txt
+                            #    parts.json, tour.json (attribution is maintained separately)
 ```
 
 Set `BP3D_ROOT` if the raw download lives somewhere else (default `~/bp3d_raw`).
@@ -52,8 +52,10 @@ introduce sub-millimetre alignment differences from the original frame.
 IS-A and PART-OF are different source hierarchies; no PART-OF lineage is claimed
 for supplemental parts, and surfaces may overlap or duplicate larger composite
 structures. Classification is name-based, not an exhaustive clinical ontology.
-The original source meshes and derived assets are under CC BY-SA 2.1 Japan; see
-`ATTRIBUTION.txt`.
+The supplemental source files carry a legacy CC BY-SA 2.1 Japan notice, while
+the current official license page states CC BY 4.0. See `ATTRIBUTION.txt` for
+both notices, provenance and the conservative terms retained for the adapted
+assets.
 
 ## Regional view assets
 
@@ -74,3 +76,13 @@ aortic arch and brachiocephalic veins, and automatically loads its additional
 coronary vessels. Classification and coverage depend on the source, and do not
 imply a complete clinical cardiac model. Regional views omit context and the
 full-body tour data at runtime.
+
+## Attribution notice maintenance
+
+`ATTRIBUTION.txt` is maintained separately and is not overwritten by data
+rebuilds. After editing it, run `python3 pipeline/sync_credits.py` from the
+project root to update the embedded application notice. CI runs
+`python3 pipeline/sync_credits.py --check` to detect drift. The in-app notice is
+compiled into exported builds; include `ATTRIBUTION.txt` alongside distributed
+builds or standalone model data as well. Godot export presets can include the
+raw file by adding `ATTRIBUTION.txt` to their non-resource include filter.

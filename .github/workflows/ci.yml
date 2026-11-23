@@ -19,8 +19,10 @@ jobs:
           curl -fL --retry 3 "$base/$archive" -o "$archive"
           echo "cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4  $archive" | sha256sum -c -
           unzip -q "$archive" -d "$RUNNER_TEMP/godot"
-      - name: Validate all anatomy asset levels
-        run: python3 tests/validate_assets.py
+      - name: Validate anatomy assets and embedded credits
+        run: |
+          python3 tests/validate_assets.py
+          python3 pipeline/sync_credits.py --check
       - name: Import and run headless tests
         env:
           GODOT: ${{ runner.temp }}/godot/Godot_v4.7.2-stable_linux.x86_64
@@ -32,6 +34,32 @@ jobs:
           if [ "$result" -ne 0 ] || grep -qE '(SCRIPT ERROR|ERROR:|FAIL:)' "$RUNNER_TEMP/headless.log"; then
             echo "::error::Headless tests exited with code $result"
             while IFS= read -r line; do echo "::error::$line"; done < <(tail -n 30 "$RUNNER_TEMP/headless.log")
+            exit 1
+          fi
+      - name: Verify credits inside exported pack
+        shell: bash
+        env:
+          GODOT: ${{ runner.temp }}/godot/Godot_v4.7.2-stable_linux.x86_64
+        run: |
+          set -euo pipefail
+          trap 'rm -f "$GITHUB_WORKSPACE/export_presets.cfg"' EXIT
+          cat > export_presets.cfg <<'PRESET'
+          [preset.0]
+          name="Credits pack test"
+          platform="Linux/X11"
+          runnable=true
+          export_filter="all_resources"
+          include_filter="tests/export_credits.gd"
+          exclude_filter=""
+          export_path=""
+          script_export_mode=1
+          PRESET
+          "$GODOT" --headless --path . --export-pack "Credits pack test" "$RUNNER_TEMP/credits.pck"
+          mkdir -p "$RUNNER_TEMP/pack-test"
+          cd "$RUNNER_TEMP/pack-test"
+          "$GODOT" --headless --path . --main-pack "$RUNNER_TEMP/credits.pck" --script res://tests/export_credits.gd 2>&1 | tee "$RUNNER_TEMP/export.log"
+          if grep -qE '(SCRIPT ERROR|ERROR:|FAIL:)' "$RUNNER_TEMP/export.log" || ! grep -q 'PASS: exported pack displays embedded attribution' "$RUNNER_TEMP/export.log"; then
+            echo "::error::Exported attribution test failed"
             exit 1
           fi
       - name: Default Compatibility renderer smoke test (Mesa software OpenGL)

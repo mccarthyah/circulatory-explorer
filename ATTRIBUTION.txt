@@ -1,26 +1,69 @@
-BodyParts3D data attribution
-============================
+BodyParts3D data attribution and license notices
+===============================================
 
-The 3D anatomy in this project is derived from BodyParts3D:
+Anatomical models, names, IDs, and part-of relationships in this project are
+derived from BodyParts3D, The Database Center for Life Science (DBCLS).
 
-  BodyParts3D, (c) The Database Center for Life Science
-  licensed under CC Attribution-Share Alike 2.1 Japan
-  https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
+Current official attribution statement (official license page last updated
+2025-02-27):
 
-Source files: partof_BP3D_4.0_obj_99.zip (PART-OF tree, 99 % polygon reduction)
-and isa_BP3D_4.0_obj_99 (IS-A tree, 99 % polygon reduction). The additional
-IS-A meshes were obtained from the pinned GitHub mirror recorded in
-pipeline/additional_parts.json; source-file checksums are recorded there.
-Database DOI: 10.18908/lsdba.nbdc00837-000
+  BodyParts3D, © The Database Center for Life Science licensed under
+  CC Attribution 4.0 International.
+
+Official database license: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html
+CC BY 4.0: https://creativecommons.org/licenses/by/4.0/
+Database DOI: https://doi.org/10.18908/lsdba.nbdc00837-000
+
+Legacy source notice and adapted assets
+---------------------------------------
+The headers of the supplemental IS-A source OBJ files obtained from the mirror
+state:
+
+  BodyParts3D, (c) The Database Center for Life Science licensed under
+  CC Attribution-Share Alike 2.1 Japan.
+
+CC BY-SA 2.1 Japan: https://creativecommons.org/licenses/by-sa/2.1/jp/
+The mirror also describes its BodyParts3D data under that legacy license.
+
+The official page now states CC BY 4.0; the old OBJ notice and the mirror state
+CC BY-SA 2.1 Japan. The official 20130619 release README, updated in 2025,
+also names CC BY 4.0 but links to the old CC BY-SA deed in its license section.
+This notice records the discrepancy; it does not determine whether the current
+statement applies to every historical or mirrored file. For these adapted
+anatomy assets, this project retains the legacy notice and distributes its
+contributions under CC BY-SA 2.1 Japan as a conservative approach. Contact DBCLS
+or obtain qualified legal advice for a definitive assessment of the exact files
+and intended distribution.
+
+Sources and provenance
+----------------------
+BodyParts3D 4.0 PART-OF, 99% polygon reduction: partof_BP3D_4.0_obj_99.zip,
+plus the BodyParts3D PART-OF inclusion relationship list.
+BodyParts3D 4.0 IS-A, 99% polygon reduction: isa_BP3D_4.0_obj_99.
+Official download: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
+Official 20130619 release README:
+https://dbarchive.biosciencedbc.jp/data/bodyparts3d/20130619/README_e.html
+The supplemental IS-A OBJs came from this mirror, pinned at commit
+be67a977abe25a36f59793fda86a506618fd4d27:
+https://github.com/jixiangying/anatomy/tree/be67a977abe25a36f59793fda86a506618fd4d27/isa_BP3D_4.0_obj_99
+Their exact file hashes are recorded in pipeline/additional_parts.json. The
+source trees have different hierarchies; no PART-OF lineage is claimed for the
+supplemental IS-A records. Source IDs and many names refer to the Foundational
+Model of Anatomy (FMA), cited by the BodyParts3D release notes.
+
+Changes and scope
+-----------------
+This project selects and classifies structures; converts coordinates and units;
+recomputes normals; exports meshes as glTF; simplifies meshes for lower detail;
+clips and filters regional views; and derives a tour path and catalogue from
+the source data. Regional cut surfaces are open. The original models and our
+adaptations are not a complete clinical anatomy reference.
+
+The license notice above applies to the anatomy data and its adaptations, not
+a blanket statement that all application code uses the same license. When
+redistributing, retain the credits, license notices, source information, and
+indication of changes, and observe the applicable license terms.
 
 Reference: Mitsuhashi N, Fujieda K, Tamura T, Kawamoto S, Takagi T, Okubo K.
-BodyParts3D: 3D structure database for anatomical concepts.
-Nucleic Acids Res. 2008 Oct 3. PMID: 18835852
-
-Modifications made by this project: coordinate conversion from BodyParts3D
-(mm, X=left, Y=posterior, Z=superior) to Godot's Y-up space, unit scaled to
-centimetres, smooth vertex normals recomputed, meshes packed into glTF 2.0,
-additional quadric-decimated levels of detail for the vessels and the ghost
-organs, and a medial-line spline derived from the vessel meshes for the tour.
-
-If you redistribute the models you must keep this attribution and share alike.
+BodyParts3D: 3D structure database for anatomical concepts. Nucleic Acids Res.
+2008 Oct 3. PMID: 18835852. https://pubmed.ncbi.nlm.nih.gov/18835852/
