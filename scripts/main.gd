@@ -265,7 +265,9 @@ func _build_labels() -> void:
 
 # ---------------------------------------------------------------------- modes
 func _show_credits() -> void:
-	if cam != null and cam.captured:
+	if cam == null:
+		return
+	if cam.captured:
 		cam.capture_mouse(false)
 	if credits_dialog == null:
 		credits_dialog = CREDITS_DIALOG.new()

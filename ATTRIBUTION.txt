@@ -46,8 +46,9 @@ https://dbarchive.biosciencedbc.jp/data/bodyparts3d/20130619/README_e.html
 The supplemental IS-A OBJs came from this mirror, pinned at commit
 be67a977abe25a36f59793fda86a506618fd4d27:
 https://github.com/jixiangying/anatomy/tree/be67a977abe25a36f59793fda86a506618fd4d27/isa_BP3D_4.0_obj_99
-Their exact file hashes are recorded in pipeline/additional_parts.json. The
-source trees have different hierarchies; no PART-OF lineage is claimed for the
+Their exact file hashes are recorded in pipeline/additional_parts.json; they
+have not been compared byte-for-byte with the official archive. The source
+trees have different hierarchies; no PART-OF lineage is claimed for the
 supplemental IS-A records. Source IDs and many names refer to the Foundational
 Model of Anatomy (FMA), cited by the BodyParts3D release notes.
 
