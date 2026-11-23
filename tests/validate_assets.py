@@ -135,12 +135,16 @@ for region, entries in regions.items():
                 if region == 'heart': assert by_id[fid]['group'] == 'heart' or by_id[fid]['coronary'] or fid in ('FJ2966','FJ3413')
                 if region == 'cardiac':
                     part = by_id[fid]
-                    assert part['group'] == 'heart' or part['coronary'] or part['circuit'] == 'pulmonary' or re.search(r'^(ascending aorta|arch of aorta|inferior vena cava|superior vena cava|(left|right) brachiocephalic vein)$', part['name'], re.I)
+                    assert fid in SHOULDER or part['group'] == 'heart' or part['coronary'] or part['circuit'] == 'pulmonary' or re.search(r'^(ascending aorta|arch of aorta|inferior vena cava|superior vena cava|(left|right) brachiocephalic vein)$', part['name'], re.I)
+                    if fid in SHOULDER:
+                        source_name = 'additional_circulatory' if part.get('supplemental') else 'circulatory'
+                        assert mesh_triangles(path, fid) == mesh_triangles(DATA / f'{source_name}{suffix}.glb', fid), f'{fid} cardiac geometry differs from source mesh'
         assert seen == set(entries), f'{region}{suffix} catalogue and meshes differ'
         print(f'PASS: {region}{suffix or " high"}: {len(seen)} regional meshes')
 assert 'FJ2655' in regions['heart'] and 'FJ2428' in regions['heart']
 assert 'FJ2143' in regions['lower'] and 'FJ2143' not in regions['heart']
 assert SHOULDER.keys() <= regions['torso'].keys(), 'torso missing major shoulder vessels'
+assert SHOULDER.keys() <= regions['cardiac'].keys(), 'cardiac missing major shoulder vessels'
 assert 'FJ2271' not in regions['torso']
 for fid in ('FJ2655','FJ2428','FJ2966','FJ2924','FJ2925','FJ3645','FJ3441','FJ3413','FJ3411','FJ2725'):
     assert fid in regions['cardiac'], f'cardiac is missing {fid}'

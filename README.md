@@ -41,8 +41,9 @@ The app opens on a **main menu without loading the anatomy model**. Choose:
 - **Head & neck** — vessels in the head and neck.
 - **Heart** — heart structures, coronary vessels, pulmonary trunk and ascending aorta.
 - **Cardiac** — heart, available coronary and pulmonary vessels, the ascending
-  aorta, aortic arch, venae cavae and brachiocephalic veins. Cardiac's related
-  extra vessels load automatically.
+  aorta, aortic arch, venae cavae, brachiocephalic veins, and the major
+  subclavian and axillary arteries and veins. Cardiac's related extra vessels
+  load automatically.
 - **All anatomy** — the full-body model, with the guided tour and interior voyage.
 
 Regional choices load separate meshes rather than loading and hiding the full

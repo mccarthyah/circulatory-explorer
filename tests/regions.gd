@@ -80,8 +80,13 @@ func _run() -> void:
 				check(main.model.is_extended_visible() and main.model.by_id[extra]["node"] != null, "regional extra loads on selection " + choice)
 				check(main.model.extended_root.get_child_count() < 410, "uses regional extra file " + choice)
 			if choice == "cardiac":
+				for id in ["FJ3479", "FJ3579", "FJ3486", "FJ3587", "FJ2216", "FJ2268", "FJ2217", "FJ2269"]:
+					check(main.model.by_id.has(id) and main.model.by_id[id].node != null and main.model.by_id[id].node.is_visible_in_tree() and not main.model.by_id[id].get("extended", false), "cardiac shoulder vessel visible " + id)
 				for id in ["FJ2655", "FJ2428", "FJ2966", "FJ2924", "FJ2925", "FJ3645", "FJ3441", "FJ2725"]:
 					check(main.model.by_id.has(id) and main.model.by_id[id]["node"] != null, "cardiac structure loaded " + id)
+				main._on_extended_toggled(false)
+				check(main.model.by_id["FJ2216"].node.is_visible_in_tree() and main.model.by_id["FJ3486"].node.is_visible_in_tree(), "cardiac major shoulder vessels stay visible with extras off")
+				main._on_extended_toggled(true)
 				check(not main.model.by_id.has("FJ2143"), "cardiac excludes femoral artery")
 			if choice in ["cardiac", "torso"]:
 				main._on_part_visibility_requested(extra)

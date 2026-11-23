@@ -7,7 +7,7 @@ const CHOICES := [
 	["lower", "Waist down", "Pelvis and lower limbs"],
 	["head", "Head & neck", "Cerebral and neck vessels"],
 	["heart", "Heart", "Heart structures and coronary vessels"],
-	["cardiac", "Cardiac", "Heart, coronary and pulmonary vessels"],
+	["cardiac", "Cardiac", "Heart, pulmonary and major shoulder vessels"],
 	["all", "All anatomy", "Full model, guided tour and interior voyage"],
 ]
 var buttons: Dictionary = {}

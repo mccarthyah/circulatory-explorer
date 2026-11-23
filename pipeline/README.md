@@ -73,8 +73,8 @@ clipped, not capped, and structures can occur in multiple regions. The cuts and
 name exclusions are approximate and can trim peripheral torso structures. The
 heart view contains heart parts, coronary vessels, pulmonary trunk and ascending
 aorta. Cardiac adds all parts classified as pulmonary circulation, venae cavae,
-aortic arch and brachiocephalic veins, and automatically loads its additional
-coronary vessels. Classification and coverage depend on the source, and do not
+aortic arch, brachiocephalic veins and major subclavian and axillary vessels,
+and automatically loads its additional coronary vessels. Classification and coverage depend on the source, and do not
 imply a complete clinical cardiac model. Regional views omit context and the
 full-body tour data at runtime.
 
