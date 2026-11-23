@@ -105,6 +105,43 @@ func _run() -> void:
 	click.pressed = false
 	Input.parse_input_event(click)
 	await process_frame
+	# Real captured input: Shift-drag draws a box without moving the camera;
+	# Escape cancels just the drag and preserves mouse capture.
+	var drag := InputEventMouseButton.new()
+	drag.button_index = MOUSE_BUTTON_LEFT
+	drag.pressed = true
+	drag.shift_pressed = true
+	drag.position = Vector2(640, 360)
+	drag.global_position = drag.position
+	Input.parse_input_event(drag)
+	await process_frame
+	if not main._box_dragging or not main.cam.captured or main.cam.enabled:
+		printerr("FAIL: captured Shift-drag did not start a box")
+		quit(1)
+		return
+	var before_yaw: float = main.cam._yaw
+	var drag_motion := InputEventMouseMotion.new()
+	drag_motion.relative = Vector2(42, 35)
+	drag_motion.position = Vector2(682, 395)
+	drag_motion.global_position = drag_motion.position
+	Input.parse_input_event(drag_motion)
+	await process_frame
+	if main._box_end.distance_to(main._box_start) < 10 or not is_equal_approx(main.cam._yaw, before_yaw):
+		printerr("FAIL: box drag did not draw while keeping camera still")
+		quit(1)
+		return
+	var cancel := InputEventKey.new()
+	cancel.keycode = KEY_ESCAPE
+	cancel.pressed = true
+	Input.parse_input_event(cancel)
+	await process_frame
+	if main._box_dragging or not main.cam.captured or not main.cam.enabled:
+		printerr("FAIL: cancelling box did not resume captured camera")
+		quit(1)
+		return
+	drag.pressed = false
+	Input.parse_input_event(drag)
+	await process_frame
 	var yaw: float = main.cam._yaw
 	var movement := InputEventMouseMotion.new()
 	movement.position = Vector2(640, 360)
