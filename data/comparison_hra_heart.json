@@ -1,0 +1,382 @@
+{
+  "parts": [
+    {
+      "id": "hra_mitral_valve",
+      "name": "Mitral valve (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 6468,
+      "verts": 3234,
+      "min": [
+        -4.43209981918335,
+        42.56290054321289,
+        -1.1916999816894531
+      ],
+      "max": [
+        -0.7724000215530396,
+        46.6713981628418,
+        1.8538999557495117
+      ],
+      "centre": [
+        -2.602299928665161,
+        44.6171989440918,
+        0.3310999870300293
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_tricuspid_valve",
+      "name": "Tricuspid valve (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 12490,
+      "verts": 6245,
+      "min": [
+        -1.6720000505447388,
+        40.594600677490234,
+        -4.948800086975098
+      ],
+      "max": [
+        2.100800037384033,
+        45.21390151977539,
+        -1.1886999607086182
+      ],
+      "centre": [
+        0.21439999341964722,
+        42.90420150756836,
+        -3.068700075149536
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_aortic_valve",
+      "name": "Aortic valve (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 2680,
+      "verts": 1372,
+      "min": [
+        -2.2502999305725098,
+        45.56159973144531,
+        -2.4367001056671143
+      ],
+      "max": [
+        0.21709999442100525,
+        48.102699279785156,
+        -0.29100000858306885
+      ],
+      "centre": [
+        -1.0166000127792358,
+        46.83209991455078,
+        -1.363800048828125
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_pulmonary_valve",
+      "name": "Pulmonary valve (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 13288,
+      "verts": 6644,
+      "min": [
+        -3.3431999683380127,
+        46.548500061035156,
+        -3.879199981689453
+      ],
+      "max": [
+        -0.7714999914169312,
+        48.97060012817383,
+        -1.5769000053405762
+      ],
+      "centre": [
+        -2.0573999881744385,
+        47.75960159301758,
+        -2.7279999256134033
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_papillary_muscle_of_heart_anterior",
+      "name": "Papillary muscle of heart anterior (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 638,
+      "verts": 341,
+      "min": [
+        -3.393199920654297,
+        41.48939895629883,
+        -7.033100128173828
+      ],
+      "max": [
+        -1.0679999589920044,
+        42.93299865722656,
+        -5.394899845123291
+      ],
+      "centre": [
+        -2.230600118637085,
+        42.21120071411133,
+        -6.214000225067139
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_papillary_muscle_of_heart_anterolateral",
+      "name": "Papillary muscle of heart anterolateral (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 518,
+      "verts": 261,
+      "min": [
+        -6.344699859619141,
+        42.413700103759766,
+        -4.54040002822876
+      ],
+      "max": [
+        -3.4200000762939453,
+        45.27220153808594,
+        -0.8446000218391418
+      ],
+      "centre": [
+        -4.882299900054932,
+        43.84299850463867,
+        -2.692500114440918
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_papillary_muscle_of_heart_medial",
+      "name": "Papillary muscle of heart medial (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 152,
+      "verts": 90,
+      "min": [
+        -3.091099977493286,
+        41.00130081176758,
+        -4.38070011138916
+      ],
+      "max": [
+        -2.45989990234375,
+        41.61410140991211,
+        -3.5311999320983887
+      ],
+      "centre": [
+        -2.7755000591278076,
+        41.307701110839844,
+        -3.9560000896453857
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_papillary_muscle_of_heart_posterior",
+      "name": "Papillary muscle of heart posterior (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 131,
+      "verts": 77,
+      "min": [
+        -2.012500047683716,
+        40.05160140991211,
+        -4.716400146484375
+      ],
+      "max": [
+        -1.172700047492981,
+        40.59669876098633,
+        -4.032100200653076
+      ],
+      "centre": [
+        -1.5925999879837036,
+        40.32419967651367,
+        -4.374199867248535
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_papillary_muscle_of_heart_posteromedial",
+      "name": "Papillary muscle of heart posteromedial (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 576,
+      "verts": 290,
+      "min": [
+        -6.241700172424316,
+        42.1072998046875,
+        -4.374899864196777
+      ],
+      "max": [
+        -3.5188000202178955,
+        43.3650016784668,
+        -1.0083999633789062
+      ],
+      "centre": [
+        -4.880199909210205,
+        42.73609924316406,
+        -2.691699981689453
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_left_cardiac_atrium",
+      "name": "Left cardiac atrium (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 33946,
+      "verts": 16967,
+      "min": [
+        -4.419899940490723,
+        42.56560134887695,
+        -1.6944999694824219
+      ],
+      "max": [
+        2.876199960708618,
+        49.78120040893555,
+        3.002700090408325
+      ],
+      "centre": [
+        -0.7718999981880188,
+        46.17340087890625,
+        0.6541000008583069
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_right_cardiac_atrium",
+      "name": "Right cardiac atrium (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 48186,
+      "verts": 24068,
+      "min": [
+        -1.2044999599456787,
+        40.21080017089844,
+        -5.0782999992370605
+      ],
+      "max": [
+        4.009799957275391,
+        49.79059982299805,
+        1.2027000188827515
+      ],
+      "centre": [
+        1.4026999473571777,
+        45.000701904296875,
+        -1.9378000497817993
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_heart_right_ventricle",
+      "name": "Heart right ventricle (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 27622,
+      "verts": 13761,
+      "min": [
+        -6.256999969482422,
+        39.247100830078125,
+        -7.518899917602539
+      ],
+      "max": [
+        2.0548999309539795,
+        49.01459884643555,
+        -0.984499990940094
+      ],
+      "centre": [
+        -2.101099967956543,
+        44.13079833984375,
+        -4.251699924468994
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_interventricular_septum",
+      "name": "Interventricular septum (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 8074,
+      "verts": 4039,
+      "min": [
+        -6.186399936676025,
+        39.61140060424805,
+        -6.851600170135498
+      ],
+      "max": [
+        -0.9991000294685364,
+        46.85960006713867,
+        -0.1753000020980835
+      ],
+      "centre": [
+        -3.5927000045776367,
+        43.23550033569336,
+        -3.5134999752044678
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "hra_heart_left_ventricle",
+      "name": "Heart left ventricle (HRA male heart)",
+      "fma": "HRA v1.3",
+      "group": "comparison",
+      "material": "hra_heart",
+      "tris": 9350,
+      "verts": 4677,
+      "min": [
+        -8.425299644470215,
+        39.4995002746582,
+        -7.276800155639648
+      ],
+      "max": [
+        -0.7889000177383423,
+        47.18069839477539,
+        1.9837000370025635
+      ],
+      "centre": [
+        -4.607100009918213,
+        43.3400993347168,
+        -2.6466000080108643
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    }
+  ]
+}

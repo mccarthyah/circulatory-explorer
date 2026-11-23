@@ -59,6 +59,19 @@ for entry in comparison:
     for expected, actual in zip(entry["min"] + entry["max"], pos["min"] + pos["max"]):
         assert abs(expected - actual) < 0.001, entry["id"]
 print("PASS: comparison layer contains 17 independently catalogued organs")
+hra = json.loads((DATA / "comparison_hra_heart.json").read_text())["parts"]
+hra_glb = read_glb(DATA / "comparison_hra_heart.glb")
+hra_ids = {entry["id"] for entry in hra}
+assert len(hra) == len(hra_ids) == 14 and not hra_ids & (comparison_ids | set(by_id))
+assert hra_ids == {n["name"] for n in hra_glb["nodes"] if "mesh" in n}
+for entry in hra:
+    node = next(n for n in hra_glb["nodes"] if n["name"] == entry["id"])
+    prim = hra_glb["meshes"][node["mesh"]]["primitives"][0]
+    assert hra_glb["accessors"][prim["indices"]]["count"] // 3 == entry["tris"]
+    pos = hra_glb["accessors"][prim["attributes"]["POSITION"]]
+    for expected, actual in zip(entry["min"] + entry["max"], pos["min"] + pos["max"]):
+        assert abs(expected - actual) < 0.001, entry["id"]
+print("PASS: HRA comparison layer contains 14 independently catalogued heart structures")
 
 
 @lru_cache(maxsize=None)

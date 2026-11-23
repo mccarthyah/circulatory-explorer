@@ -144,6 +144,19 @@ func _run() -> void:
 	main.model.show_all_parts()
 	check(not main.model.hidden_part_ids().has("z_stomach"), "restore clears unloaded comparison IDs")
 
+	main._on_z_organs_toggled(true)
+	main._on_hra_heart_toggled(true)
+	check(main.model._z_organs_on and main.model._hra_heart_on, "comparison sources overlap")
+	check(main.model.by_id.has("hra_heart_left_ventricle") and main.model.by_id["hra_heart_left_ventricle"].node != null, "HRA heart parts are separate")
+	main._on_part_picked("hra_heart_left_ventricle")
+	main.hud.part_opacity_slider.value = 0.4
+	check(is_equal_approx(main.model.effective_part_opacity(main.model.by_id["hra_heart_left_ventricle"]), 0.2), "HRA individual opacity")
+	main.apply_quality("balanced", true)
+	check(main.model._hra_heart_on and main.model._z_organs_on and is_equal_approx(main.model.part_opacity("hra_heart_left_ventricle"), 0.4), "both sources survive LOD reload")
+	main._on_hra_heart_toggled(false)
+	main._on_z_organs_toggled(false)
+	main.apply_quality("performance", true)
+
 	# Search selection loads the optional layer.
 	var baseline: int = main.model.total_tris(false)
 	main._on_part_picked("FJ2725")

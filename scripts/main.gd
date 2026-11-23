@@ -129,6 +129,7 @@ func _ready() -> void:
 	hud.opacity_changed.connect(_on_opacity)
 	hud.part_opacity_changed.connect(_on_part_opacity)
 	hud.z_organs_toggled.connect(_on_z_organs_toggled)
+	hud.hra_heart_toggled.connect(_on_hra_heart_toggled)
 	hud.context_toggled.connect(_on_context_toggled)
 	hud.extended_toggled.connect(_on_extended_toggled)
 	hud.part_visibility_requested.connect(_on_part_visibility_requested)
@@ -569,8 +570,8 @@ func _on_opacity(bucket: String, value: float) -> void:
 			model.set_bucket_opacity("veins", value)
 		"heart":
 			model.set_bucket_opacity("heart", value)
-		"z_organs":
-			model.set_bucket_opacity("z_organs", value)
+		"z_organs", "hra_heart":
+			model.set_bucket_opacity(bucket, value)
 		"context":
 			model.set_bucket_opacity("context", value)
 			if value > 0.0 and not model.is_context_visible():
@@ -586,6 +587,26 @@ func _on_z_organs_toggled(on: bool) -> void:
 		if String(hover.get("material", "")) == "z_organs":
 			hover = {}
 		if String(selected_part.get("material", "")) == "z_organs":
+			selected_part = {}
+			if not _fly.is_empty():
+				_fly = {}
+				cam.enabled = true
+				cam.sync_angles()
+		model.highlight(hover if not hover.is_empty() else selected_part)
+		if hover.is_empty() and selected_part.is_empty():
+			hud.clear_part()
+	hud.populate(model.parts_matching(hud.search_box.text))
+	_update_subtitle()
+
+
+func _on_hra_heart_toggled(on: bool) -> void:
+	var success: bool = model.set_hra_heart_visible(on)
+	hud.hra_heart_check.set_pressed_no_signal(success and on)
+	_has_pick_ray = false
+	if not on:
+		if String(hover.get("material", "")) == "hra_heart":
+			hover = {}
+		if String(selected_part.get("material", "")) == "hra_heart":
 			selected_part = {}
 			if not _fly.is_empty():
 				_fly = {}
@@ -745,6 +766,8 @@ func _on_part_picked(id: String) -> void:
 	var part: Dictionary = model.by_id.get(id, {})
 	if part.is_empty():
 		return
+	if String(part.get("material", "")) == "hra_heart" and not model._hra_heart_on:
+		_on_hra_heart_toggled(true)
 	if String(part.get("material", "")) == "z_organs" and not model._z_organs_on:
 		_on_z_organs_toggled(true)
 	if String(part.get("group", "")) == "context" and not model.is_context_visible():

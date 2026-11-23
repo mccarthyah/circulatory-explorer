@@ -9,6 +9,7 @@ signal credits_requested()
 signal opacity_changed(bucket: String, value: float)
 signal part_opacity_changed(id: String, value: float)
 signal z_organs_toggled(on: bool)
+signal hra_heart_toggled(on: bool)
 signal context_toggled(on: bool)
 signal labels_toggled(on: bool)
 signal extended_toggled(on: bool)
@@ -54,6 +55,7 @@ var visibility_button: Button
 var part_opacity_slider: HSlider
 var part_opacity_label: Label
 var z_organs_check: CheckBox
+var hra_heart_check: CheckBox
 var show_all_button: Button
 var undo_box_button: Button
 var box_overlay: BoxOverlay
@@ -317,6 +319,12 @@ func _build_left_panel() -> void:
 	z_organs_check.tooltip_text = "Approximate comparison, not clinically aligned. Includes some BodyParts3D organs."
 	z_organs_check.toggled.connect(func(on: bool) -> void: z_organs_toggled.emit(on))
 	col.add_child(z_organs_check)
+	_add_slider(col, "hra_heart", "HRA male heart", Color(0.24, 0.74, 0.67), 0.5)
+	hra_heart_check = CheckBox.new()
+	hra_heart_check.text = "Show HRA male heart"
+	hra_heart_check.tooltip_text = "Approximate comparison, not clinically aligned."
+	hra_heart_check.toggled.connect(func(on: bool) -> void: hra_heart_toggled.emit(on))
+	col.add_child(hra_heart_check)
 
 	context_check = CheckBox.new()
 	context_check.text = "Show body outline   B"
@@ -632,6 +640,8 @@ func set_regional_view(regional: bool) -> void:
 	context_check.disabled = regional
 	context_check.tooltip_text = "Body context is available in All anatomy" if regional else ""
 	sliders["context"].editable = not regional
+	hra_heart_check.disabled = regional
+	sliders["hra_heart"].editable = not regional
 	z_organs_check.disabled = regional
 	sliders["z_organs"].editable = not regional
 	z_organs_check.tooltip_text = "Available in All anatomy; approximate comparison, not clinically aligned."

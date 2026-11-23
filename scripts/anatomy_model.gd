@@ -26,10 +26,12 @@ const BUCKET := {
 	"heart_blood": "heart",
 	"context": "context",
 	"z_organs": "z_organs",
+	"hra_heart": "hra_heart",
 }
 
 # material key -> colour, roughness, emission colour, emission strength
 const SPEC := {
+	"hra_heart": [Color(0.24, 0.74, 0.67), 0.65, Color(0.03, 0.10, 0.08), 0.15],
 	"z_organs": [Color(0.68, 0.48, 0.77), 0.75, Color(0.08, 0.04, 0.10), 0.12],
 	"artery": [Color(0.82, 0.13, 0.14), 0.42, Color(0.34, 0.02, 0.02), 0.55],
 	"vein": [Color(0.13, 0.28, 0.75), 0.42, Color(0.02, 0.05, 0.30), 0.55],
@@ -48,6 +50,9 @@ var context_root: Node3D
 var circulatory_root: Node3D
 var supplemental_root: Node3D
 var extended_root: Node3D
+var hra_heart_root: Node3D
+var _hra_heart_on := false
+var _hra_heart_catalog: Array = []
 var z_organs_root: Node3D
 var _z_organs_on := false
 var _z_organs_catalog: Array = []
@@ -86,6 +91,7 @@ func load_anatomy(detail_level: int = 2, selected_region: String = "all") -> boo
 		return false
 	if region == "all":
 		_z_organs_catalog = _read_json(DATA_DIR + "comparison_z_organs.json").get("parts", [])
+		_hra_heart_catalog = _read_json(DATA_DIR + "comparison_hra_heart.json").get("parts", [])
 	_ensure_materials()
 	return _build(detail_level)
 
@@ -119,6 +125,10 @@ func _teardown() -> void:
 		supplemental_root.visible = false
 		supplemental_root.queue_free()
 		supplemental_root = null
+	if hra_heart_root != null:
+		hra_heart_root.visible = false
+		hra_heart_root.queue_free()
+		hra_heart_root = null
 	if z_organs_root != null:
 		z_organs_root.visible = false
 		z_organs_root.queue_free()
@@ -186,6 +196,8 @@ func _build(detail_level: int) -> bool:
 	if _extended_on and not set_extended_visible(true):
 		return false
 	if _z_organs_on and not set_z_organs_visible(true):
+		return false
+	if _hra_heart_on and not set_hra_heart_visible(true):
 		return false
 	return true
 
@@ -272,13 +284,51 @@ func set_z_organs_visible(on: bool) -> bool:
 	return true
 
 
+## Optional comparison layer. Registered approximately, not a clinical overlay.
+func set_hra_heart_visible(on: bool) -> bool:
+	if region != "all":
+		return false
+	if on and hra_heart_root == null:
+		var loaded := _instance_gltf(DATA_DIR + "comparison_hra_heart.glb")
+		if _hra_heart_catalog.is_empty() or loaded == null:
+			if loaded != null:
+				loaded.free()
+			return false
+		var meshes := _collect_meshes(loaded)
+		for entry in _hra_heart_catalog:
+			if not meshes.has(String(entry["id"])):
+				loaded.free()
+				return false
+		hra_heart_root = loaded
+		add_child(hra_heart_root)
+		for source in _hra_heart_catalog:
+			var entry: Dictionary = source.duplicate(true)
+			var id := String(entry["id"])
+			entry["node"] = meshes[id]
+			entry["hidden"] = _hidden_ids.has(id)
+			var lo := Vector3(entry["min"][0], entry["min"][1], entry["min"][2])
+			var hi := Vector3(entry["max"][0], entry["max"][1], entry["max"][2])
+			entry["aabb"] = AABB(lo, hi - lo)
+			_prepare_part_node(entry, entry["node"])
+			parts.append(entry)
+			by_id[id] = entry
+			if not _by_material.has("hra_heart"):
+				_by_material["hra_heart"] = []
+			_by_material["hra_heart"].append(entry)
+	_hra_heart_on = on
+	if hra_heart_root != null:
+		hra_heart_root.visible = on
+	return true
+
+
 ## Individual visibility is independent of group opacity and the extra layer.
 func has_part_id(id: String) -> bool:
 	if by_id.has(id):
 		return true
-	for entry in _z_organs_catalog:
-		if String(entry["id"]) == id:
-			return true
+	for catalog in [_z_organs_catalog, _hra_heart_catalog]:
+		for entry in catalog:
+			if String(entry["id"]) == id:
+				return true
 	return false
 
 
@@ -353,7 +403,7 @@ func _collect_meshes(root: Node) -> Dictionary:
 # ------------------------------------------------------------------ materials
 var _opacity: Dictionary = {                      # material key -> 0..1
 	"artery": 1.0, "vein": 1.0, "heart_muscle": 1.0,
-	"heart_valve": 1.0, "heart_blood": 1.0, "context": 0.35, "z_organs": 0.5,
+	"heart_valve": 1.0, "heart_blood": 1.0, "context": 0.35, "z_organs": 0.5, "hra_heart": 0.5,
 }
 var _context_on := false
 var _mottle := 1.0
@@ -528,7 +578,7 @@ func total_tris(include_context := true) -> int:
 			continue
 		if bool(p.get("extended", false)) and not _extended_on:
 			continue
-		if bool(p.get("hidden", false)) or (p.get("material", "") == "z_organs" and not _z_organs_on):
+		if bool(p.get("hidden", false)) or (p.get("material", "") == "z_organs" and not _z_organs_on) or (p.get("material", "") == "hra_heart" and not _hra_heart_on):
 			continue
 		total += tris_of(p)
 	return total

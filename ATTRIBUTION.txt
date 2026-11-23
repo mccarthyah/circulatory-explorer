@@ -94,3 +94,28 @@ mesh into 17 selectable meshes, rotated and translated the coordinates,
 recomputed normals and exported them as glTF. The translation is based on
 rough organ-centre matches; this is an approximate visual comparison of
 different bodies, not a validated anatomical registration or clinical model.
+
+Optional Human Reference Atlas male heart comparison
+---------------------------------------------------
+Human Reference Atlas, 3D Reference Organ for Heart, Male v1.3, Kristen Browne;
+project lead Katy Börner; HuBMAP; CC BY 4.0:
+https://lod.humanatlas.io/ref-organ/heart-male/v1.3
+https://doi.org/10.48539/HBM564.WKNG.249
+https://creativecommons.org/licenses/by/4.0/
+The reference organ was created from Visible Human Male data provided by the
+National Library of Medicine; see the source's bibliography and provenance.
+The supplied GLB was obtained through the gunout/atlas-human mirror, commit
+efe33cc6e8a29ecd987ee6123045c8e511254ee4:
+https://github.com/gunout/atlas-human/tree/efe33cc6e8a29ecd987ee6123045c8e511254ee4
+Its associated heart1.json names the v1.3 reference object and corresponding
+file. Input GLB SHA-256:
+689df039c8bc264ea06a44cd926762976f0666c0ff2dc532d046409b185e6b0c.
+The mirror's asset has not been byte-compared with the official downloadable
+file; the version association is based on the mirror's metadata.
+
+Changes: 14 mesh structures were extracted, their axes and units converted,
+normals recomputed and a translation applied to align the whole-heart bounds
+centre with the BodyParts3D heart. This is a rough visual alignment of different
+bodies, not landmark-validated registration or a clinical model. The separate
+HRA vascular asset is not included: source metadata issues and full-body
+registration need further investigation.

@@ -277,11 +277,13 @@ standalone model files. This is not a blanket license for the application code.
 
 ### Comparing organs
 
-In **All anatomy**, enable **Show Z-Anatomy organs** to overlay a separate,
-optional 17-organ comparison layer on BodyParts3D. It is loaded only on demand;
-the layer includes three BodyParts3D-derived organs, as detailed in the credits.
-The bodies were approximately aligned using organ centres, not clinically
-registered. Differences can reflect source anatomy and alignment error. See
+In **All anatomy**, enable **Show Z-Anatomy organs** and/or **Show HRA male heart**
+to overlay separate, optional comparison layers on BodyParts3D. They are loaded
+only on demand. The Z-Anatomy-derived layer contains 17 organs and
+includes three BodyParts3D-derived organs, as detailed in the credits. The HRA
+heart has 14 separate structures; HRA vessels are not included. The Z-Anatomy
+organs were approximately aligned using organ centres; the HRA heart by matching
+whole-heart bounds centres. Neither comparison is clinically registered. Differences can reflect source anatomy and alignment error. See
 `ATTRIBUTION.txt` for provenance, licences and limitations.
 
 Search an organ or click a visible surface to inspect it, hide it, or change its
