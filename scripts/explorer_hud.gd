@@ -327,7 +327,7 @@ func _build_left_panel() -> void:
 	col.add_child(hra_heart_check)
 
 	context_check = CheckBox.new()
-	context_check.text = "Show body outline   B"
+	context_check.text = "Show BodyParts3D context   B"
 	context_check.button_pressed = true
 	context_check.add_theme_font_size_override("font_size", 12)
 	context_check.add_theme_color_override("font_color", TEXT)

@@ -113,6 +113,10 @@ func _run() -> void:
 	main._on_part_picked("FJ3411")
 	main.hud.part_opacity_slider.value = 0.4
 	check(is_equal_approx(main.model.part_opacity("FJ3411"), 0.4), "individual opacity slider")
+	main.model.set_part_opacity("FJ3411", 0.0)
+	main.model.highlight(main.model.by_id["FJ3411"])
+	check(main.model.highlighted == null, "transparent structure is not highlighted")
+	main.model.set_part_opacity("FJ3411", 0.4)
 	main.model.set_bucket_opacity("arteries", 0.5)
 	check(is_equal_approx(main.model.effective_part_opacity(main.model.by_id["FJ3411"]), 0.2), "individual opacity multiplies layer")
 	check(is_equal_approx(main.model.effective_part_opacity(main.model.by_id["FJ2216"]), 0.5), "other structure unchanged")
@@ -124,6 +128,10 @@ func _run() -> void:
 	check(main.model.parts_matching("stomach").size() > 0, "context organs are searchable")
 	main._on_part_picked("FJ2564")
 	check(main.model.is_context_visible() and main.hud.context_check.button_pressed, "searching organ enables context")
+	main.hud.sliders["context"].value = 0.0
+	main._on_context_toggled(true)
+	check(is_equal_approx(main.model._opacity["context"], 0.0), "context opacity can be completely transparent")
+	main.hud.sliders["context"].value = 0.35
 	main._on_context_toggled(false)
 	main.hud.context_check.set_pressed_no_signal(false)
 

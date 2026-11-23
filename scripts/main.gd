@@ -107,7 +107,6 @@ var _look_point := Vector3.ZERO
 var _fly: Dictionary = {}
 var _fade_guard := 0.0
 var _context_was_on := true
-var _context_scale := 0.30        # ghost strength: stronger when outside the body
 var _intro_done := false
 var _controller_menu := false
 var _controller_active := false
@@ -332,7 +331,6 @@ func _go_free(first := false) -> void:
 	cam.enabled = true
 	cam.fov = 68.0
 	headlight.visible = false
-	_context_scale = 0.30
 	if _context_was_on:
 		model.set_context_visible(true)
 	_apply_context_opacity()
@@ -370,7 +368,6 @@ func _go_path(interior: bool) -> void:
 	cam.fov = 88.0 if interior else 72.0
 	headlight.visible = interior
 	_context_was_on = model.is_context_visible()
-	_context_scale = 0.14          # inside the body the ghost is only a hint
 	_apply_context_opacity()
 	path.loop = interior
 	path.speed = 36.0 if interior else 20.0
@@ -577,6 +574,8 @@ func _on_opacity(bucket: String, value: float) -> void:
 			if value > 0.0 and not model.is_context_visible():
 				model.set_context_visible(true)
 				hud.context_check.set_pressed_no_signal(true)
+				_context_was_on = true
+	model.highlight(hover if not hover.is_empty() else selected_part)
 
 
 func _on_z_organs_toggled(on: bool) -> void:
@@ -622,6 +621,7 @@ func _on_hra_heart_toggled(on: bool) -> void:
 func _on_part_opacity(id: String, value: float) -> void:
 	model.set_part_opacity(id, value)
 	_has_pick_ray = false
+	model.highlight(hover if not hover.is_empty() else selected_part)
 
 
 func _on_context_toggled(on: bool) -> void:
@@ -659,7 +659,7 @@ func _on_extended_toggled(on: bool) -> void:
 
 
 func _apply_context_opacity() -> void:
-	var v := maxf(0.05, float(hud.sliders["context"].value))
+	var v := float(hud.sliders["context"].value)
 	model.set_bucket_opacity("context", v)
 
 

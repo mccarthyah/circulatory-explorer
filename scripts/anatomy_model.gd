@@ -644,7 +644,7 @@ func _ray_mesh_distance(part: Dictionary, origin: Vector3, dir: Vector3) -> floa
 
 func highlight(part: Dictionary) -> void:
 	var node: Node3D = null
-	if not part.is_empty():
+	if not part.is_empty() and effective_part_opacity(part) > 0.001 and not bool(part.get("hidden", false)):
 		node = part.get("node")
 	if node == highlighted:
 		return
