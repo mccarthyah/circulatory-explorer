@@ -45,6 +45,22 @@ def read_glb(path):
     return json.loads(raw[20:20 + chunk_len])
 
 
+comparison = json.loads((DATA / "comparison_z_organs.json").read_text())["parts"]
+comparison_glb = read_glb(DATA / "comparison_z_organs.glb")
+comparison_ids = {entry["id"] for entry in comparison}
+assert len(comparison) == 17 and len(comparison_ids) == 17
+assert not comparison_ids & set(by_id)
+assert comparison_ids == {n["name"] for n in comparison_glb["nodes"] if "mesh" in n}
+for entry in comparison:
+    node = next(n for n in comparison_glb["nodes"] if n["name"] == entry["id"])
+    prim = comparison_glb["meshes"][node["mesh"]]["primitives"][0]
+    assert comparison_glb["accessors"][prim["indices"]]["count"] // 3 == entry["tris"]
+    pos = comparison_glb["accessors"][prim["attributes"]["POSITION"]]
+    for expected, actual in zip(entry["min"] + entry["max"], pos["min"] + pos["max"]):
+        assert abs(expected - actual) < 0.001, entry["id"]
+print("PASS: comparison layer contains 17 independently catalogued organs")
+
+
 @lru_cache(maxsize=None)
 def glb_binary(path):
     raw = path.read_bytes()

@@ -127,6 +127,23 @@ func _run() -> void:
 	main._on_context_toggled(false)
 	main.hud.context_check.set_pressed_no_signal(false)
 
+	# The comparison organ meshes are lazy, independent, and survive reload.
+	main._on_z_organs_toggled(true)
+	check(main.model._z_organs_on and main.model.by_id.has("z_stomach"), "comparison organs load")
+	check(main.model.by_id["z_stomach"].node != null and main.model.by_id["z_liver"].node != null, "comparison organs are separate")
+	main._on_part_picked("z_stomach")
+	main.hud.part_opacity_slider.value = 0.25
+	check(is_equal_approx(main.model.effective_part_opacity(main.model.by_id["z_stomach"]), 0.125), "comparison individual opacity")
+	main.model.set_part_hidden("z_stomach", true)
+	main.apply_quality("balanced", true)
+	check(main.model._z_organs_on and main.model.by_id["z_stomach"].hidden, "comparison survives reload with hidden state")
+	check(is_equal_approx(main.model.part_opacity("z_stomach"), 0.25), "comparison opacity survives reload")
+	main._on_z_organs_toggled(false)
+	main.apply_quality("performance", true)
+	check(main.model.has_part_id("z_stomach"), "unloaded comparison ID remains valid for saves")
+	main.model.show_all_parts()
+	check(not main.model.hidden_part_ids().has("z_stomach"), "restore clears unloaded comparison IDs")
+
 	# Search selection loads the optional layer.
 	var baseline: int = main.model.total_tris(false)
 	main._on_part_picked("FJ2725")

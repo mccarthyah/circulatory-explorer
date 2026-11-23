@@ -68,3 +68,29 @@ indication of changes, and observe the applicable license terms.
 Reference: Mitsuhashi N, Fujieda K, Tamura T, Kawamoto S, Takagi T, Okubo K.
 BodyParts3D: 3D structure database for anatomical concepts. Nucleic Acids Res.
 2008 Oct 3. PMID: 18835852. https://pubmed.ncbi.nlm.nih.gov/18835852/
+
+Optional Z-Anatomy / BodyParts3D organ comparison
+-------------------------------------------------
+The optional 17-organ layer is adapted from the organs.glb and anatomy.json
+of Vessels, by mauupa0 and contributors, commit
+6c9aced83d264a3ed0155c2c2a1c78f2de6c5e16:
+https://github.com/mauupa0/vessels-3d/tree/6c9aced83d264a3ed0155c2c2a1c78f2de6c5e16/public/anatomy
+Source SHA-256: organs.glb 14dcd2ee6c1a42f90033caf9497cfce01f266d2bd0cff6626b4937d3c2c95bef;
+anatomy.json 47dc43d7bfbac425b2ebb8c632e411a058c42db1e8f081a40b901b455bb5c94c.
+
+Z-Anatomy, The libre 3D atlas of anatomy: https://github.com/Z-Anatomy/Models-of-human-anatomy
+CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
+The derivative identifies kidneys, brain and small intestine as BodyParts3D,
+and the other organs as Z-Anatomy; it states that Z-Anatomy's NC-restricted
+items were excluded. Z-Anatomy itself derives from BodyParts3D. The derivative
+credits BodyParts3D to DBCLS, Okubo K. et al., notes the current CC BY 4.0 and
+older CC BY-SA 2.1 Japan notices, and distributes its derived files under
+CC BY-SA 4.0. The source and legacy licence discrepancy above still applies;
+no determination of historical licence compatibility is claimed here.
+
+Changes: the derivative registered, smoothed and simplified its sources,
+merged them by layer and compressed them. We decoded and split the merged organ
+mesh into 17 selectable meshes, rotated and translated the coordinates,
+recomputed normals and exported them as glTF. The translation is based on
+rough organ-centre matches; this is an approximate visual comparison of
+different bodies, not a validated anatomical registration or clinical model.

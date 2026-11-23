@@ -1,0 +1,463 @@
+{
+  "parts": [
+    {
+      "id": "z_heart",
+      "name": "Heart (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 19999,
+      "verts": 10354,
+      "min": [
+        -8.16189956665039,
+        38.825199127197266,
+        -7.768899917602539
+      ],
+      "max": [
+        3.7404000759124756,
+        50.85900115966797,
+        3.5141000747680664
+      ],
+      "centre": [
+        -2.210700035095215,
+        44.842098236083984,
+        -2.1273999214172363
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_right_lung",
+      "name": "Right lung (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 13999,
+      "verts": 7041,
+      "min": [
+        0.33739998936653137,
+        32.139801025390625,
+        -9.895000457763672
+      ],
+      "max": [
+        13.178000450134277,
+        58.09920120239258,
+        8.67609977722168
+      ],
+      "centre": [
+        6.757699966430664,
+        45.11949920654297,
+        -0.609499990940094
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_left_lung",
+      "name": "Left lung (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 11000,
+      "verts": 5525,
+      "min": [
+        -12.919699668884277,
+        31.854900360107422,
+        -9.79640007019043
+      ],
+      "max": [
+        -0.8188999891281128,
+        58.252601623535156,
+        8.626799583435059
+      ],
+      "centre": [
+        -6.86929988861084,
+        45.05379867553711,
+        -0.5848000049591064
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_liver",
+      "name": "Liver (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 9000,
+      "verts": 4518,
+      "min": [
+        -9.098899841308594,
+        24.29129981994629,
+        -9.593700408935547
+      ],
+      "max": [
+        11.53950023651123,
+        40.91310119628906,
+        5.722499847412109
+      ],
+      "centre": [
+        1.2202999591827393,
+        32.60219955444336,
+        -1.9356000423431396
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_gallbladder",
+      "name": "Gallbladder (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 360,
+      "verts": 182,
+      "min": [
+        2.770400047302246,
+        26.691499710083008,
+        -7.686699867248535
+      ],
+      "max": [
+        6.392600059509277,
+        31.038400650024414,
+        -2.8643999099731445
+      ],
+      "centre": [
+        4.581500053405762,
+        28.864999771118164,
+        -5.2754998207092285
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_stomach",
+      "name": "Stomach (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 6000,
+      "verts": 3064,
+      "min": [
+        -10.474300384521484,
+        25.518800735473633,
+        -8.530599594116211
+      ],
+      "max": [
+        2.9402999877929688,
+        38.0635986328125,
+        1.9961999654769897
+      ],
+      "centre": [
+        -3.7669999599456787,
+        31.791200637817383,
+        -3.267199993133545
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_spleen",
+      "name": "Spleen (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 664,
+      "verts": 334,
+      "min": [
+        -11.32509994506836,
+        27.787500381469727,
+        -3.938499927520752
+      ],
+      "max": [
+        -5.498600006103516,
+        34.81399917602539,
+        5.5416998863220215
+      ],
+      "centre": [
+        -8.41189956665039,
+        31.30069923400879,
+        0.8015999794006348
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_pancreas",
+      "name": "Pancreas (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 3000,
+      "verts": 1502,
+      "min": [
+        -7.202899932861328,
+        23.063899993896484,
+        -4.46999979019165
+      ],
+      "max": [
+        4.611700057983398,
+        30.43560028076172,
+        0.8618999719619751
+      ],
+      "centre": [
+        -1.2956000566482544,
+        26.74970054626465,
+        -1.8041000366210938
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_right_kidney",
+      "name": "Right kidney (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 1154,
+      "verts": 584,
+      "min": [
+        3.0717999935150146,
+        17.884000778198242,
+        -1.2039999961853027
+      ],
+      "max": [
+        8.891400337219238,
+        28.593000411987305,
+        3.4811999797821045
+      ],
+      "centre": [
+        5.981599807739258,
+        23.238500595092773,
+        1.1385999917984009
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_left_kidney",
+      "name": "Left kidney (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 1490,
+      "verts": 751,
+      "min": [
+        -9.159199714660645,
+        19.726600646972656,
+        -0.031300000846385956
+      ],
+      "max": [
+        -3.3833999633789062,
+        30.572599411010742,
+        3.9909000396728516
+      ],
+      "centre": [
+        -6.271299839019775,
+        25.149599075317383,
+        1.9797999858856201
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_right_adrenal",
+      "name": "Right adrenal gland (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 1146,
+      "verts": 575,
+      "min": [
+        3.1266000270843506,
+        27.17919921875,
+        -0.06970000267028809
+      ],
+      "max": [
+        6.315899848937988,
+        31.410999298095703,
+        2.6538000106811523
+      ],
+      "centre": [
+        4.72130012512207,
+        29.29509925842285,
+        1.2920000553131104
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_left_adrenal",
+      "name": "Left adrenal gland (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 1998,
+      "verts": 1001,
+      "min": [
+        -7.482399940490723,
+        28.9601993560791,
+        1.8372999429702759
+      ],
+      "max": [
+        -2.665600061416626,
+        33.449501037597656,
+        3.848400115966797
+      ],
+      "centre": [
+        -5.073999881744385,
+        31.20479965209961,
+        2.8427999019622803
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_small_intestine",
+      "name": "Small intestine (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 30000,
+      "verts": 15112,
+      "min": [
+        -10.726400375366211,
+        1.7062000036239624,
+        -8.344200134277344
+      ],
+      "max": [
+        8.765399932861328,
+        29.35610008239746,
+        -0.38749998807907104
+      ],
+      "centre": [
+        -0.9804999828338623,
+        15.531100273132324,
+        -4.365900039672852
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_large_intestine",
+      "name": "Large intestine (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 16000,
+      "verts": 8004,
+      "min": [
+        -11.36340045928955,
+        -4.475100040435791,
+        -7.779799938201904
+      ],
+      "max": [
+        11.440899848937988,
+        28.6643009185791,
+        7.503399848937988
+      ],
+      "centre": [
+        0.03869999945163727,
+        12.094599723815918,
+        -0.13819999992847443
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_bladder",
+      "name": "Urinary bladder (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 1518,
+      "verts": 761,
+      "min": [
+        -3.6958000659942627,
+        -1.9214999675750732,
+        -3.8234000205993652
+      ],
+      "max": [
+        3.745800018310547,
+        3.20770001411438,
+        4.500500202178955
+      ],
+      "centre": [
+        0.02500000037252903,
+        0.6431000232696533,
+        0.3386000096797943
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_trachea",
+      "name": "Trachea (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 3499,
+      "verts": 1765,
+      "min": [
+        -1.2682000398635864,
+        50.667198181152344,
+        -1.4177000522613525
+      ],
+      "max": [
+        1.4443000555038452,
+        61.206298828125,
+        2.4783999919891357
+      ],
+      "centre": [
+        0.08799999952316284,
+        55.93669891357422,
+        0.5303999781608582
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    },
+    {
+      "id": "z_brain",
+      "name": "Brain (Z-Anatomy comparison)",
+      "fma": "Z-Anatomy / BodyParts3D",
+      "group": "comparison",
+      "material": "z_organs",
+      "tris": 41998,
+      "verts": 21021,
+      "min": [
+        -6.852200031280518,
+        68.8740005493164,
+        -7.6209001541137695
+      ],
+      "max": [
+        6.962500095367432,
+        85.30390167236328,
+        10.435199737548828
+      ],
+      "centre": [
+        0.0551999993622303,
+        77.08889770507812,
+        1.407099962234497
+      ],
+      "lineage": [
+        "Approximate registered comparison"
+      ]
+    }
+  ]
+}

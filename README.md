@@ -274,3 +274,20 @@ Use **Credits and data licenses** in the main menu or **Credits** in the
 explorer to view the full notice. The notice is embedded into the application
 for exports, and `ATTRIBUTION.txt` should also accompany distributed builds and
 standalone model files. This is not a blanket license for the application code.
+
+### Comparing organs
+
+In **All anatomy**, enable **Show Z-Anatomy organs** to overlay a separate,
+optional 17-organ comparison layer on BodyParts3D. It is loaded only on demand;
+the layer includes three BodyParts3D-derived organs, as detailed in the credits.
+The bodies were approximately aligned using organ centres, not clinically
+registered. Differences can reflect source anatomy and alignment error. See
+`ATTRIBUTION.txt` for provenance, licences and limitations.
+
+Search an organ or click a visible surface to inspect it, hide it, or change its
+**Structure opacity**. Structure opacity multiplies its layer slider (100% uses
+the layer setting); setting it to zero also makes it unpickable until selected
+again through search. Layer and structure opacity can be adjusted independently.
+Opacity settings last for the current session and survive graphics detail
+changes; visibility saves record hidden structures, not opacity or layer toggles.
+The comparison layer and body context are unavailable in focused regional views.

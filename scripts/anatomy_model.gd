@@ -25,10 +25,12 @@ const BUCKET := {
 	"heart_valve": "heart",
 	"heart_blood": "heart",
 	"context": "context",
+	"z_organs": "z_organs",
 }
 
 # material key -> colour, roughness, emission colour, emission strength
 const SPEC := {
+	"z_organs": [Color(0.68, 0.48, 0.77), 0.75, Color(0.08, 0.04, 0.10), 0.12],
 	"artery": [Color(0.82, 0.13, 0.14), 0.42, Color(0.34, 0.02, 0.02), 0.55],
 	"vein": [Color(0.13, 0.28, 0.75), 0.42, Color(0.02, 0.05, 0.30), 0.55],
 	"heart_muscle": [Color(0.62, 0.17, 0.23), 0.55, Color(0.24, 0.03, 0.05), 0.60],
@@ -46,6 +48,9 @@ var context_root: Node3D
 var circulatory_root: Node3D
 var supplemental_root: Node3D
 var extended_root: Node3D
+var z_organs_root: Node3D
+var _z_organs_on := false
+var _z_organs_catalog: Array = []
 var _extended_on := false
 var _hidden_ids: Dictionary = {}
 # Relative to the layer slider; persists across LOD changes in this view.
@@ -79,6 +84,8 @@ func load_anatomy(detail_level: int = 2, selected_region: String = "all") -> boo
 	if meta.is_empty():
 		push_error("parts.json missing")
 		return false
+	if region == "all":
+		_z_organs_catalog = _read_json(DATA_DIR + "comparison_z_organs.json").get("parts", [])
 	_ensure_materials()
 	return _build(detail_level)
 
@@ -112,6 +119,10 @@ func _teardown() -> void:
 		supplemental_root.visible = false
 		supplemental_root.queue_free()
 		supplemental_root = null
+	if z_organs_root != null:
+		z_organs_root.visible = false
+		z_organs_root.queue_free()
+		z_organs_root = null
 	if extended_root != null:
 		extended_root.visible = false
 		extended_root.queue_free()
@@ -174,6 +185,8 @@ func _build(detail_level: int) -> bool:
 	set_context_visible(_context_on)
 	if _extended_on and not set_extended_visible(true):
 		return false
+	if _z_organs_on and not set_z_organs_visible(true):
+		return false
 	return true
 
 
@@ -222,14 +235,62 @@ func is_extended_visible() -> bool:
 	return _extended_on and extended_root != null and extended_root.visible
 
 
+## Optional comparison layer. Registered approximately, not a clinical overlay.
+func set_z_organs_visible(on: bool) -> bool:
+	if region != "all":
+		return false
+	if on and z_organs_root == null:
+		var loaded := _instance_gltf(DATA_DIR + "comparison_z_organs.glb")
+		if _z_organs_catalog.is_empty() or loaded == null:
+			if loaded != null:
+				loaded.free()
+			return false
+		var meshes := _collect_meshes(loaded)
+		for entry in _z_organs_catalog:
+			if not meshes.has(String(entry["id"])):
+				loaded.free()
+				return false
+		z_organs_root = loaded
+		add_child(z_organs_root)
+		for source in _z_organs_catalog:
+			var entry: Dictionary = source.duplicate(true)
+			var id := String(entry["id"])
+			entry["node"] = meshes[id]
+			entry["hidden"] = _hidden_ids.has(id)
+			var lo := Vector3(entry["min"][0], entry["min"][1], entry["min"][2])
+			var hi := Vector3(entry["max"][0], entry["max"][1], entry["max"][2])
+			entry["aabb"] = AABB(lo, hi - lo)
+			_prepare_part_node(entry, entry["node"])
+			parts.append(entry)
+			by_id[id] = entry
+			if not _by_material.has("z_organs"):
+				_by_material["z_organs"] = []
+			_by_material["z_organs"].append(entry)
+	_z_organs_on = on
+	if z_organs_root != null:
+		z_organs_root.visible = on
+	return true
+
+
 ## Individual visibility is independent of group opacity and the extra layer.
+func has_part_id(id: String) -> bool:
+	if by_id.has(id):
+		return true
+	for entry in _z_organs_catalog:
+		if String(entry["id"]) == id:
+			return true
+	return false
+
+
 func set_part_hidden(id: String, hidden: bool) -> void:
-	if not by_id.has(id):
+	if not has_part_id(id):
 		return
 	if hidden:
 		_hidden_ids[id] = true
 	else:
 		_hidden_ids.erase(id)
+	if not by_id.has(id):
+		return
 	var part: Dictionary = by_id[id]
 	part["hidden"] = hidden
 	var node: MeshInstance3D = part.get("node")
@@ -292,7 +353,7 @@ func _collect_meshes(root: Node) -> Dictionary:
 # ------------------------------------------------------------------ materials
 var _opacity: Dictionary = {                      # material key -> 0..1
 	"artery": 1.0, "vein": 1.0, "heart_muscle": 1.0,
-	"heart_valve": 1.0, "heart_blood": 1.0, "context": 0.35,
+	"heart_valve": 1.0, "heart_blood": 1.0, "context": 0.35, "z_organs": 0.5,
 }
 var _context_on := false
 var _mottle := 1.0
@@ -446,7 +507,7 @@ func is_context_visible() -> bool:
 
 
 func is_circulatory(part: Dictionary) -> bool:
-	return String(part.get("group", "")) != "context"
+	return String(part.get("group", "")) not in ["context", "comparison"]
 
 
 ## Triangle count of a part at the current detail level.
@@ -467,7 +528,7 @@ func total_tris(include_context := true) -> int:
 			continue
 		if bool(p.get("extended", false)) and not _extended_on:
 			continue
-		if bool(p.get("hidden", false)):
+		if bool(p.get("hidden", false)) or (p.get("material", "") == "z_organs" and not _z_organs_on):
 			continue
 		total += tris_of(p)
 	return total

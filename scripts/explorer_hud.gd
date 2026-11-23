@@ -8,6 +8,7 @@ signal menu_requested()
 signal credits_requested()
 signal opacity_changed(bucket: String, value: float)
 signal part_opacity_changed(id: String, value: float)
+signal z_organs_toggled(on: bool)
 signal context_toggled(on: bool)
 signal labels_toggled(on: bool)
 signal extended_toggled(on: bool)
@@ -52,6 +53,7 @@ var fly_button: Button
 var visibility_button: Button
 var part_opacity_slider: HSlider
 var part_opacity_label: Label
+var z_organs_check: CheckBox
 var show_all_button: Button
 var undo_box_button: Button
 var box_overlay: BoxOverlay
@@ -309,6 +311,12 @@ func _build_left_panel() -> void:
 	_add_slider(col, "veins", "Veins", ACCENT_V, 1.0)
 	_add_slider(col, "heart", "Heart", ACCENT_H, 1.0)
 	_add_slider(col, "context", "Body context", Color(0.65, 0.75, 0.9), 0.35)
+	_add_slider(col, "z_organs", "Z-Anatomy comparison", Color(0.68, 0.48, 0.77), 0.5)
+	z_organs_check = CheckBox.new()
+	z_organs_check.text = "Show Z-Anatomy organs"
+	z_organs_check.tooltip_text = "Approximate comparison, not clinically aligned. Includes some BodyParts3D organs."
+	z_organs_check.toggled.connect(func(on: bool) -> void: z_organs_toggled.emit(on))
+	col.add_child(z_organs_check)
 
 	context_check = CheckBox.new()
 	context_check.text = "Show body outline   B"
@@ -624,6 +632,9 @@ func set_regional_view(regional: bool) -> void:
 	context_check.disabled = regional
 	context_check.tooltip_text = "Body context is available in All anatomy" if regional else ""
 	sliders["context"].editable = not regional
+	z_organs_check.disabled = regional
+	sliders["z_organs"].editable = not regional
+	z_organs_check.tooltip_text = "Available in All anatomy; approximate comparison, not clinically aligned."
 
 
 func set_graphics_locked(locked: bool) -> void:
@@ -665,7 +676,7 @@ func populate(matches: Array) -> void:
 				colour = ACCENT_V
 			"heart":
 				colour = ACCENT_H
-			"context", "organ":
+			"context", "organ", "comparison":
 				colour = Color(0.65, 0.75, 0.9)
 		list.set_item_custom_fg_color(idx, colour)
 		_list_ids.append(String(p["id"]))
