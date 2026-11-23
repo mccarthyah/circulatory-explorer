@@ -233,6 +233,12 @@ func set_part_hidden(id: String, hidden: bool) -> void:
 		node.visible = not hidden
 
 
+func hidden_part_ids() -> Array:
+	var ids := _hidden_ids.keys()
+	ids.sort()
+	return ids
+
+
 func show_all_parts() -> void:
 	for id in _hidden_ids.keys():
 		set_part_hidden(String(id), false)

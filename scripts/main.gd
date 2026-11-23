@@ -57,12 +57,14 @@ const HOLE_INTERIOR := 1.6
 # preload instead of relying on the global class cache, so the project also runs
 # from a plain `godot --path` (i.e. before the editor has ever opened it)
 const CREDITS_DIALOG := preload("res://scripts/credits_dialog.gd")
+const PRESETS_SCRIPT := preload("res://scripts/visibility_presets.gd")
 const MODEL_SCRIPT := preload("res://scripts/anatomy_model.gd")
 const HUD_SCRIPT := preload("res://scripts/explorer_hud.gd")
 const CAMERA_SCRIPT := preload("res://scripts/fly_camera.gd")
 const PATH_SCRIPT := preload("res://scripts/blood_path.gd")
 
 var model
+var visibility_presets = PRESETS_SCRIPT.new()
 var hud
 var cam
 var path
@@ -121,6 +123,9 @@ func _ready() -> void:
 	hud.extended_toggled.connect(_on_extended_toggled)
 	hud.part_visibility_requested.connect(_on_part_visibility_requested)
 	hud.show_all_requested.connect(_on_show_all_requested)
+	hud.preset_save_requested.connect(_on_preset_save)
+	hud.preset_load_requested.connect(_on_preset_load)
+	hud.preset_delete_requested.connect(_on_preset_delete)
 	hud.labels_toggled.connect(_on_labels_toggled)
 	hud.search_changed.connect(_on_search)
 	hud.part_picked.connect(_on_part_picked)
@@ -161,6 +166,7 @@ func _ready() -> void:
 
 	_build_labels()
 	hud.set_regional_view(region != "all")
+	_refresh_presets()
 	hud.populate(model.parts_matching(""))
 	hud.set_loading("")
 	apply_quality(startup_quality, false)
@@ -626,6 +632,64 @@ func _on_show_all_requested() -> void:
 	_update_subtitle()
 
 
+func _refresh_presets(selected: String = "") -> void:
+	var result: Dictionary = visibility_presets.list_names(region)
+	if result.ok:
+		hud.set_preset_names(result.names, selected)
+	else:
+		hud.set_preset_names([])
+		hud.set_preset_message(result.error)
+
+
+func _on_preset_save(name: String, overwrite: bool) -> void:
+	name = name.strip_edges()
+	var result: Dictionary = visibility_presets.save_preset(region, name, {"hidden": model.hidden_part_ids()}, overwrite)
+	if not result.ok:
+		hud.set_preset_message(result.error)
+		return
+	_refresh_presets(name)
+	hud.set_preset_message("Saved ‘%s’ for this view." % name)
+
+
+func _on_preset_load(name: String) -> void:
+	var result: Dictionary = visibility_presets.load_preset(region, name)
+	if not result.ok:
+		_refresh_presets()
+		hud.set_preset_message(result.error)
+		return
+	model.show_all_parts()
+	var missing := 0
+	for id in result.state.hidden:
+		if model.by_id.has(id):
+			model.set_part_hidden(id, true)
+		else:
+			missing += 1
+	hover = {}
+	model.highlight({})
+	_has_pick_ray = false
+	if not selected_part.is_empty() and bool(selected_part.get("hidden", false)) and not _fly.is_empty():
+		_fly = {}
+		cam.enabled = true
+		cam.sync_angles()
+	if not selected_part.is_empty():
+		hud.show_part(_card(selected_part))
+	hud.populate(model.parts_matching(hud.search_box.text))
+	_update_subtitle()
+	var message := "Loaded ‘%s’ for this view." % name
+	if missing > 0:
+		message += " %d unavailable IDs skipped." % missing
+	hud.set_preset_message(message)
+
+
+func _on_preset_delete(name: String) -> void:
+	var result: Dictionary = visibility_presets.delete_preset(region, name)
+	if not result.ok:
+		hud.set_preset_message(result.error)
+		return
+	_refresh_presets()
+	hud.set_preset_message("Deleted ‘%s’ from this view." % name)
+
+
 func _on_labels_toggled(on: bool) -> void:
 	labels_visible = on
 	if labels_root:
@@ -993,6 +1057,12 @@ func _unhandled_input(event: InputEvent) -> void:
 				if _controller_menu:
 					_set_controller_menu(false)
 				hud.toggle_panels()
+			KEY_H:
+				var focus := get_viewport().gui_get_focus_owner()
+				if mode == "free" and cam.captured and not _controller_menu and _fly.is_empty() and not (focus is LineEdit or focus is TextEdit):
+					var hit: Dictionary = model.pick(cam.global_position, -cam.global_transform.basis.z)
+					if not hit.is_empty() and not bool(hit.get("hidden", false)):
+						_on_part_visibility_requested(String(hit.get("id", "")))
 			KEY_L:
 				_on_labels_toggled(not labels_visible)
 				hud.labels_check.set_pressed_no_signal(labels_visible)

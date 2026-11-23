@@ -128,6 +128,8 @@ func _run() -> void:
 	main._on_extended_toggled(false)
 	main._go_free(true)
 
+	_test_visibility_presets(main)
+	_test_hide_shortcut(main)
 	_test_mouse_capture(main)
 	_test_controller(main)
 	_test_picking()
@@ -312,3 +314,69 @@ func _test_controller(main) -> void:
 	var ghost: bool = main.model.is_context_visible()
 	_pad_button(main, JOY_BUTTON_DPAD_UP)
 	check(main.model.is_context_visible() != ghost, "controller toggles body")
+
+
+func _test_visibility_presets(main) -> void:
+	var save_path := OS.get_environment("EXPLORER_VISIBILITY_PATH")
+	check(not save_path.is_empty(), "visibility test path isolated")
+	if save_path.is_empty():
+		return
+	if FileAccess.file_exists(save_path):
+		DirAccess.remove_absolute(save_path)
+	var store = main.visibility_presets
+	main.model.set_part_hidden("FJ3411", true)
+	main.model.set_part_hidden("FJ2725", true) # optional unloaded vessel
+	main._on_preset_save("Test", false)
+	check(store.load_preset("all", "Test").state.hidden.has("FJ2725"), "save contains lazy hidden ID")
+	check(not store.save_preset("all", "Test", {"hidden": []}).ok, "overwrite requires explicit confirmation")
+	check(store.save_preset("heart", "Test", {"hidden": ["other"]}).ok, "same name in another view")
+	main.model.show_all_parts()
+	main.model.set_part_hidden("FJ2655", true)
+	main._on_preset_load("Test")
+	check(main.model.by_id["FJ3411"].hidden and main.model.by_id["FJ2725"].hidden, "load applies saved hidden IDs")
+	check(not main.model.by_id["FJ2655"].hidden and not main.model.is_extended_visible(), "load replaces hides without enabling extra layer")
+	var new_store = load("res://scripts/visibility_presets.gd").new()
+	check(new_store.load_preset("all", "Test").state.hidden.has("FJ3411"), "save persists across instances")
+	check(new_store.load_preset("heart", "Test").state.hidden == ["other"], "separate view save preserved")
+	check(new_store.save_preset("all", "Missing", {"hidden": ["no-such-part"]}).ok, "save unknown ID")
+	main._on_preset_load("Missing")
+	check(main.hud.preset_message.text.contains("1 unavailable"), "unknown ID reported")
+	check(new_store.delete_preset("all", "Test").ok and not new_store.load_preset("all", "Test").ok, "delete save")
+	var file := FileAccess.open(save_path, FileAccess.WRITE)
+	file.store_string("not valid json")
+	file.close()
+	check(not new_store.save_preset("all", "Test", {"hidden": []}).ok, "malformed file not overwritten")
+	check(FileAccess.get_file_as_string(save_path) == "not valid json", "malformed file retained")
+	DirAccess.remove_absolute(save_path)
+	main.model.show_all_parts()
+
+
+func _test_hide_shortcut(main) -> void:
+	var model = main.model
+	var part: Dictionary = model.by_id["FJ3411"]
+	var node: MeshInstance3D = part.node
+	var faces: PackedVector3Array = node.mesh.get_faces()
+	if faces.size() < 3:
+		check(false, "shortcut target has triangle geometry")
+		return
+	var a: Vector3 = node.to_global(faces[0])
+	var b: Vector3 = node.to_global(faces[1])
+	var c: Vector3 = node.to_global(faces[2])
+	var normal := (b - a).cross(c - a).normalized()
+	var centre := (a + b + c) / 3.0
+	var original: Array = model.parts
+	model.parts = [part]
+	main._fly = {}
+	main.cam.global_position = centre + normal * 0.1
+	main.cam.look_at(centre, Vector3.RIGHT if abs(normal.dot(Vector3.UP)) > 0.99 else Vector3.UP)
+	main.cam.capture_mouse(true)
+	var event := InputEventKey.new()
+	event.keycode = KEY_H
+	event.pressed = true
+	main._unhandled_input(event)
+	check(part.hidden and main.cam.captured, "H hides actual crosshair target without releasing mouse")
+	model.set_part_hidden("FJ3411", false)
+	main.cam.capture_mouse(false)
+	main._unhandled_input(event)
+	check(not part.hidden, "H does not hide while mouse released")
+	model.parts = original

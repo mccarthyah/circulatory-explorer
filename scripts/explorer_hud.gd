@@ -12,6 +12,9 @@ signal labels_toggled(on: bool)
 signal extended_toggled(on: bool)
 signal part_visibility_requested(id: String)
 signal show_all_requested()
+signal preset_save_requested(name: String, overwrite: bool)
+signal preset_load_requested(name: String)
+signal preset_delete_requested(name: String)
 signal search_changed(text: String)
 signal part_picked(id: String)
 signal pause_toggled()
@@ -46,6 +49,12 @@ var lineage_label: Label
 var fly_button: Button
 var visibility_button: Button
 var show_all_button: Button
+var preset_name: LineEdit
+var preset_option: OptionButton
+var preset_message: Label
+var preset_confirm: ConfirmationDialog
+var _pending_action := ""
+var _pending_name := ""
 var search_box: LineEdit
 var list: ItemList
 var caption_title: Label
@@ -312,6 +321,47 @@ func _build_left_panel() -> void:
 	show_all_button.pressed.connect(func() -> void: show_all_requested.emit())
 	col.add_child(show_all_button)
 
+	col.add_child(_label("Hidden structure saves · this view", 12, TEXT))
+	preset_name = LineEdit.new()
+	preset_name.placeholder_text = "Name a visibility save"
+	preset_name.max_length = 60
+	col.add_child(preset_name)
+	var save_button := Button.new()
+	save_button.text = "Save hidden structures"
+	save_button.pressed.connect(_request_preset_save)
+	col.add_child(save_button)
+	preset_option = OptionButton.new()
+	preset_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	preset_option.add_item("No saves in this view")
+	preset_option.disabled = true
+	col.add_child(preset_option)
+	var preset_row := HBoxContainer.new()
+	var load_button := Button.new()
+	load_button.text = "Load"
+	load_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	load_button.pressed.connect(func() -> void:
+		if not preset_option.disabled:
+			preset_load_requested.emit(preset_option.get_item_text(preset_option.selected)))
+	preset_row.add_child(load_button)
+	var delete_button := Button.new()
+	delete_button.text = "Delete"
+	delete_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	delete_button.pressed.connect(func() -> void:
+		if not preset_option.disabled:
+			_confirm_preset("delete", preset_option.get_item_text(preset_option.selected)))
+	preset_row.add_child(delete_button)
+	col.add_child(preset_row)
+	preset_message = _label("Saves individual hidden structures only, not layers or opacity.", 10, DIM)
+	preset_message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	col.add_child(preset_message)
+	preset_confirm = ConfirmationDialog.new()
+	root.add_child(preset_confirm)
+	preset_confirm.confirmed.connect(func() -> void:
+		if _pending_action == "save":
+			preset_save_requested.emit(_pending_name, true)
+		elif _pending_action == "delete":
+			preset_delete_requested.emit(_pending_name))
+
 	col.add_child(HSeparator.new())
 	col.add_child(_section("GRAPHICS"))
 	var qrow := HBoxContainer.new()
@@ -350,7 +400,7 @@ func _build_left_panel() -> void:
 
 	col.add_child(HSeparator.new())
 	var help := _label("WASD fly  ·  Q/E down/up  ·  Shift boost  ·  wheel = speed\n" \
-			+ "Click to capture the mouse  ·  Esc releases  ·  right-click flies to a part\n" \
+			+ "Click to capture  ·  Esc releases  ·  H hides targeted part  ·  right-click flies\n" \
 			+ "1 / 2 / 3 modes  ·  Space pauses  ·  ←/→ stations  ·  Tab hides the UI",
 			10, Color(0.52, 0.57, 0.66))
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -695,3 +745,35 @@ class Crosshair extends Control:
 		var c := size * 0.5
 		draw_arc(c, 9.0, 0.0, TAU, 32, Color(1, 1, 1, 0.30), 1.0, true)
 		draw_arc(c, 2.0, 0.0, TAU, 16, Color(1, 1, 1, 0.75), 1.0, true)
+
+
+func _request_preset_save() -> void:
+	var name := preset_name.text.strip_edges()
+	for i in preset_option.item_count:
+		if not preset_option.disabled and preset_option.get_item_text(i) == name:
+			_confirm_preset("save", name)
+			return
+	preset_save_requested.emit(name, false)
+
+
+func _confirm_preset(action: String, name: String) -> void:
+	_pending_action = action
+	_pending_name = name
+	preset_confirm.dialog_text = ("Replace save ‘%s’?" if action == "save" else "Delete save ‘%s’?") % name
+	preset_confirm.popup_centered()
+
+
+func set_preset_names(names: Array, selected: String = "") -> void:
+	preset_option.clear()
+	preset_option.disabled = names.is_empty()
+	if names.is_empty():
+		preset_option.add_item("No saves in this view")
+		return
+	for name in names:
+		preset_option.add_item(String(name))
+		if name == selected:
+			preset_option.select(preset_option.item_count - 1)
+
+
+func set_preset_message(message: String) -> void:
+	preset_message.text = message

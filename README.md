@@ -86,6 +86,7 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | mouse wheel | change cruise speed (1–400 cm/s) |
 | hover | highlights the structure under the crosshair and shows its card |
 | right-click | fly to the highlighted structure |
+| `H` | hide the structure under the crosshair while the mouse is captured (free flight) |
 | `1` `2` `3` | free flight / guided tour / interior voyage |
 | `Space` | pause · `←` `→` jump between tour stations |
 | `B` | toggle the translucent body outline |
@@ -93,6 +94,14 @@ effects may differ. See `tests/README.md` for repeatable benchmarks and headless
 | `F9` | Cycle Performance, Balanced and High graphics |
 | `Tab` | hide the whole interface |
 | `R` | reset the camera |
+
+In the Visibility panel, name and save the individually hidden structures for
+the current view. Select a save to load or delete it; replacing or deleting a
+save requires confirmation. Saves persist between sessions and are separate for
+each view. Loading replaces the current individual hidden states, but does not
+change opacity, labels, body outline, extra-vessel layer, or graphics settings.
+To restore everything individually hidden without loading a save, use **Restore
+hidden structures**. An unavailable structure ID is skipped and reported.
 
 ### Gamepad
 
