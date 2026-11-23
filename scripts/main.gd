@@ -978,7 +978,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			KEY_ESCAPE:
 				if mode != "free":
 					_on_mode_requested("free")
-				elif cam.captured:
+				if cam.captured:
 					cam.capture_mouse(false)
 			KEY_SPACE:
 				if mode != "free":

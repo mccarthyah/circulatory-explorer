@@ -181,7 +181,12 @@ func _test_mouse_capture(main) -> void:
 	cam.capture_mouse(true)
 	cam._unhandled_input(motion)
 	check(not is_equal_approx(cam._yaw, yaw), "mouse look resumes after recapture")
-	cam.capture_mouse(false)
+	main._on_mode_requested("tour")
+	var escape := InputEventKey.new()
+	escape.keycode = KEY_ESCAPE
+	escape.pressed = true
+	main._unhandled_input(escape)
+	check(main.mode == "free" and not cam.captured, "Escape leaves tour and releases mouse")
 
 
 func _test_real_extra_pick(model) -> void:
