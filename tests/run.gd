@@ -416,6 +416,11 @@ func _test_box_selection() -> void:
 	var rect := Rect2(center - Vector2(10, 10), Vector2(20, 20))
 	var ids: Array = selector.parts_in_rect(model, camera, rect)
 	check(ids.has("near") and ids.has("far") and ids.size() == 2, "box intersects real triangles through depth, excluding off-box, behind-camera and context")
+	var triangle := PackedVector2Array([Vector2(0, 0), Vector2(10, 0), Vector2(0, 10)])
+	check(not selector._polygon_intersects_rect(triangle, Rect2(8, 8, 1, 1)), "box inside projected bounds but outside triangle is not selected")
+	check(selector._polygon_intersects_rect(triangle, Rect2(4, 4, 2, 2)), "box crossing triangle edge selects")
+	var clipped: Array = selector._clip_depth([Vector3(0, 0, 0), Vector3(-1, -1, -1), Vector3(1, -1, -1)], -0.1, true)
+	check(clipped.size() == 4 and clipped.all(func(p): return p.z <= -0.1 + 0.0001), "box selection clips triangles crossing the near plane")
 	model._opacity["vein"] = 0.0
 	ids = selector.parts_in_rect(model, camera, rect)
 	check(ids == ["near"], "box ignores transparent structures")

@@ -1143,6 +1143,7 @@ func _notification(what: int) -> void:
 
 
 func _begin_box_drag(pointer: Vector2) -> void:
+	get_viewport().gui_release_focus()
 	_box_dragging = true
 	_box_start = get_viewport().get_visible_rect().size * 0.5 if cam.captured else pointer
 	_box_end = _box_start
