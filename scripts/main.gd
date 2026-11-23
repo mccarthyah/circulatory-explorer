@@ -127,6 +127,7 @@ func _ready() -> void:
 	hud.menu_requested.connect(_return_to_menu)
 	hud.credits_requested.connect(_show_credits)
 	hud.opacity_changed.connect(_on_opacity)
+	hud.part_opacity_changed.connect(_on_part_opacity)
 	hud.context_toggled.connect(_on_context_toggled)
 	hud.extended_toggled.connect(_on_extended_toggled)
 	hud.part_visibility_requested.connect(_on_part_visibility_requested)
@@ -568,10 +569,15 @@ func _on_opacity(bucket: String, value: float) -> void:
 		"heart":
 			model.set_bucket_opacity("heart", value)
 		"context":
-			model.set_bucket_opacity("context", value * _context_scale)
+			model.set_bucket_opacity("context", value)
 			if value > 0.0 and not model.is_context_visible():
 				model.set_context_visible(true)
 				hud.context_check.set_pressed_no_signal(true)
+
+
+func _on_part_opacity(id: String, value: float) -> void:
+	model.set_part_opacity(id, value)
+	_has_pick_ray = false
 
 
 func _on_context_toggled(on: bool) -> void:
@@ -610,7 +616,7 @@ func _on_extended_toggled(on: bool) -> void:
 
 func _apply_context_opacity() -> void:
 	var v := maxf(0.05, float(hud.sliders["context"].value))
-	model.set_bucket_opacity("context", v * _context_scale)
+	model.set_bucket_opacity("context", v)
 
 
 func _on_part_visibility_requested(id: String) -> void:
@@ -716,6 +722,9 @@ func _on_part_picked(id: String) -> void:
 	var part: Dictionary = model.by_id.get(id, {})
 	if part.is_empty():
 		return
+	if String(part.get("group", "")) == "context" and not model.is_context_visible():
+		_on_context_toggled(true)
+		hud.context_check.set_pressed_no_signal(model.is_context_visible())
 	if bool(part.get("extended", false)) and not model.is_extended_visible():
 		_on_extended_toggled(true)
 		if not model.is_extended_visible():
@@ -740,6 +749,7 @@ func _card(part: Dictionary) -> Dictionary:
 		return part
 	var copy := part.duplicate()
 	copy["tris"] = model.tris_of(part)
+	copy["opacity_factor"] = model.part_opacity(String(part["id"]))
 	return copy
 
 

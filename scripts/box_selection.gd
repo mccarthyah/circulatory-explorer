@@ -12,7 +12,7 @@ func parts_in_rect(model, camera: Camera3D, rect: Rect2) -> Array:
 	for part in model.parts:
 		if not model.is_circulatory(part) or bool(part.get("hidden", false)):
 			continue
-		if float(model._opacity.get(part.get("material", ""), 1.0)) <= 0.001:
+		if model.effective_part_opacity(part) <= 0.001:
 			continue
 		var node: MeshInstance3D = part.get("node")
 		if node == null or node.mesh == null or not node.is_visible_in_tree():

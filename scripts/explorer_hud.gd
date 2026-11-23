@@ -7,6 +7,7 @@ signal mode_requested(mode: String)
 signal menu_requested()
 signal credits_requested()
 signal opacity_changed(bucket: String, value: float)
+signal part_opacity_changed(id: String, value: float)
 signal context_toggled(on: bool)
 signal labels_toggled(on: bool)
 signal extended_toggled(on: bool)
@@ -49,6 +50,8 @@ var meta_label: Label
 var lineage_label: Label
 var fly_button: Button
 var visibility_button: Button
+var part_opacity_slider: HSlider
+var part_opacity_label: Label
 var show_all_button: Button
 var undo_box_button: Button
 var box_overlay: BoxOverlay
@@ -509,6 +512,19 @@ func _build_info_panel() -> void:
 		if _current_id != "":
 			part_visibility_requested.emit(_current_id))
 	col.add_child(visibility_button)
+	part_opacity_label = _label("Structure opacity: 100%", 12, TEXT)
+	col.add_child(part_opacity_label)
+	part_opacity_slider = HSlider.new()
+	part_opacity_slider.min_value = 0.0
+	part_opacity_slider.max_value = 1.0
+	part_opacity_slider.step = 0.01
+	part_opacity_slider.value = 1.0
+	part_opacity_slider.tooltip_text = "Multiplies the layer opacity; 100% uses the layer setting."
+	part_opacity_slider.value_changed.connect(func(value: float) -> void:
+		part_opacity_label.text = "Structure opacity: %d%%" % roundi(value * 100.0)
+		if not _current_id.is_empty():
+			part_opacity_changed.emit(_current_id, value))
+	col.add_child(part_opacity_slider)
 
 
 func _build_caption() -> void:
@@ -649,6 +665,8 @@ func populate(matches: Array) -> void:
 				colour = ACCENT_V
 			"heart":
 				colour = ACCENT_H
+			"context", "organ":
+				colour = Color(0.65, 0.75, 0.9)
 		list.set_item_custom_fg_color(idx, colour)
 		_list_ids.append(String(p["id"]))
 
@@ -662,6 +680,9 @@ func show_part(part: Dictionary) -> void:
 		clear_part()
 		return
 	_current_id = String(part["id"])
+	var factor := float(part.get("opacity_factor", 1.0))
+	part_opacity_slider.set_value_no_signal(factor)
+	part_opacity_label.text = "Structure opacity: %d%%" % roundi(factor * 100.0)
 	visibility_button.text = "Show this structure" if bool(part.get("hidden", false)) else "Hide this structure"
 	show_info(true)
 	name_label.text = String(part["name"])

@@ -48,6 +48,9 @@ var supplemental_root: Node3D
 var extended_root: Node3D
 var _extended_on := false
 var _hidden_ids: Dictionary = {}
+# Relative to the layer slider; persists across LOD changes in this view.
+var _part_opacities: Dictionary = {}
+var _part_materials: Dictionary = {}
 var highlighted: Node3D = null
 var bounds := AABB()
 
@@ -96,6 +99,7 @@ func _teardown() -> void:
 	parts.clear()
 	by_id.clear()
 	_by_material.clear()
+	_part_materials.clear()
 	if circulatory_root != null:
 		circulatory_root.visible = false
 		circulatory_root.queue_free()
@@ -176,7 +180,7 @@ func _build(detail_level: int) -> bool:
 func _prepare_part_node(entry: Dictionary, node: MeshInstance3D) -> void:
 	var key: String = entry["material"]
 	node.visible = not bool(entry.get("hidden", false))
-	node.set_surface_override_material(0, _material_for(key, _opacity.get(key, 1.0)))
+	_apply_part_material(entry)
 	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 
@@ -337,7 +341,7 @@ func _make_shader_material(shader: Shader, spec: Array, alpha: float) -> ShaderM
 
 func _material_for(key: String, opacity: float) -> Material:
 	if key == "context":
-		_context_material.albedo_color.a = opacity * 0.30
+		_context_material.albedo_color.a = opacity
 		return _context_material
 	var pair: Array = _mats.get(key, _mats["artery"])
 	var mat: ShaderMaterial = pair[1] if opacity < 0.999 else pair[0]
@@ -347,19 +351,49 @@ func _material_for(key: String, opacity: float) -> Material:
 	return mat
 
 
+func part_opacity(id: String) -> float:
+	return float(_part_opacities.get(id, 1.0))
+
+
+func effective_part_opacity(part: Dictionary) -> float:
+	return float(_opacity.get(part.get("material", ""), 1.0)) * part_opacity(String(part.get("id", "")))
+
+
+func set_part_opacity(id: String, value: float) -> void:
+	if not by_id.has(id):
+		return
+	_part_opacities[id] = clampf(value, 0.0, 1.0)
+	_apply_part_material(by_id[id])
+
+
+func _apply_part_material(part: Dictionary) -> void:
+	var node: MeshInstance3D = part.get("node")
+	if node == null:
+		return
+	var id := String(part["id"])
+	var key := String(part["material"])
+	var alpha := effective_part_opacity(part)
+	# Unmodified parts share materials to keep memory and draw state low. A
+	# modified part gets a private material so its slider affects only that ID.
+	var mat := _material_for(key, float(_opacity.get(key, 1.0)))
+	if not is_equal_approx(part_opacity(id), 1.0):
+		mat = _material_for(key, alpha).duplicate()
+		# _material_for updates shared uniforms, so restore the shared alpha.
+		_material_for(key, float(_opacity.get(key, 1.0)))
+		_part_materials[id] = mat
+	else:
+		_part_materials.erase(id)
+	node.set_surface_override_material(0, mat)
+
+
 func set_bucket_opacity(bucket: String, opacity: float) -> void:
-	for key in _mats.keys():
+	for key in _opacity.keys():
 		if BUCKET.get(key, "") != bucket:
 			continue
-		_opacity[key] = opacity
-		var mat := _material_for(key, opacity)
+		_opacity[key] = clampf(opacity, 0.0, 1.0)
+		_material_for(key, _opacity[key])
 		for entry in _by_material.get(key, []):
-			var node: MeshInstance3D = entry.get("node")
-			if node != null:
-				node.set_surface_override_material(0, mat)
-	if bucket == "context":
-		_opacity["context"] = clampf(opacity, 0.0, 1.0)
-		_context_material.albedo_color.a = _opacity["context"] * 0.30
+			_apply_part_material(entry)
 
 
 ## The cutaway sphere: geometry closer to the camera than `radius` is discarded,
@@ -373,12 +407,21 @@ func set_hole(centre: Vector3, radius: float) -> void:
 		for mat in _mats[key]:
 			(mat as ShaderMaterial).set_shader_parameter("hole_center", centre)
 			(mat as ShaderMaterial).set_shader_parameter("hole_radius", radius)
+	for mat in _part_materials.values():
+		if mat is ShaderMaterial:
+			mat.set_shader_parameter("hole_center", centre)
+			mat.set_shader_parameter("hole_radius", radius)
 
 
 func set_heart_emission(energy: float) -> void:
 	for key in ["heart_muscle", "heart_blood"]:
 		for mat in _mats[key]:
 			(mat as ShaderMaterial).set_shader_parameter("emission_strength", energy)
+	for id in _part_materials:
+		if by_id.has(id) and String(by_id[id].get("material", "")) in ["heart_muscle", "heart_blood"]:
+			var mat: Material = _part_materials[id]
+			if mat is ShaderMaterial:
+				mat.set_shader_parameter("emission_strength", energy)
 
 
 ## 0 disables the per-fragment mottling noise (cheapest, for low-end GPUs).
@@ -387,6 +430,9 @@ func set_mottle(amount: float) -> void:
 	for key in _mats.keys():
 		for mat in _mats[key]:
 			(mat as ShaderMaterial).set_shader_parameter("mottle", _mottle)
+	for mat in _part_materials.values():
+		if mat is ShaderMaterial:
+			mat.set_shader_parameter("mottle", _mottle)
 
 
 func set_context_visible(on: bool) -> void:
@@ -435,7 +481,7 @@ func pick(origin: Vector3, dir: Vector3) -> Dictionary:
 	var local_dir := global_transform.basis.inverse() * dir
 	var cands: Array = []
 	for p in parts:
-		if not is_circulatory(p) or float(_opacity.get(p.get("material", ""), 1.0)) <= 0.001:
+		if effective_part_opacity(p) <= 0.001:
 			continue
 		var node: MeshInstance3D = p.get("node")
 		if node == null or not node.is_visible_in_tree():
@@ -525,8 +571,6 @@ func parts_matching(query: String) -> Array:
 	var q := query.strip_edges().to_lower()
 	var out: Array = []
 	for p in parts:
-		if not is_circulatory(p):
-			continue
 		if q.is_empty() or String(p["name"]).to_lower().contains(q) \
 				or String(p["fma"]).to_lower().contains(q) \
 				or String(p["group"]).to_lower().contains(q):
