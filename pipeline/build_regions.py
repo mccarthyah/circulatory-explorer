@@ -15,6 +15,12 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / 'data'
 REGIONS = ('torso', 'lower', 'head', 'heart', 'cardiac')
 DETAILS = (('', 'tris'), ('_lod1', 'tris_lod1'), ('_lod2', 'tris_lod2'))
+# Include these key shoulder vessels whole in the torso; other structures keep
+# the original spatial cuts and arm exclusions. IDs refer to pinned source meshes.
+TORSO_SHOULDER_VESSELS = {
+    'FJ3479', 'FJ3579', 'FJ3486', 'FJ3587',  # subclavian arteries and veins
+    'FJ2216', 'FJ2217', 'FJ2268', 'FJ2269',  # axillary arteries and veins
+}
 # Coordinate units are cm, in the body-centred frame. Clip cut faces are open,
 # and clipping x on the torso is an intentionally approximate shoulder boundary.
 PLANES = {'torso': [(1, 18., 1), (1, 56., -1), (0, -13.5, 1), (0, 13.5, -1)],
@@ -96,7 +102,7 @@ def main():
                 norm = array(g, blob, prim['attributes']['NORMAL'])
                 faces = array(g, blob, prim['indices'])
                 for region in REGIONS:
-                    if region == 'torso' and re.search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous|subscapular)\b|^(acromial|deltoid) branch', p['name'], re.I):
+                    if region == 'torso' and fid not in TORSO_SHOULDER_VESSELS and re.search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous|subscapular)\b|^(acromial|deltoid) branch', p['name'], re.I):
                         continue
                     if region == 'heart' and not (p['group'] == 'heart' or p.get('coronary') or fid in ('FJ2966', 'FJ3413')):
                         continue
@@ -104,7 +110,7 @@ def main():
                             or p.get('circuit') == 'pulmonary'
                             or re.search(r'^(ascending aorta|arch of aorta|inferior vena cava|superior vena cava|(left|right) brachiocephalic vein)$', p['name'], re.I)):
                         continue
-                    clipped = clip(pos, norm, faces, PLANES[region])
+                    clipped = clip(pos, norm, faces, [] if region == 'torso' and fid in TORSO_SHOULDER_VESSELS else PLANES[region])
                     if clipped is not None:
                         meshes[region][suffix][fid] = clipped
     for region in REGIONS:

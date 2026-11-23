@@ -44,8 +44,8 @@ python3 tests/validate_assets.py
 Run those commands from the project root, after `build.py`. The base build
 excludes supplemental IDs, so rebuilding doesn't duplicate them. The second
 step updates `parts.json` and writes `additional_circulatory[_lod1,_lod2].glb`
-(the three default-visible structures) and `extended_circulatory[_lod1,_lod2].glb`
-(the 405 optional vessels), without changing the base, context or tour assets.
+(eight default-visible structures) and `extended_circulatory[_lod1,_lod2].glb`
+(the 400 optional vessels), without changing the base, context or tour assets.
 The supplemental build uses the base catalogue's rounded centre; this can
 introduce sub-millimetre alignment differences from the original frame.
 
@@ -67,7 +67,8 @@ triangle counts. `tests/validate_assets.py` checks these files.
 
 Coordinates are body-centred centimetres. Waist down is clipped at Y=18;
 head and neck at Y=56; torso is clipped between those heights and to X=±13.5,
-with named arm and shoulder vessels excluded. Cross-boundary triangles are
+with named arm and shoulder vessels excluded except for the complete bilateral
+subclavian and axillary arteries and veins. Cross-boundary triangles are
 clipped, not capped, and structures can occur in multiple regions. The cuts and
 name exclusions are approximate and can trim peripheral torso structures. The
 heart view contains heart parts, coronary vessels, pulmonary trunk and ascending

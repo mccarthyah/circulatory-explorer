@@ -47,6 +47,9 @@ func _run() -> void:
 	check(not main.hud.graphics_lock_label.visible, "graphics lock is not shown")
 	check(main.model.parts.size() == 1095, "expanded catalogue size")
 	check(not main.model.is_extended_visible() and main.model.extended_root == null, "extra layer starts unloaded")
+	for id in ["FJ3479", "FJ3579", "FJ3486", "FJ3587", "FJ2216", "FJ2268", "FJ2217", "FJ2269"]:
+		check(main.model.by_id.has(id) and main.model.by_id[id].node != null and main.model.by_id[id].node.is_visible_in_tree() and not main.model.by_id[id].get("extended", false), "major shoulder vessel visible by default " + id)
+	check(main.model.parts_matching("axillary artery").size() == 2 and main.model.parts_matching("subclavian vein").size() == 2, "search finds bilateral shoulder vessels")
 	for id in ["FJ2655", "FJ2966", "FJ2428"]:
 		check(main.model.by_id.has(id) and main.model.by_id[id]["node"] != null, "core anatomy loaded " + id)
 	check(main.model.by_id["FJ2655"]["group"] == "vein", "coronary sinus is a vein")
@@ -64,6 +67,7 @@ func _run() -> void:
 		check(main.quality == q and main.model.detail == main.QUALITY[q]["detail"], "quality loads requested detail " + q)
 		check(is_equal_approx(root.scaling_3d_scale, main.QUALITY[q]["scale"]), "preset resolution " + q)
 		check(main.model.by_id["FJ3411"]["node"] != null, "aorta mesh exists " + q)
+		check(main.model.by_id["FJ2216"].node != null and main.model.by_id["FJ2216"].node.is_visible_in_tree(), "axillary artery survives quality change " + q)
 		check(main.model.total_tris(false) > 0, "triangle count " + q)
 	main._on_render_scale_changed(1.0)
 	check(is_equal_approx(root.scaling_3d_scale, 1.0), "resolution can be raised")
@@ -119,6 +123,7 @@ func _run() -> void:
 	check(main.model.total_tris(false) == baseline, "hidden extras excluded from triangle count")
 	check(main.selected_part.is_empty() and main._fly.is_empty() and main.cam.enabled, "hiding selected extras cancels flight")
 	check(main.model.by_id["FJ2655"]["node"].is_visible_in_tree(), "coronary sinus stays visible")
+	check(main.model.by_id["FJ2217"].node.is_visible_in_tree() and main.model.by_id["FJ3486"].node.is_visible_in_tree(), "major shoulder veins stay visible with extras off")
 	main._on_extended_toggled(true)
 	check(main.model.is_extended_visible(), "extra layer reopens")
 	for d in [1, 2, 0]:

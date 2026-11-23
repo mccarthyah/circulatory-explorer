@@ -66,7 +66,7 @@ times and compare like-for-like; headless or software rendering is not a GPU
 benchmark.
 
 The headless suite also exercises the main menu, all six selections, return to
-the menu, region-only loading and optional regional vessels. `python3
+the menu, region-only loading and optional regional vessels, including default bilateral subclavian and axillary vessels and their hide/restore across detail levels. `python3
 tests/validate_assets.py` verifies regional mesh membership, cuts and triangle
 counts. The Compatibility smoke test navigates the menu with controller events
 renders both a focused view and the full model, and dispatches mouse capture,

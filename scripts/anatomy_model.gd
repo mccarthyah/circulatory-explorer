@@ -181,7 +181,7 @@ func _prepare_part_node(entry: Dictionary, node: MeshInstance3D) -> void:
 	node.gi_mode = GeometryInstance3D.GI_MODE_DISABLED
 
 
-## Load the optional 405-part is_a layer only when requested.
+## Load the optional 400-part is_a layer only when requested.
 func set_extended_visible(on: bool) -> bool:
 	if on and extended_root == null:
 		var suffix: String = DETAIL_SUFFIX.get(detail, "")

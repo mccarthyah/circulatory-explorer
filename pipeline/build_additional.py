@@ -22,7 +22,11 @@ from build import DATA, DETAILS, MATERIALS, classify, simplify
 HERE = Path(__file__).resolve().parent
 MANIFEST = HERE / "additional_parts.json"
 # These fill important gaps in the base model and are visible by default.
-CORE = {"FJ2655", "FJ2966", "FJ2428"}
+CORE = {
+    "FJ2655", "FJ2966", "FJ2428",  # coronary sinus, pulmonary trunk, ventricular wall
+    "FJ3486",  # left subclavian vein
+    "FJ2216", "FJ2217", "FJ2268", "FJ2269",  # bilateral axillary arteries and veins
+}
 
 
 def build(source: Path) -> None:

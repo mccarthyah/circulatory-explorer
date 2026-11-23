@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check that every catalogued anatomy part exists at every detail level."""
 import json
+from functools import lru_cache
 import re
 from pathlib import Path
 import struct
@@ -14,6 +15,20 @@ assert len(by_id) == len(parts), "duplicate catalogue ID"
 manifest_ids = {p["id"] for p in manifest["parts"]}
 assert len(manifest_ids) == len(manifest["parts"]), "duplicate supplemental ID"
 assert manifest_ids == {p["id"] for p in parts if p.get("supplemental")}, "supplemental manifest differs from catalogue"
+SHOULDER = {
+    "FJ3479": ("Left subclavian artery", "artery"),
+    "FJ3579": ("Right subclavian artery", "artery"),
+    "FJ3486": ("Left subclavian vein", "vein"),
+    "FJ3587": ("Right subclavian vein", "vein"),
+    "FJ2216": ("Left axillary artery", "artery"),
+    "FJ2268": ("Right axillary artery", "artery"),
+    "FJ2217": ("Left axillary vein", "vein"),
+    "FJ2269": ("Right axillary vein", "vein"),
+}
+for fid, (name, group) in SHOULDER.items():
+    assert by_id[fid]["name"] == name and by_id[fid]["group"] == group
+    assert not by_id[fid].get("extended", False), f"{fid} should load by default"
+
 for fid, name, group in [("FJ2655", "Coronary sinus", "vein"),
                          ("FJ2966", "Pulmonary trunk", "artery"),
                          ("FJ2428", "Wall of ventricle", "heart")]:
@@ -28,6 +43,32 @@ def read_glb(path):
     chunk_len, chunk_type = struct.unpack_from("<I4s", raw, 12)
     assert chunk_type == b"JSON", path
     return json.loads(raw[20:20 + chunk_len])
+
+
+@lru_cache(maxsize=None)
+def glb_binary(path):
+    raw = path.read_bytes()
+    length = struct.unpack_from("<I", raw, 12)[0]
+    return json.loads(raw[20:20 + length]), raw, 20 + length + 8
+
+
+def mesh_triangles(path, fid):
+    glb, raw, binary_offset = glb_binary(path)
+    node = next(n for n in glb['nodes'] if n['name'] == fid)
+    prim = glb['meshes'][node['mesh']]['primitives'][0]
+    def data(accessor_id):
+        accessor = glb['accessors'][accessor_id]
+        view = glb['bufferViews'][accessor['bufferView']]
+        start = binary_offset + view.get('byteOffset', 0) + accessor.get('byteOffset', 0)
+        formats = {5126: 'f', 5123: 'H', 5125: 'I'}
+        width = {'SCALAR': 1, 'VEC3': 3}[accessor['type']]
+        fmt = '<' + formats[accessor['componentType']] * width
+        size = struct.calcsize(fmt)
+        return list(struct.iter_unpack(fmt, raw[start:start + size * accessor['count']]))
+    vertices = data(prim['attributes']['POSITION'])
+    indices = [item[0] for item in data(prim['indices'])]
+    return sorted((vertices[indices[i]], vertices[indices[i+1]], vertices[indices[i+2]])
+                  for i in range(0, len(indices), 3))
 
 
 for suffix, count_key in [("", "tris"), ("_lod1", "tris_lod1"), ("_lod2", "tris_lod2")]:
@@ -75,8 +116,20 @@ for region, entries in regions.items():
                 assert all(a >= b - eps for a,b in zip(lo, entries[fid]['min']))
                 assert all(a <= b + eps for a,b in zip(hi, entries[fid]['max']))
                 if region == 'torso':
-                    assert lo[1] >= 18-eps and hi[1] <= 56+eps and lo[0] >= -13.5-eps and hi[0] <= 13.5+eps
-                    assert not re.search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous|subscapular)\b|^(acromial|deltoid) branch', by_id[fid]['name'], re.I)
+                    if fid in SHOULDER:
+                        assert glb['accessors'][prim['indices']]['count'] // 3 == by_id[fid][count_key], f'{fid} was clipped'
+                        # The complete shoulder mesh must retain its source bounds at every LOD.
+                        source_name = 'additional_circulatory' if by_id[fid].get('supplemental') else 'circulatory'
+                        source = read_glb(DATA / f'{source_name}{suffix}.glb')
+                        source_node = next(n for n in source['nodes'] if n['name'] == fid)
+                        source_prim = source['meshes'][source_node['mesh']]['primitives'][0]
+                        source_pos = source['accessors'][source_prim['attributes']['POSITION']]
+                        assert all(abs(a-b) < eps for a,b in zip(lo, source_pos['min']))
+                        assert all(abs(a-b) < eps for a,b in zip(hi, source_pos['max']))
+                        assert mesh_triangles(path, fid) == mesh_triangles(DATA / f'{source_name}{suffix}.glb', fid), f'{fid} torso geometry differs from source mesh'
+                    else:
+                        assert lo[1] >= 18-eps and hi[1] <= 56+eps and lo[0] >= -13.5-eps and hi[0] <= 13.5+eps
+                        assert not re.search(r'\b(axillary|brachial|humeral|radial|ulnar|palmar|interosseous|subscapular)\b|^(acromial|deltoid) branch', by_id[fid]['name'], re.I)
                 if region == 'lower': assert hi[1] <= 18+eps
                 if region == 'head': assert lo[1] >= 56-eps
                 if region == 'heart': assert by_id[fid]['group'] == 'heart' or by_id[fid]['coronary'] or fid in ('FJ2966','FJ3413')
@@ -87,6 +140,7 @@ for region, entries in regions.items():
         print(f'PASS: {region}{suffix or " high"}: {len(seen)} regional meshes')
 assert 'FJ2655' in regions['heart'] and 'FJ2428' in regions['heart']
 assert 'FJ2143' in regions['lower'] and 'FJ2143' not in regions['heart']
+assert SHOULDER.keys() <= regions['torso'].keys(), 'torso missing major shoulder vessels'
 assert 'FJ2271' not in regions['torso']
 for fid in ('FJ2655','FJ2428','FJ2966','FJ2924','FJ2925','FJ3645','FJ3441','FJ3413','FJ3411','FJ2725'):
     assert fid in regions['cardiac'], f'cardiac is missing {fid}'

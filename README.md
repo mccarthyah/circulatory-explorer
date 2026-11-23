@@ -36,7 +36,7 @@ Performance's low-detail interiors can look faceted or intersect the camera.
 
 The app opens on a **main menu without loading the anatomy model**. Choose:
 
-- **Torso** — chest and abdomen, excluding the arms.
+- **Torso** — chest and abdomen, including the major subclavian and axillary vessels but excluding the rest of the arms.
 - **Waist down** — pelvis and lower limbs.
 - **Head & neck** — vessels in the head and neck.
 - **Heart** — heart structures, coronary vessels, pulmonary trunk and ascending aorta.
@@ -52,8 +52,9 @@ menu** at the top of the explorer to unload the view and choose another.
 
 The regional views are approximate spatial cuts of the source model, not exact
 anatomical dissections: vessels crossing a boundary are cut open and may appear
-in both adjoining views. Torso uses a shoulder-width crop and excludes named
-arm/shoulder vessels, so it can also trim peripheral chest branches. In these
+in both adjoining views. Torso normally uses a shoulder-width crop and excludes
+arm vessels, but retains the complete left and right subclavian and axillary
+arteries and veins. It can still trim peripheral chest branches. In these
 focused views, search and picking are limited to the selected region; body
 context, guided tour and interior voyage are available in **All anatomy** only.
 
@@ -162,8 +163,8 @@ opacity.
 
 - **1,044 circulatory parts**: 626 arteries, 395 veins and 23 heart parts.
   This includes the coronary sinus, pulmonary trunk and ventricular wall.
-  The default visible 639 circulatory parts use 152,672 triangles at
-  Performance; the 405-part optional layer adds 209,035 more at Performance.
+  The default visible 644 circulatory parts use 154,164 triangles at
+  Performance; the 400-part optional layer adds 207,543 more at Performance.
 - **51 ghost context meshes** (skin, gut, kidneys, trachea, brainstem, bones…)
   — 159,510 / 82,872 / 31,866 triangles for the same three levels, drawn at
   5–35 % opacity so you can tell where you are. Toggle with `B`.

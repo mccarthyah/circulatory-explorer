@@ -3,7 +3,7 @@ extends Control
 
 const CREDITS_DIALOG := preload("res://scripts/credits_dialog.gd")
 const CHOICES := [
-	["torso", "Torso", "Chest and abdomen · no arms"],
+	["torso", "Torso", "Chest, abdomen and shoulder vessels"],
 	["lower", "Waist down", "Pelvis and lower limbs"],
 	["head", "Head & neck", "Cerebral and neck vessels"],
 	["heart", "Heart", "Heart structures and coronary vessels"],

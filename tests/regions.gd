@@ -61,6 +61,10 @@ func _run() -> void:
 				check(main.model.is_extended_visible() and main.hud.extended_check.button_pressed, "cardiac extras start visible")
 			else:
 				check(main.model.extended_root == null, "extra vessels start unloaded " + choice)
+			if choice == "torso":
+				for id in ["FJ3479", "FJ3579", "FJ3486", "FJ3587", "FJ2216", "FJ2268", "FJ2217", "FJ2269"]:
+					check(main.model.by_id.has(id) and main.model.by_id[id].node != null and main.model.by_id[id].node.is_visible_in_tree() and not main.model.by_id[id].get("extended", false), "torso shoulder vessel visible without extras " + id)
+				check(main.model.parts_matching("axillary").size() == 4, "torso search finds both axillary arteries and veins")
 			check(main.hud.mode_buttons["tour"].disabled and main.hud.mode_buttons["interior"].disabled, "full-body routes disabled " + choice)
 			check(main.hud.context_check.disabled, "full-body context disabled " + choice)
 			main._on_mode_requested("tour")
@@ -81,12 +85,18 @@ func _run() -> void:
 				check(not main.model.by_id.has("FJ2143"), "cardiac excludes femoral artery")
 			if choice in ["cardiac", "torso"]:
 				main._on_part_visibility_requested(extra)
+				if choice == "torso":
+					main._on_part_visibility_requested("FJ2216")
 				for q in ["balanced", "high", "performance"]:
 					main.apply_quality(q, true)
 					check(main.model.detail == main.QUALITY[q]["detail"], "regional quality " + choice + " " + q)
 					check(main.model.by_id[extra]["hidden"] and not main.model.by_id[extra]["node"].visible, "hidden extra survives regional reload " + choice + " " + q)
+					if choice == "torso":
+						check(main.model.by_id["FJ2216"].hidden and not main.model.by_id["FJ2216"].node.visible, "hidden axillary survives torso quality changes " + q)
 				main._on_show_all_requested()
 				check(main.model.by_id[extra]["node"].visible, "regional restore works " + choice)
+				if choice == "torso":
+					check(main.model.by_id["FJ2216"].node.visible, "torso axillary artery restores")
 			if choice == "torso": check(not main.model.by_id.has("FJ2271"), "torso excludes brachial artery")
 			if choice == "heart": check(main.model.by_id.has("FJ2655") and not main.model.by_id.has("FJ2143"), "heart includes coronary sinus, excludes femoral artery")
 			if choice == "lower": check(main.model.by_id.has("FJ2143") and not main.model.by_id.has("FJ2655"), "lower includes femoral artery, excludes coronary sinus")
